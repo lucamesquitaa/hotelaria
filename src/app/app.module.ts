@@ -1,20 +1,21 @@
 import { NgModule } from '@angular/core';
-import { BrowserModule } from '@angular/platform-browser';
 
 import { AppRoutingModule } from './app-routing.module';
 import { AppComponent } from './app.component';
-import { ExampleComponentComponent } from './features/example-component/example-component.component';
+import { LoginModule } from './features/login/login.module';
+
+import { BrowserModule } from '@angular/platform-browser';
+import { BrowserAnimationsModule } from '@angular/platform-browser/animations';
 
 @NgModule({
-  declarations: [
-    AppComponent,
-    ExampleComponentComponent
-  ],
   imports: [
+    AppRoutingModule,
+    LoginModule,
     BrowserModule,
-    AppRoutingModule
+    BrowserAnimationsModule,
   ],
+  declarations: [AppComponent],
   providers: [],
-  bootstrap: [AppComponent]
+  bootstrap: [AppComponent],
 })
-export class AppModule { }
+export class AppModule {}
