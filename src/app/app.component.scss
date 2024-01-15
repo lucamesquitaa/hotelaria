@@ -2,3 +2,23 @@
   margin: 0;
   padding: 0;
 }
+.toolbar{
+  background-color: var(--primary-color);
+}
+.tamanhoInput{
+  width: 500px;
+  height: 50px;
+  .p-inputtext{
+    width: 100%;
+    height: 100%;
+  }
+}
+.estiloCart{
+  font-size:1.5rem;
+  margin-top: 0; 
+  margin-right:10px;
+}
+.logo{
+  width: 50px;
+  margin-right: 10px;
+}

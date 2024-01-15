@@ -8,8 +8,8 @@ import { ComponentBase } from 'src/app/shared/components/component.base';
 })
 export class LoginComponent extends ComponentBase {
   override onReceiveLiterals(): void {
- 
   }
+  
   value!: string;
 
   login() {

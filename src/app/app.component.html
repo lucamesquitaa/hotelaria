@@ -1,31 +1,17 @@
-<mat-toolbar color="primary">
-        <span class="fill-remaining-space">
-            <button mat-icon-button [matMenuTriggerFor]="menu" #menuTrigger="matMenuTrigger"
-                (click)="menuTrigger.openMenu()">
-                <mat-icon>menu</mat-icon>
-            </button>
-            <mat-menu #menu="matMenu" [overlapTrigger]="false">
-                <span (mouseleave)="menuTrigger.closeMenu()">
-                    <button mat-menu-item>
-                        <mat-icon>home</mat-icon>
-                        <span>Home</span>
-                    </button>
-                    <button mat-menu-item>
-                        <mat-icon>people_outline</mat-icon>
-                        <span>Connecting</span>
-                    </button>
-                    <button mat-menu-item>
-                        <mat-icon>videocam</mat-icon>
-                        <span>Let's talk</span>
-                    </button>
-                    <button mat-menu-item>
-                        <mat-icon>exit_to_app</mat-icon>
-                        <span>Logout</span>
-                    </button>
-                </span>
-            </mat-menu>
-        </span>
-        <span class="fill-remaining-space">Application Title</span>
-</mat-toolbar>
+<p-toolbar [style]="{'background-color': 'var(--primary-color)', 'color': '#ffffff'}">
+    <div class="p-toolbar-group-start">
+        <img src="../assets/logoteste.png" alt="logo" class="logo"/>
+        <h2>Ecommerce</h2>
+    </div>
+    <div class="p-toolbar-group-center">
+        <input pInputText placeholder="Busque por um produto..." class="tamanhoInput"/>
+        <p-button label="Pesquisar" [style]="{'color':'#ffffff'}" [outlined]="true" severity="secondary" icon="pi pi-search"></p-button>
+    </div>
+    <div class="p-toolbar-group-end">
+        <i class="pi pi-shopping-cart estiloCart" value="2"></i>
+        <p-avatar label="V" size="large" [style]="{ 'background-color': '#2196F2', color: '#ffffff' }"
+            shape="circle"></p-avatar>
+    </div>
+</p-toolbar>
 
 <router-outlet></router-outlet>
