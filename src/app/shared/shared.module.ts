@@ -10,13 +10,13 @@ import { InputTextModule } from 'primeng/inputtext';
 import { AvatarModule } from 'primeng/avatar';
 import { AvatarGroupModule } from 'primeng/avatargroup';
 import { BadgeModule } from 'primeng/badge';
-import { DataViewModule } from 'primeng/dataview';
+import { CardModule } from 'primeng/card';
 
 
 
 @NgModule({
-  imports: [CommonModule, HttpClientModule, RouterModule, ToolbarModule, ButtonModule, InputTextModule, AvatarModule, AvatarGroupModule, BadgeModule, DataViewModule],
+  imports: [CommonModule, HttpClientModule, RouterModule, ToolbarModule, ButtonModule, InputTextModule, AvatarModule, AvatarGroupModule, BadgeModule, CardModule],
   declarations: [],
-  exports: [HttpClientModule, RouterModule, ToolbarModule, ButtonModule, InputTextModule, AvatarModule, AvatarGroupModule, BadgeModule, DataViewModule],
+  exports: [HttpClientModule, RouterModule, ToolbarModule, ButtonModule, InputTextModule, AvatarModule, AvatarGroupModule, BadgeModule, CardModule],
 })
 export class SharedModule {}
