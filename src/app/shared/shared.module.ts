@@ -1,19 +1,22 @@
 import { NgModule } from '@angular/core';
 import { CommonModule } from '@angular/common';
-
-//componentes MATERIAL
-import { MatInputModule } from '@angular/material/input';
-import { MatButtonModule } from '@angular/material/button';
-import { MatIconModule } from '@angular/material/icon';
-import { RouterModule } from '@angular/router';
 import { HttpClientModule } from '@angular/common/http';
+import { RouterModule } from '@angular/router';
 
-import { MatToolbarModule } from '@angular/material/toolbar';
-import {MatMenuModule} from '@angular/material/menu';
+//componentes PRIMENG
+import { ToolbarModule } from 'primeng/toolbar';
+import { ButtonModule } from 'primeng/button';
+import { InputTextModule } from 'primeng/inputtext';
+import { AvatarModule } from 'primeng/avatar';
+import { AvatarGroupModule } from 'primeng/avatargroup';
+import { BadgeModule } from 'primeng/badge';
+import { DataViewModule } from 'primeng/dataview';
+
+
 
 @NgModule({
-  imports: [CommonModule, HttpClientModule, MatInputModule, MatButtonModule, MatIconModule, RouterModule, MatToolbarModule, MatMenuModule],
+  imports: [CommonModule, HttpClientModule, RouterModule, ToolbarModule, ButtonModule, InputTextModule, AvatarModule, AvatarGroupModule, BadgeModule, DataViewModule],
   declarations: [],
-  exports: [MatInputModule, HttpClientModule, MatButtonModule, MatIconModule, RouterModule, MatToolbarModule, MatMenuModule],
+  exports: [HttpClientModule, RouterModule, ToolbarModule, ButtonModule, InputTextModule, AvatarModule, AvatarGroupModule, BadgeModule, DataViewModule],
 })
 export class SharedModule {}
