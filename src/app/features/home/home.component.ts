@@ -11,7 +11,7 @@ export class HomeComponent extends ComponentBase {
   }
   products = [
     {
-      image: 'src/assets/logoteste.png',
+      image: '../../assets/logoteste.png',
       name: 'play 4',
       category: 'videogames',
       price: 1200
