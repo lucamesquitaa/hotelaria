@@ -1,3 +1,10 @@
-.imgTamanho{
-    width: 100px;
+.containerCards{
+  display: flex;
+  width: 100%;
+  flex-direction: row;
+  flex-wrap: wrap;
+}
+.alinhamentoBotoes{
+  display: flex;
+  justify-content: flex-end;
 }
