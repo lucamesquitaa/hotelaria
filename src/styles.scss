@@ -9,3 +9,10 @@ body {
   margin: 0;
   font-family: Roboto, 'Helvetica Neue', sans-serif;
 }
+
+.cardItem{
+  &.p-card {
+    max-width: 350px;
+    align-self: center;
+  }
+}
