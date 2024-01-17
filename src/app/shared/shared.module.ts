@@ -11,12 +11,13 @@ import { AvatarModule } from 'primeng/avatar';
 import { AvatarGroupModule } from 'primeng/avatargroup';
 import { BadgeModule } from 'primeng/badge';
 import { CardModule } from 'primeng/card';
+import { StyleClassModule } from 'primeng/styleclass';
 
 
 
 @NgModule({
-  imports: [CommonModule, HttpClientModule, RouterModule, ToolbarModule, ButtonModule, InputTextModule, AvatarModule, AvatarGroupModule, BadgeModule, CardModule],
+  imports: [CommonModule, HttpClientModule, RouterModule, ToolbarModule, ButtonModule, InputTextModule, AvatarModule, AvatarGroupModule, BadgeModule, CardModule, StyleClassModule],
   declarations: [],
-  exports: [HttpClientModule, RouterModule, ToolbarModule, ButtonModule, InputTextModule, AvatarModule, AvatarGroupModule, BadgeModule, CardModule],
+  exports: [HttpClientModule, RouterModule, ToolbarModule, ButtonModule, InputTextModule, AvatarModule, AvatarGroupModule, BadgeModule, CardModule, StyleClassModule],
 })
 export class SharedModule {}

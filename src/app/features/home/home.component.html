@@ -1,13 +1,13 @@
 <div class="containerCards">
-  <p-card *ngFor="let item of products" header="play 5" subheader="videogames e tecnologia" [style]="{ width: '320px', margin: '20px' }">
-    <ng-template pTemplate="header">
-        <img alt="Card" src="https://primefaces.org/cdn/primeng/images/usercard.png"/>
-    </ng-template>
-    <ng-template pTemplate="footer">
-      <div  class="alinhamentoBotoes">
-        <p-button label="Cancel" icon="pi pi-heart" severity="danger" ></p-button>
-        <p-button label="Save" icon="pi pi-shopping-cart" [style]="{ 'margin-left': '.5em' }"></p-button>
-      </div>
-    </ng-template>
+  <p-card *ngFor="let item of products" header="play 5" subheader="videogames e tecnologia" class="flexGrow" styleClass="cardItem">
+      <ng-template pTemplate="header">
+          <img alt="Card" src="https://primefaces.org/cdn/primeng/images/usercard.png"/>
+      </ng-template>
+      <ng-template pTemplate="footer">
+        <div  class="alinhamentoBotoes">
+          <p-button label="Favoritar" icon="pi pi-heart" severity="danger" ></p-button>
+          <p-button label="Carrinho" icon="pi pi-shopping-cart" [style]="{ 'margin-left': '.5em' }"></p-button>
+        </div>
+      </ng-template>
   </p-card>
 </div>
