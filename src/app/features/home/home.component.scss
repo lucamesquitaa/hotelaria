@@ -8,3 +8,7 @@
   display: flex;
   justify-content: flex-end;
 }
+@import 'primeflex/primeflex.scss';
+.flexGrow{
+  @include styleclass('flex flex-1 justify-content-center');
+}
