@@ -15,4 +15,10 @@ body {
     max-width: 350px;
     align-self: center;
   }
+  .p-card-body {
+    max-height: 120px;
+  }
+  .p-card-footer{
+    margin-top: -50px;
+  }
 }

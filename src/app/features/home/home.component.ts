@@ -57,6 +57,42 @@ export class HomeComponent extends ComponentBase {
       name: 'play 10',
       category: 'videogames',
       price: 1200
+    },
+    {
+      image: 'src/assets/logoteste.png',
+      name: 'play 9',
+      category: 'teste',
+      price: 1200
+    },
+    {
+      image: 'src/assets/logoteste.png',
+      name: 'play 10',
+      category: 'videogames',
+      price: 1200
+    },
+    {
+      image: 'src/assets/logoteste.png',
+      name: 'play 10',
+      category: 'videogames',
+      price: 1200
+    },
+    {
+      image: 'src/assets/logoteste.png',
+      name: 'play 9',
+      category: 'teste',
+      price: 1200
+    },
+    {
+      image: 'src/assets/logoteste.png',
+      name: 'play 10',
+      category: 'videogames',
+      price: 1200
+    },
+    {
+      image: 'src/assets/logoteste.png',
+      name: 'play 10',
+      category: 'videogames',
+      price: 1200
     }
   ]
 
