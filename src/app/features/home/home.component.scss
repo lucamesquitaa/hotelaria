@@ -10,5 +10,5 @@
 }
 @import 'primeflex/primeflex.scss';
 .flexGrow{
-  @include styleclass('flex flex-1 justify-content-center');
+  @include styleclass('flex flex-1 flex-row justify-content-center m-2 my-4');
 }
