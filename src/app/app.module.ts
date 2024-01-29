@@ -8,6 +8,9 @@ import { BrowserModule } from '@angular/platform-browser';
 import { BrowserAnimationsModule } from '@angular/platform-browser/animations';
 
 import { SharedModule } from './shared/shared.module';
+import { PoModule } from '@po-ui/ng-components';
+import { HttpClientModule } from '@angular/common/http';
+import { PoTemplatesModule } from '@po-ui/ng-templates';
 
 @NgModule({
   imports: [
@@ -15,7 +18,10 @@ import { SharedModule } from './shared/shared.module';
     LoginModule,
     BrowserModule,
     BrowserAnimationsModule,
-    SharedModule
+    SharedModule,
+    PoModule,
+    HttpClientModule,
+    PoTemplatesModule
   ],
   declarations: [AppComponent],
   providers: [],
