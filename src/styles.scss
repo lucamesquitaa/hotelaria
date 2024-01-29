@@ -1,24 +1,26 @@
 /* You can add global styles to this file, and also import other style files */
-@import "primeicons/primeicons.css";
 
 html,
 body {
   height: 100%;
 }
+
 body {
   margin: 0;
   font-family: Roboto, 'Helvetica Neue', sans-serif;
 }
 
-.cardItem{
+.cardItem {
   &.p-card {
     max-width: 350px;
     align-self: center;
   }
+
   .p-card-body {
     max-height: 120px;
   }
-  .p-card-footer{
+
+  .p-card-footer {
     margin-top: -50px;
   }
 }
