@@ -1,8 +1,20 @@
 /* You can add global styles to this file, and also import other style files */
+:root{
+  --background-pagina: #ffffff;
+  --font-color-products: #ffffff;
+  --toolbar-color: #274472;
+  --toolbar-font-color: #ffffff;
+  --widget-products-color: #5885AF;
+  --color-widget-color-action: #274472;
+  --color-widget-color-action-hover: #ffffff;
+  --color-widget-color-action-active: #274472;
+  --button-background-color: #274472;
+}
 
 html,
 body {
   height: 100%;
+  background-color: var(--background-pagina);
 }
 
 body {
@@ -10,17 +22,23 @@ body {
   font-family: Roboto, 'Helvetica Neue', sans-serif;
 }
 
-.cardItem {
-  &.p-card {
-    max-width: 350px;
-    align-self: center;
-  }
-
-  .p-card-body {
-    max-height: 120px;
-  }
-
-  .p-card-footer {
-    margin-top: -50px;
-  }
+.po-toolbar{
+  --color-toolbar-background-color-toolbar: var(--toolbar-color);
+  --color-toolbar-color-title: var(--toolbar-font-color);
+}
+.po-toolbar-icon{
+  color: var(--toolbar-font-color);
+}
+#homeWidget .po-container {
+  overflow: hidden;
+}
+.po-widget{
+  background-color: var(--widget-products-color);
+  margin-top: 10px;
+}
+.po-button{
+  background-color: var(--button-background-color);
+  --color: var(--button-background-color);
+  --color-hover: var(--button-background-color);
+  --color-pressed: var(--background-pagina);
 }
