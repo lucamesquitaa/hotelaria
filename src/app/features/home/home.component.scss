@@ -1,0 +1,53 @@
+.textPosition{
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  margin-top: 10px;
+}
+.colorText{
+  color: var(--font-color-products);
+  text-shadow: 1px 1px rgb(66, 66, 66),
+}
+.colorTextInverso{
+  color:black;
+}
+.iconPosition{
+  display: flex;
+  justify-content: flex-end;
+}
+.imgSize{
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  margin-top: -20px;
+}
+.imgSize img{
+  width: 150px;
+  height: auto;
+}
+.modalContainer{
+  display: flex;
+  flex-direction: row;
+  justify-content: space-between;
+}
+.imgSizeModal{
+  width: 250px;
+  height: auto;
+  margin-right: 20px;
+}
+.imgSizeModal img{
+  width: 250px;
+  height: auto;
+}
+.textDescriptionModal{
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}
+.categories{
+  display: flex;
+  flex-direction: row;
+  align-items: center;
+  justify-content: center;
+}

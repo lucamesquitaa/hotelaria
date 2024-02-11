@@ -1,1 +1,29 @@
-<h1>teste</h1>
+<div class="categories">
+  <app-filtros *ngFor="let itemCat of category" [category]="itemCat" (click)="onClickCategory(itemCat)"></app-filtros>
+</div>
+
+<po-widget
+    id="homeWidget"
+    #homeWidget
+    *ngFor="let item of filteredItens"
+    class="po-xl-2 po-lg-3 po-md-4 po-sm-12"
+    [p-height]="290"
+    p-primary-label="+ Detalhes"
+    (p-primary-action)="showDetailPage(item)"
+  >
+  <div class="iconPosition">
+    <button style="background-color: var(--widget-products-color);border:none;" (click)="onClickHeart()">
+      <span *ngIf="!clickedHeart" style="color: white; font-size: 30px; cursor: pointer;" class="po-icon po-icon-like"></span> <!--ISSO PRECISA DE UMA PROP "ISHEART" = true na api-->
+      <span *ngIf="clickedHeart" style="color: red; font-size: 30px; cursor: pointer;" class="po-icon po-icon-like"></span>
+     </button>
+  </div>    
+
+  <div class="imgSize">
+    <img src="../../../assets/logoteste.png" />
+  </div>
+  
+  <div class="textPosition">
+    <div class="po-font-subtitle po-text-center colorText">{{item.city}}</div>
+    <div class="po-text-center colorText">{{item.idCard}}</div>
+  </div>
+</po-widget>
