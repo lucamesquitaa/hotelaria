@@ -1,13 +1,14 @@
+.containerWidget{
+  margin-bottom: 70px;
+  width: 250px;
+  height: 250px;
+}
 .textPosition{
-  display: flex;
-  flex-direction: column;
-  align-items: center;
-  justify-content: center;
-  margin-top: 10px;
+  text-align: center;
+  margin-top: 15px;
 }
 .colorText{
-  color: var(--font-color-products);
-  text-shadow: 1px 1px rgb(66, 66, 66),
+  color: var(--font-color-padrao-preto);
 }
 .colorTextInverso{
   color:black;
@@ -18,32 +19,18 @@
 }
 .imgSize{
   display: flex;
+  width: 200px;
+  height: 150px;
   align-items: center;
   justify-content: center;
+  padding:30px;
   margin-top: -20px;
 }
 .imgSize img{
-  width: 150px;
-  height: auto;
-}
-.modalContainer{
-  display: flex;
-  flex-direction: row;
-  justify-content: space-between;
-}
-.imgSizeModal{
-  width: 250px;
-  height: auto;
-  margin-right: 20px;
-}
-.imgSizeModal img{
-  width: 250px;
-  height: auto;
-}
-.textDescriptionModal{
-  display: flex;
-  align-items: center;
-  justify-content: center;
+  max-width: 100%;
+  max-height: 150px;
+  display: block;
+  margin: 0 auto;
 }
 .categories{
   display: flex;
