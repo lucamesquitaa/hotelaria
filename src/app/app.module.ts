@@ -9,8 +9,9 @@ import { BrowserAnimationsModule } from '@angular/platform-browser/animations';
 
 import { SharedModule } from './shared/shared.module';
 import { PoModule } from '@po-ui/ng-components';
-import { HttpClientModule } from '@angular/common/http';
+import { HTTP_INTERCEPTORS, HttpClientModule } from '@angular/common/http';
 import { PoTemplatesModule } from '@po-ui/ng-templates';
+import { AuthInterceptor } from './shared/services/auth.interceptor';
 
 
 @NgModule({
@@ -25,7 +26,14 @@ import { PoTemplatesModule } from '@po-ui/ng-templates';
     PoTemplatesModule
   ],
   declarations: [AppComponent],
-  providers: [],
+  providers: [
+    {
+      provide: HTTP_INTERCEPTORS,
+      useClass: AuthInterceptor,
+      multi: true
+    }
+  ],
+
   bootstrap: [AppComponent],
 })
 export class AppModule {}
