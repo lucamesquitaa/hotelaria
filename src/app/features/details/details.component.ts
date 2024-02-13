@@ -1,6 +1,8 @@
 import { Component, Injector } from '@angular/core';
 import { ActivatedRoute } from '@angular/router';
 import { ComponentBase } from 'src/app/shared/components/component.base';
+import { Product } from 'src/app/shared/models/product.model';
+import { ProductsService } from 'src/app/shared/services/products.service';
 
 @Component({
   selector: 'app-details',
@@ -8,19 +10,16 @@ import { ComponentBase } from 'src/app/shared/components/component.base';
   styleUrls: ['./details.component.scss']
 })
 export class DetailsComponent extends ComponentBase{
-
-
-  idItem!: any;
+  itemSelected!: Product;
 
   override onReceiveLiterals(): void {
-    throw new Error('Method not implemented.');
   }
 
-  constructor(activatedRoute: ActivatedRoute, override injector: Injector) {
+  constructor(activatedRoute: ActivatedRoute, override injector: Injector, private productsService: ProductsService) {
     super(injector);
-  }
-
-  ngAfterViewInit(): void {
-    this.idItem = this.activatedRoute.snapshot.params["id"];
+    let id = this.activatedRoute.snapshot.params["id"];
+    this.productsService.getProductById(id).subscribe((result) => {
+      this.itemSelected = result;
+    });
   }
 }
