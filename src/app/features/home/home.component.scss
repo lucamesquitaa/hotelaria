@@ -1,36 +1,19 @@
-.containerWidget{
-  margin-bottom: 70px;
-  width: 250px;
-  height: 250px;
-}
-.textPosition{
-  text-align: center;
-  margin-top: 15px;
-}
-.colorText{
-  color: var(--font-color-padrao-preto);
-}
-.colorTextInverso{
-  color:black;
-}
-.iconPosition{
+.homeComponent{
   display: flex;
-  justify-content: flex-end;
-}
-.imgSize{
-  display: flex;
-  width: 200px;
-  height: 150px;
+  flex-direction: column;
   align-items: center;
   justify-content: center;
-  padding:30px;
-  margin-top: -20px;
 }
-.imgSize img{
-  max-width: 100%;
-  max-height: 150px;
-  display: block;
-  margin: 0 auto;
+.productsContainer{
+  width: 80%;
+  display: flex;
+  flex-direction: row;
+  align-items: center;
+  justify-content: center;
+  flex-wrap: wrap;
+}
+.flex{
+  display: flex;
 }
 .categories{
   display: flex;
