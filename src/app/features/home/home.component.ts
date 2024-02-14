@@ -12,7 +12,6 @@ export class HomeComponent extends ComponentBase {
 
   override onReceiveLiterals(): void {
   }
-  clickedHeart = false;
 
   titleDetailsModal!: string;
 
@@ -46,11 +45,6 @@ export class HomeComponent extends ComponentBase {
 
   showDetailPage(itemId: number) {
     this.router.navigate([`details/${itemId}`]);
-  }
-
-  onClickHeart(){
-    this.clickedHeart = !this.clickedHeart;
-    console.log(this.clickedHeart)
   }
 
   onClickCategory(categoryName: any){
