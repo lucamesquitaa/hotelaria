@@ -1,3 +1,9 @@
-<div class="filtrosContainer">
-  <h3>{{category.name}}</h3>
-</div>
+<po-tabs
+[p-small]="true"
+class="filtrosContainer">
+    <po-tab
+    *ngFor="let itemCat of category"
+    (p-click)="onClickCategory(itemCat)"
+    [p-label]="itemCat" >
+  </po-tab>
+</po-tabs>

@@ -7,10 +7,11 @@ import { RouterModule } from '@angular/router';
 import { PoButtonModule } from '@po-ui/ng-components';
 import { PoWidgetModule } from '@po-ui/ng-components';
 import { PoPageLoginModule } from '@po-ui/ng-templates';
+import { PoTabsModule } from '@po-ui/ng-components';
 
 @NgModule({
-  imports: [CommonModule, HttpClientModule, RouterModule, PoButtonModule, PoWidgetModule, PoPageLoginModule],
+  imports: [CommonModule, HttpClientModule, RouterModule, PoButtonModule, PoWidgetModule, PoPageLoginModule, PoTabsModule],
   declarations: [],
-  exports: [HttpClientModule, RouterModule, PoButtonModule, PoWidgetModule, PoPageLoginModule],
+  exports: [HttpClientModule, RouterModule, PoButtonModule, PoWidgetModule, PoPageLoginModule, PoTabsModule],
 })
 export class SharedModule { }

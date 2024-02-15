@@ -1,21 +1,47 @@
 .cardContainer{
+  cursor: pointer;
+  position: relative;
   display: flex;
   align-items: center;
   flex-direction: column;
-  background-color: aqua;
+  background-color: rgba(115, 115, 115, 0.18);
   padding: 20px;
   margin: 20px;
-  width: 300px;
-  height: 300px;
+  width: 280px;
+  height: 280px;
+}
+.cardContainer:after,
+.cardContainer:before{
+  position: absolute;
+  content: "";
+  top:0;
+  bottom: 0;
+  right: 0;
+  left: 0;
+  transition: transform 0.3s ease-in-out;
+}
+.cardContainer:before{
+  border-left: 1px solid rgb(108, 108, 108);
+  border-right: 1px solid rgb(108, 108, 108);
+  transform: scaleY(0);
+}
+.cardContainer:after{
+  border-top: 1px solid rgb(108, 108, 108);
+  border-bottom: 1px solid rgb(108, 108, 108);
+  transform: scaleX(0);
+}
+.cardContainer:hover:before{
+  transform: scaleY(1);
+}
+.cardContainer:hover:after{
+  transform: scaleX(1);
 }
 .textPosition{
   text-align: center;
   width: 100%;
-  background-color: rgba(0,0,0,0.2);
-  margin-top: 40px;
-}
-.textPosition :hover{
-  background-color: rgba(17, 155, 54, 0.2);
+  background-color: rgba(0, 0, 0, 0.185);
+  border-radius: 20px;
+  margin-top: 2px;
 }
 .colorText{
   color: var(--font-color-padrao-preto);
@@ -24,13 +50,12 @@
   color:black;
 }
 .iconPosition{
-  display: flex;
-  justify-content: flex-end;
+  float: right;
 }
 .imgSize{
   display: flex;
-  width: 200px;
-  height: 150px;
+  width: 300px;
+  height: 200px;
   align-items: center;
   justify-content: center;
   padding:30px;
