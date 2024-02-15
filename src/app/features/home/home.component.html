@@ -1,6 +1,6 @@
 <div class="homeComponent">
   <div class="categories">
-    <app-filtros *ngFor="let itemCat of category" [category]="itemCat" (click)="onClickCategory(itemCat.name)"></app-filtros>
+    <app-filtros [category]="category"></app-filtros>
   </div>
 
   <div class="productsContainer">

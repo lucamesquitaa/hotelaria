@@ -1,13 +1,6 @@
 <div class="cardContainer">
-  <div class="iconPosition">
-    <button style="background-color: var(--widget-products-color);border:none;" (click)="onClickHeart()">
-      <span *ngIf="!clickedHeart" style="color: white; font-size: 30px; cursor: pointer;" class="po-icon po-icon-like"></span> <!--ISSO PRECISA DE UMA PROP "ISHEART" = true na api-->
-      <span *ngIf="clickedHeart" style="color: red; font-size: 30px; cursor: pointer;" class="po-icon po-icon-like"></span>
-    </button>
-  </div>
-
   <div class="imgSize">
-    <img src={{item?.photo}} />
+    <img src={{item.photo}} />
   </div>
 
   <div class="textPosition">

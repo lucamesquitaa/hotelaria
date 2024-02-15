@@ -19,42 +19,19 @@ export class HomeComponent extends ComponentBase {
 
   itens!: Product[];
   filteredItens!: Product[];
-
-  category = [
-    {
-      icon: "po-icon po-icon-device-desktop",
-      name: "all"
-    },
-    {
-      icon: "po-icon po-icon-device-desktop",
-      name: "cel"
-    },
-    {
-      icon: "po-icon po-icon-device-desktop",
-      name: "note"
-    },
-  ];
+  category!: any;
 
   constructor(private productService: ProductsService, public override injector: Injector){
     super(injector);
     this.productService.getProducts().subscribe((item) => {
       this.itens = item;
       this.filteredItens = [...this.itens];
+      const set = new Set()
+      this.category = new Set(this.itens.map((x => x.category)));
     });
   }
 
   showDetailPage(itemId: number) {
     this.router.navigate([`details/${itemId}`]);
-  }
-
-  onClickCategory(categoryName: any){
-    this.filteredItens = [];
-
-    if(categoryName == 'all'){
-      this.filteredItens = this.itens;
-      return;
-    }
-    console.log(categoryName)
-    this.filteredItens = this.itens.filter(x => x.category == categoryName);
   }
 }

@@ -9,5 +9,14 @@ export class FiltrosComponent {
   @Input()
   category!: any;
 
-  
+  onClickCategory(categoryName: any){
+    //this.filteredItens = [];
+
+    //if(categoryName == 'all'){
+    //  this.filteredItens = this.itens;
+//   return;
+   // }
+   // console.log(categoryName)
+   // this.filteredItens = this.itens.filter(x => x.category == categoryName);
+  }
 }
