@@ -1,3 +1,4 @@
+import { Cart } from "./cart.model";
 import { Usuario } from "./usuario.model";
 
 /**
@@ -5,5 +6,6 @@ import { Usuario } from "./usuario.model";
  */
 export interface ContextModel {
     usuarioAutenticado: boolean,
-    usuario: Usuario
+    usuario: Usuario,
+    cart: Cart
 }

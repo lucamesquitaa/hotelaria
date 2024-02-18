@@ -5,6 +5,7 @@
   --toolbar-color: #753399;
   --toolbar-font-color: #ffffff;
   --widget-products-color: #ffffff;
+  --background-card-products: rgba(115, 115, 115, 0.18);
   --color-widget-color-action: black;
   --color-widget-color-action-hover: black;
   --color-widget-color-action-active: black;
@@ -43,4 +44,7 @@ body {
   --color: var(--button-background-color);
   --color-hover: var(--button-background-color);
   --color-pressed: var(--background-pagina);
+}
+.po-tab-button-label:hover{
+  color: var(--font-color-padrao-preto);
 }
