@@ -11,8 +11,13 @@ export class ContextService {
     usuario: {
       photo: "",
       userCode: "",
-      name: ""
-    }
+      name: "",
+
+    },
+    cart: {
+      number: 1,
+      productsId: [],
+    },
   };
 
   static getContext(): ContextModel{

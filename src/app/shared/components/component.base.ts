@@ -4,6 +4,7 @@ import { Injectable, Injector } from '@angular/core';
 import { ComponentInterface } from './component.interface';
 import { ContextModel } from '../models/context.model';
 import { ContextService } from '../services/context.service';
+import { CartComponent } from 'src/app/features/cart/cart.component';
 
 /**
  * @description

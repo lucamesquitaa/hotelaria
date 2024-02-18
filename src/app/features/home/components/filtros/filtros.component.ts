@@ -1,4 +1,4 @@
-import { Component, Input } from '@angular/core';
+import { Component, EventEmitter, Input, Output } from '@angular/core';
 
 @Component({
   selector: 'app-filtros',
@@ -9,14 +9,12 @@ export class FiltrosComponent {
   @Input()
   category!: any;
 
-  onClickCategory(categoryName: any){
-    //this.filteredItens = [];
+  @Output()
+  categorySelected = new EventEmitter<string>();
 
-    //if(categoryName == 'all'){
-    //  this.filteredItens = this.itens;
-//   return;
-   // }
-   // console.log(categoryName)
-   // this.filteredItens = this.itens.filter(x => x.category == categoryName);
+  home = "home";
+
+  onClickCategory(categoryName: any){
+    this.categorySelected.emit(categoryName);
   }
 }

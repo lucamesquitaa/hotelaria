@@ -31,6 +31,13 @@ export class HomeComponent extends ComponentBase {
     });
   }
 
+  handleCategory(categorySeleced: any){
+    if(categorySeleced == 'all')
+      this.filteredItens = [...this.itens];
+    else
+      this.filteredItens = this.itens.filter(x => x.category == categorySeleced);
+  }
+
   showDetailPage(itemId: number) {
     this.router.navigate([`details/${itemId}`]);
   }

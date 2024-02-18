@@ -2,6 +2,11 @@
 [p-small]="true"
 class="filtrosContainer">
     <po-tab
+      (p-click)="onClickCategory('all')"
+      [p-label]="home" 
+      [p-active]="true">
+    </po-tab>
+    <po-tab
     *ngFor="let itemCat of category"
     (p-click)="onClickCategory(itemCat)"
     [p-label]="itemCat" >
