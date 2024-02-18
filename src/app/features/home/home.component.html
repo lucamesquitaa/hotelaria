@@ -1,6 +1,6 @@
 <div class="homeComponent">
   <div class="categories">
-    <app-filtros [category]="category"></app-filtros>
+    <app-filtros [category]="category" (categorySelected)="handleCategory($event)"></app-filtros>
   </div>
 
   <div class="productsContainer">
