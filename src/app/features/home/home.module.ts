@@ -5,16 +5,16 @@ import { HomeRoutingModule } from './home-routing.module';
 import { HomeComponent } from './home.component';
 import { SharedModule } from 'src/app/shared/shared.module';
 import { FiltrosComponent } from './components/filtros/filtros.component';
-import { CardComponent } from './components/card/card.component';
+import { CardComponent } from '../../shared/components/card/card.component';
 
 
 @NgModule({
-  declarations: [HomeComponent, FiltrosComponent, CardComponent],
+  declarations: [HomeComponent, FiltrosComponent],
   imports: [
     CommonModule,
     SharedModule,
     HomeRoutingModule
   ],
-  exports:[CardComponent]
+  exports:[]
 })
 export class HomeModule { }
