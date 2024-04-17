@@ -1,7 +1,7 @@
-import { Component, EventEmitter, Output } from '@angular/core';
+import { Component, EventEmitter, Injector, Output } from '@angular/core';
 import { ComponentBase } from '../component.base';
-import { CartComponent } from 'src/app/features/cart/cart.component';
 import { PoToolbarAction, PoToolbarProfile } from '@po-ui/ng-components';
+import { HomeComponent } from 'src/app/features/home/home.component';
 
 @Component({
   selector: 'app-toolbar',
@@ -17,13 +17,17 @@ export class ToolbarComponent extends ComponentBase{
     title: 'Luca Albuquerque Mesquita'
   };
   profileActions: Array<PoToolbarAction> = [
-    { icon: 'po-icon-settings', label: 'Config', action: () => console.log("09") },
+    { icon: 'po-icon-light', label: 'Dark Mode', action: () => this.apagaLuz() },
     { icon: 'po-icon-exit', label: 'Sair', type: 'danger', separator: true, action: () => console.log("09") }
   ];
   actions: Array<PoToolbarAction> = [
     { label: 'Finalizar Compra', action: () => this.onHandleFinalizaCompra() },
   ];
   title: string = 'E-Commerce Luca';
+
+  constructor(public override injector: Injector){
+    super(injector);
+  }
 
   override onReceiveLiterals(): void {
   }
@@ -39,6 +43,10 @@ export class ToolbarComponent extends ComponentBase{
   }
 
   onHandleFinalizaCompra(){
-    this.router.navigate(['cart']);
+    this.router.navigate(['home'], { queryParams: {isCart: true}});
+  }
+
+  apagaLuz(){
+    document.body.classList.toggle('dark-theme');
   }
 }

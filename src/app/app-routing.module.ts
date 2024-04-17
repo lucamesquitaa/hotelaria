@@ -27,12 +27,6 @@ const routes: Routes = [
     canActivate:[guardinhaGuard]
   },
   {
-    path: 'cart',
-    loadChildren: () =>
-      import('./features/cart/cart.module').then(m => m.CartModule),
-    canActivate:[guardinhaGuard]
-  },
-  {
     path:'**',
     redirectTo:''
   }

@@ -2,21 +2,42 @@
 :root{
   --background-pagina: #ffffff;
   --font-color-products: #ffffff;
-  --toolbar-color: #753399;
+  --toolbar-color: #020eb9;
   --toolbar-font-color: #ffffff;
   --widget-products-color: #ffffff;
   --background-card-products: rgba(115, 115, 115, 0.18);
   --color-widget-color-action: black;
   --color-widget-color-action-hover: black;
   --color-widget-color-action-active: black;
-  --button-background-color: #753399;
+  --button-background-color: #020eb9;
   --font-color-padrao-preto: black;
   --font-color-padrao-branco: white;
+  --products-hover-color: rgba(0, 0, 0, 0.185);
+  --color-toolbar-color-default: #020eb9;
+  --color-action-default: black;
+}
+
+:root .dark-theme{
+  --background-pagina: rgba(0, 0, 0, 0.782);
+  --font-color-products: #111111;
+  --toolbar-color: #020eb9;
+  --toolbar-font-color: #ffffff;
+  --widget-products-color: #ffffff;
+  --background-card-products: rgba(0, 0, 0, 0.362);
+  --color-widget-color-action: #ffffff;
+  --color-widget-color-action-hover: #ffffff;
+  --color-widget-color-action-active: #ffffff;
+  --button-background-color: #ffffff;
+  --font-color-padrao-preto: #ffffff;
+  --font-color-padrao-branco: #111111;
+  --products-hover-color: #b6b6b6;
+  --color-toolbar-color-default: #020eb9;
+  --color-action-default: black;
 }
 
 html,
 body {
-  height: 100%;
+  height: 110vh;
   background-color: var(--background-pagina);
 }
 
@@ -25,6 +46,9 @@ body {
   font-family: Roboto, 'Helvetica Neue', sans-serif;
 }
 
+h1,h2,p{
+  color: var(--font-color-padrao-preto);
+}
 .po-toolbar{
   --color-toolbar-background-color-toolbar: var(--toolbar-color);
   --color-toolbar-color-title: var(--toolbar-font-color);
@@ -40,6 +64,7 @@ body {
   margin-top: 10px;
 }
 .po-button{
+  color: var(--button-background-color);
   background-color: var(--button-background-color);
   --color: var(--button-background-color);
   --color-hover: var(--button-background-color);
@@ -47,4 +72,8 @@ body {
 }
 .po-tab-button-label:hover{
   color: var(--font-color-padrao-preto);
+}
+.po-tab-button{
+  color: var(--button-background-color);
+  --color-tab-button-box-shadow-active: #020eb9;
 }

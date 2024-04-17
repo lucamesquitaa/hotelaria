@@ -13,3 +13,16 @@
     </app-card>
   </div>
 </div>
+
+<po-page-slide
+    #pageSlide
+    p-click-out="true"
+    p-size="lg"
+    p-subtitle="string"
+    p-title="string" >
+    <app-card
+      *ngFor="let item of cartItens"
+      [item]="item"
+    >
+  </app-card>
+</po-page-slide>
