@@ -4,7 +4,6 @@ import { Injectable, Injector } from '@angular/core';
 import { ComponentInterface } from './component.interface';
 import { ContextModel } from '../models/context.model';
 import { ContextService } from '../services/context.service';
-import { CartComponent } from 'src/app/features/cart/cart.component';
 
 /**
  * @description
@@ -13,7 +12,7 @@ import { CartComponent } from 'src/app/features/cart/cart.component';
  */
  @Injectable()
  export abstract class ComponentBase implements ComponentInterface {
-     
+
 	public literals: any = {};
 
 	/**
@@ -58,13 +57,13 @@ import { CartComponent } from 'src/app/features/cart/cart.component';
 		this.activatedRoute = injector.get(ActivatedRoute);
 
 		// Carrega o contexto global do usuário
-		this.context = ContextService.getContext();	
-	}	
+		this.context = ContextService.getContext();
+	}
      ngOnInit(): void {
-    
+
      }
      ngOnDestroy(): void {
-        
+
      }
      context: ContextModel;
 
@@ -104,7 +103,7 @@ import { CartComponent } from 'src/app/features/cart/cart.component';
 
 	/**
 	 * Ao pressionar ENTER deve abrir o modal de pesquisa do lookup
-	
+
 	public onLookupKeyPress(lookup: PoLookupComponent, event: any) {
 		if (event.keyCode == 13) {
 			event.preventDefault();
@@ -114,21 +113,21 @@ import { CartComponent } from 'src/app/features/cart/cart.component';
 
 	/**
 	 * Exibe mensagem de sucesso
-	
+
 	public showSuccess(message: string) {
 		this.poNotificationService.success(message);
 	}
 
 	/**
 	 * Exibe mensagem de atenção
-	
+
 	public showWarning(message: string) {
 		this.poNotificationService.warning(message);
 	}
 
 	/**
 	 * Exibe mensagem de informação
-	
+
 	 public showInformation(message: string) {
 		 this.poNotificationService.information(message);
      }
