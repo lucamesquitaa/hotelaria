@@ -41,6 +41,10 @@
   margin-top: 20px;
   float: right;
 }
+.containerButtons{
+  display: flex;
+  justify-content: space-between;
+}
 
 @media (max-width: 985px) {
   .containerImgDetalhes{

@@ -33,7 +33,6 @@ import { AuthInterceptor } from './shared/services/auth.interceptor';
       multi: true
     }
   ],
-
   bootstrap: [AppComponent],
 })
 export class AppModule {}

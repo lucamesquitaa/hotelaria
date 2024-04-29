@@ -11,8 +11,8 @@ import { ProductsService } from 'src/app/shared/services/products.service';
   templateUrl: './home.component.html',
   styleUrls: ['./home.component.scss']
 })
-export class HomeComponent extends ComponentBase implements OnInit {
-  @ViewChild('pageSlide' , {static: true})
+export class HomeComponent extends ComponentBase {
+  @ViewChild('pageSlide')
   pageSlide!: PoPageSlideComponent;
 
   override onReceiveLiterals(): void {
@@ -39,15 +39,10 @@ export class HomeComponent extends ComponentBase implements OnInit {
       const set = new Set()
       this.category = new Set(this.itens.map((x => x.category)));
     });
-  }
 
-  override ngOnInit(){
-    let isCart;
-    this.route.params.subscribe(params => {
-      isCart = params['isCart'];
+    this.cartService.getCart()?.subscribe((cart: Product[]) =>{
+      this.context.cart.products = this.itens.filter(x => cart.map(y => y.id).includes(x.id));
     });
-    console.log("aqui");
-      this.openPage();
   }
 
   handleCategory(categorySeleced: any){
@@ -59,13 +54,6 @@ export class HomeComponent extends ComponentBase implements OnInit {
 
   showDetailPage(itemId: number) {
     this.router.navigate([`details/${itemId}`]);
-  }
-
-  openPage() {
-    this.cartService.getCart().subscribe((cart) =>{
-        this.cartItens = this.itens.filter(x => cart.includes(x.id))
-    });
-    this.pageSlide.open();
   }
 }
 

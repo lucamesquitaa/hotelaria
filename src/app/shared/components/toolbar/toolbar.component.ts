@@ -1,14 +1,15 @@
-import { Component, EventEmitter, Injector, Output } from '@angular/core';
+import { AfterViewInit, Component, EventEmitter, Injector, Output } from '@angular/core';
 import { ComponentBase } from '../component.base';
 import { PoToolbarAction, PoToolbarProfile } from '@po-ui/ng-components';
 import { HomeComponent } from 'src/app/features/home/home.component';
+import { LoginService } from '../../services/login.service';
 
 @Component({
   selector: 'app-toolbar',
   templateUrl: './toolbar.component.html',
   styleUrls: ['./toolbar.component.scss']
 })
-export class ToolbarComponent extends ComponentBase{
+export class ToolbarComponent extends ComponentBase implements AfterViewInit{
   numberElement!: HTMLParagraphElement;
 
   profile: PoToolbarProfile = {
@@ -18,14 +19,16 @@ export class ToolbarComponent extends ComponentBase{
   };
   profileActions: Array<PoToolbarAction> = [
     { icon: 'po-icon-light', label: 'Dark Mode', action: () => this.apagaLuz() },
-    { icon: 'po-icon-exit', label: 'Sair', type: 'danger', separator: true, action: () => console.log("09") }
+    { icon: 'po-icon-exit', label: 'Sair', type: 'danger', separator: true, action: () => this.logOut() }
   ];
   actions: Array<PoToolbarAction> = [
-    { label: 'Finalizar Compra', action: () => this.onHandleFinalizaCompra() },
+    { label: `Finalizar Compra`, action: () => this.onHandleFinalizaCompra() },
   ];
   title: string = 'E-Commerce Luca';
 
-  constructor(public override injector: Injector){
+  constructor(public override injector: Injector,
+              public loginService: LoginService
+  ){
     super(injector);
   }
 
@@ -33,20 +36,29 @@ export class ToolbarComponent extends ComponentBase{
   }
 
   ngAfterViewInit(){
-    let toolbarActions = document.querySelector('po-toolbar-actions');
-    this.numberElement = document.createElement('p');
-    this.numberElement.id = "toolbarNumberCart";
-    this.numberElement.style.display = 'inline-block';
-    this.numberElement.style.marginInlineEnd = '15px';
-    this.numberElement.style.color = 'white';
-    toolbarActions?.appendChild(this.numberElement);
+    this.verificaUsuario();
   }
 
   onHandleFinalizaCompra(){
-    this.router.navigate(['home'], { queryParams: {isCart: true}});
+    this.router.navigate(['cart']);
   }
 
   apagaLuz(){
+    this.context.usuario.darkMode = !this.context.usuario.darkMode;
     document.body.classList.toggle('dark-theme');
+  }
+
+  verificaUsuario(){
+    if(localStorage.getItem('usuarioAutenticado') == "true")
+      this.context.usuarioAutenticado = true;
+    else
+      this.context.usuarioAutenticado = false;
+  }
+
+  logOut(){
+    LoginService.doLogout();
+    localStorage.setItem('usuarioAutenticado', "false");
+    this.context.usuarioAutenticado = false;
+    this.router.navigate(['/login']);
   }
 }
