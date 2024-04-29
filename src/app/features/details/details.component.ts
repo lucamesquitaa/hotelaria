@@ -19,8 +19,8 @@ export class DetailsComponent extends ComponentBase{
   override onReceiveLiterals(): void {
   }
 
-  constructor(activatedRoute: ActivatedRoute, 
-    override injector: Injector, 
+  constructor(activatedRoute: ActivatedRoute,
+    override injector: Injector,
     private productsService: ProductsService,
     private cartService: CartService) {
     super(injector);
@@ -29,9 +29,11 @@ export class DetailsComponent extends ComponentBase{
       this.itemSelected = result;
     });
   }
-
-  onHandleComprar(idProduto: number){
-    document.getElementById("toolbarNumberCart")!.textContent = this.context.cart.number.toString();
-    this.cartService.setCart(idProduto);
+  onHandleCancelar(){
+    this.router.navigate(['/home']);
+  }
+  onHandleComprar(produto: Product){
+    this.poNotificationService.success('Produto adicionado ao carrinho');
+    this.cartService.setCart(produto);
   }
 }
