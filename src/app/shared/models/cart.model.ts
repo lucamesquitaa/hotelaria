@@ -1,5 +1,6 @@
+import { Product } from "./product.model";
 
 export interface Cart {
   number: number,
-  productsId: number[]
+  products: Product[]
 }

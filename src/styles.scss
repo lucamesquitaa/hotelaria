@@ -3,41 +3,51 @@
   --background-pagina: #ffffff;
   --font-color-products: #ffffff;
   --toolbar-color: #020eb9;
+  --toolbar-color-darker: #000875;
+  --color-brand-01-base: #020eb9;
+  --color-brand-01-dark:#000875;
+  --color-brand-01-lightest: #5460ff;
   --toolbar-font-color: #ffffff;
   --widget-products-color: #ffffff;
   --background-card-products: rgba(115, 115, 115, 0.18);
   --color-widget-color-action: black;
   --color-widget-color-action-hover: black;
   --color-widget-color-action-active: black;
-  --button-background-color: #020eb9;
   --font-color-padrao-preto: black;
   --font-color-padrao-branco: white;
   --products-hover-color: rgba(0, 0, 0, 0.185);
   --color-toolbar-color-default: #020eb9;
   --color-action-default: black;
+  --color-transparent: rgba(0, 0, 0, 0);
+  --background-danger-hover: #ffffff;
 }
 
 :root .dark-theme{
   --background-pagina: rgba(0, 0, 0, 0.782);
   --font-color-products: #111111;
   --toolbar-color: #020eb9;
+  --toolbar-color-darker: #000875;
+  --color-brand-01-base: #020eb9;
+  --color-brand-01-dark:#000875;
+  --color-brand-01-lightest: #5460ff;
   --toolbar-font-color: #ffffff;
   --widget-products-color: #ffffff;
   --background-card-products: rgba(0, 0, 0, 0.362);
   --color-widget-color-action: #ffffff;
   --color-widget-color-action-hover: #ffffff;
   --color-widget-color-action-active: #ffffff;
-  --button-background-color: #ffffff;
   --font-color-padrao-preto: #ffffff;
   --font-color-padrao-branco: #111111;
   --products-hover-color: #b6b6b6;
   --color-toolbar-color-default: #020eb9;
   --color-action-default: black;
+  --color-transparent: rgba(0, 0, 0, 0);
+  --background-danger-hover: #ffffff;
 }
 
 html,
 body {
-  height: 110vh;
+  height: 100vh;
   background-color: var(--background-pagina);
 }
 
@@ -48,6 +58,31 @@ body {
 
 h1,h2,p{
   color: var(--font-color-padrao-preto);
+}
+.po-page-login-panel-content .po-button{
+  --text-color: var(--font-color-padrao-branco);
+    --color: var(--color-toolbar-color-default);
+    --color-hover: var(--color-toolbar-color-default);
+    --background-hover: var(--font-color-padrao-branco);
+    --border-color-hover: var(--font-color-padrao-branco);
+    --outline-color-focused: var(--toolbar-color-darker);
+    --color-pressed: var(--toolbar-color-darker);
+    --background-pressed: var(--toolbar-color-darker);
+    --border-color-hover: var(--toolbar-color-darker);
+}
+
+#comprarButton .po-button{
+  --button-background-color: #c1ffbc;
+  --button-background-color-text: #0a7e00;
+  --text-color: var(--button-background-color-text);
+  --color: var(--button-background-color-text);
+  --color-hover: var(--font-color-padrao-branco);
+  --background-hover: var(--font-color-padrao-branco);
+  --border-color-hover: var(--button-background-color-text);
+  --outline-color-focused: var(--font-color-padrao-branco);
+  --color-pressed: var(--button-background-color-text);
+  --background-pressed: var(--font-color-padrao-branco);
+  --border-color-hover: var(--button-background-color-text);
 }
 .po-toolbar{
   --color-toolbar-background-color-toolbar: var(--toolbar-color);
@@ -63,17 +98,16 @@ h1,h2,p{
   background-color: var(--widget-products-color);
   margin-top: 10px;
 }
-.po-button{
-  color: var(--button-background-color);
-  background-color: var(--button-background-color);
-  --color: var(--button-background-color);
-  --color-hover: var(--button-background-color);
-  --color-pressed: var(--background-pagina);
-}
 .po-tab-button-label:hover{
   color: var(--font-color-padrao-preto);
 }
 .po-tab-button{
   color: var(--button-background-color);
   --color-tab-button-box-shadow-active: #020eb9;
+}
+.po-icon-lock, .po-icon-user{
+  text-color: var(--toolbar-color-darker);
+}
+.po-page-login-header-welcome{
+  color: var(--toolbar-color);
 }

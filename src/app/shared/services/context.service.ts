@@ -12,11 +12,11 @@ export class ContextService {
       photo: "",
       userCode: "",
       name: "",
-
+      darkMode: false,
     },
     cart: {
-      number: 1,
-      productsId: [],
+      number: 0,
+      products: []
     },
   };
 
