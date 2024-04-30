@@ -1,4 +1,4 @@
-import { Component, Injector } from '@angular/core';
+import { Component, Injector, OnInit } from '@angular/core';
 import { ComponentBase } from 'src/app/shared/components/component.base';
 import { CartService } from 'src/app/shared/services/cart.service';
 
@@ -7,9 +7,9 @@ import { CartService } from 'src/app/shared/services/cart.service';
   templateUrl: './cart.component.html',
   styleUrls: ['./cart.component.scss']
 })
-export class CartComponent extends ComponentBase{
+export class CartComponent extends ComponentBase implements OnInit{
 
-  cartItens!: number[];
+  total = 0;
 
   constructor(public override injector: Injector,
               public cartService: CartService
@@ -21,7 +21,12 @@ export class CartComponent extends ComponentBase{
   override onReceiveLiterals(): void {
   }
 
-  init(){
+  override ngOnInit(){
+  }
+  onHandleCancelar(){
+
+  }
+  onHandleFinalizar(){
 
   }
 }
