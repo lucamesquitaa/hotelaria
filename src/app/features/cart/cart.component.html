@@ -1,8 +1,27 @@
-<div class="cartComponent">
-  <app-card
-  *ngFor="let item of this.context.cart.products"
-  [item]="item"
-  >
-  </app-card>
+<div class="pageCart">
+  <div class="cartComponent">
+    <app-card
+    *ngFor="let item of this.context.cart.products"
+    [item]="item"
+    >
+    </app-card>
+  </div>
+  <div class="cartComponent">
+    <div class="boxFixed">
+      <h1>Itens:</h1>
+      <div class="itens" *ngFor="let item of this.context.cart.products">
+        <h3>{{ item.title }}</h3>
+        <span>{{ item.price | currency }}</span>
+      </div>
+      <div class="itens">
+        <h2>Total</h2>
+        <span>{{ this.context.cart.number | currency  }}</span>
+      </div>
+      <div class="end">
+        <po-button class="buttonComprar" p-danger="true" p-label="Limpar" (p-click)="onHandleCancelar()"> </po-button>
+        <po-button id="comprarButton" class="buttonComprar" p-label="Finalizar" (p-click)="onHandleFinalizar()"> </po-button>
+      </div>
+    </div>
+  </div>
 </div>
 
