@@ -14,10 +14,12 @@ export class CartService extends ServiceGeneric{
 
   setCart(product: Product){
     this.context!.cart.products.push(product);
+    this.context!.cart.number += product.price;
     this.cart.next(this.context!.cart.products);
   }
 
   getCart(){
     return this.cart.asObservable();
+
   }
 }

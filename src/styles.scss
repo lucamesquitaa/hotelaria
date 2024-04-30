@@ -59,6 +59,10 @@ body {
 h1,h2,p{
   color: var(--font-color-padrao-preto);
 }
+.po-button{
+  --background-color: var(--font-color-padrao-branco);
+  --background-color-button-danger: var(--font-color-padrao-branco);
+}
 .po-page-login-panel-content .po-button{
   --text-color: var(--font-color-padrao-branco);
     --color: var(--color-toolbar-color-default);
@@ -79,7 +83,7 @@ h1,h2,p{
   --color-hover: var(--font-color-padrao-branco);
   --background-hover: var(--font-color-padrao-branco);
   --border-color-hover: var(--button-background-color-text);
-  --outline-color-focused: var(--font-color-padrao-branco);
+  --outline-color-focused: var(--font-color-padrao-preto);
   --color-pressed: var(--button-background-color-text);
   --background-pressed: var(--font-color-padrao-branco);
   --border-color-hover: var(--button-background-color-text);
@@ -102,12 +106,12 @@ h1,h2,p{
   color: var(--font-color-padrao-preto);
 }
 .po-tab-button{
-  color: var(--button-background-color);
+  color: #020eb9;
   --color-tab-button-box-shadow-active: #020eb9;
-}
-.po-icon-lock, .po-icon-user{
-  text-color: var(--toolbar-color-darker);
 }
 .po-page-login-header-welcome{
   color: var(--toolbar-color);
+}
+input.po-input{
+  --background-hover: var(--font-color-padrao-branco);
 }

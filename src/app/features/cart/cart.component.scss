@@ -1,6 +1,37 @@
 .cartComponent{
+  width: 50%;
   display: flex;
   justify-content: center;
   align-items: center;
   flex-direction: column;
+}
+.pageCart{
+  display: flex;
+  justify-content: space-between;
+  align-items: flex-start;
+  flex-direction: row;
+}
+.boxFixed{
+  position: fixed;
+  padding: 30px;
+  width: 400px;
+  height: 500px;
+  top: 100px;
+  border-radius: 25px;
+  background-color: var(--color-brand-01-lightest);
+  color: var(--font-color-padrao-branco)
+}
+.itens{
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  flex-direction: row;
+  margin: 10px;
+}
+.end{
+  display: flex;
+  justify-content: flex-end;
+}
+.buttonComprar{
+  margin-left: 10px;
 }
