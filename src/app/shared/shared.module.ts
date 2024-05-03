@@ -1,26 +1,23 @@
-import { NgModule } from '@angular/core';
 import { CommonModule } from '@angular/common';
 import { HttpClientModule } from '@angular/common/http';
+import { NgModule } from '@angular/core';
 import { RouterModule } from '@angular/router';
 import { CardComponent } from './components/card/card.component';
 
 
 //componentes PO-UI
-import { PoButtonModule, PoToolbarModule } from '@po-ui/ng-components';
-import { PoWidgetModule } from '@po-ui/ng-components';
+import { FormsModule } from '@angular/forms';
+import { PoButtonModule, PoFieldModule, PoPageModule, PoTabsModule, PoToolbarModule, PoWidgetModule } from '@po-ui/ng-components';
 import { PoPageLoginModule } from '@po-ui/ng-templates';
-import { PoTabsModule } from '@po-ui/ng-components';
-import { ToolbarComponent } from './components/toolbar/toolbar.component';
-import { PoFieldModule } from '@po-ui/ng-components';
-import { PoPageModule } from '@po-ui/ng-components';
+import { CartItemComponent } from './components/cart-item/cart-item.component';
 
 
 @NgModule({
-  imports: [CommonModule, HttpClientModule, RouterModule, PoButtonModule, PoWidgetModule, PoPageLoginModule, PoTabsModule, PoToolbarModule, PoPageModule, PoFieldModule],
+  imports: [CommonModule, FormsModule, HttpClientModule, RouterModule, PoButtonModule, PoWidgetModule, PoPageLoginModule, PoTabsModule, PoToolbarModule, PoPageModule, PoFieldModule],
   declarations: [
-    ToolbarComponent,
-    CardComponent
+    CardComponent,
+    CartItemComponent
   ],
-  exports: [HttpClientModule, RouterModule, PoButtonModule, PoWidgetModule, PoPageLoginModule, PoTabsModule, ToolbarComponent, CardComponent, PoToolbarModule, PoPageModule, PoFieldModule],
+  exports: [CartItemComponent,FormsModule, HttpClientModule, RouterModule, PoButtonModule, PoWidgetModule, PoPageLoginModule, PoTabsModule, CardComponent, PoToolbarModule, PoPageModule, PoFieldModule],
 })
 export class SharedModule { }

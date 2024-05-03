@@ -7,11 +7,11 @@ import { LoginModule } from './features/login/login.module';
 import { BrowserModule } from '@angular/platform-browser';
 import { BrowserAnimationsModule } from '@angular/platform-browser/animations';
 
-import { SharedModule } from './shared/shared.module';
-import { PoModule } from '@po-ui/ng-components';
 import { HTTP_INTERCEPTORS, HttpClientModule } from '@angular/common/http';
+import { PoModule } from '@po-ui/ng-components';
 import { PoTemplatesModule } from '@po-ui/ng-templates';
 import { AuthInterceptor } from './shared/services/auth.interceptor';
+import { SharedModule } from './shared/shared.module';
 
 
 @NgModule({

@@ -12,17 +12,6 @@
   align-items: center;
   flex-direction: column;
 }
-.sacola {
-  display: flex;
-  z-index: 9999;
-  justify-content: flex-start;
-  align-self: flex-start;
-  margin-top: 20px;
-  margin-left: 20px;
-  width: 300px;
-  height: auto;
-  border-radius: 25px;
-}
 .itensCart:first-of-type {
   margin-top: 10px;
 }
@@ -46,25 +35,9 @@
   background-color: var(--font-color-padrao-branco);
   color: var(--font-color-padrao-preto)
 }
-.itens{
+
+.containerButtons{
   display: flex;
-  justify-content: space-between;
+  justify-content: center;
   align-items: center;
-  flex-direction: row;
-  align-self: center;
-  padding: 10px;
-}
-.itens > p , span, h4{
-  margin-left: 10px;
-}
-.flexEnd{
-  align-self: flex-end;
-}
-.end{
-  display: flex;
-  justify-content: flex-end;
-  align-self: flex-end;
-}
-.buttonComprar{
-  margin-left: 10px;
 }

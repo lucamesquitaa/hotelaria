@@ -1,2 +1,13 @@
-<app-toolbar></app-toolbar>
+<po-toolbar
+  *ngIf="context.usuarioAutenticado"
+  p-actions-icon="po-icon-cart"
+  [p-profile]="profile"
+  [p-profile-actions]="profileActions"
+  [p-title]="title"
+  [p-notification-actions]="notificationActions"
+  [p-notification-number]="context.cart.products.length"
+  p-notification-icon="po-icon-cart"
+>
+</po-toolbar>
+
 <router-outlet></router-outlet>

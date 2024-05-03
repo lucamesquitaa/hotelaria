@@ -1,6 +1,5 @@
 import { NgModule } from '@angular/core';
 import { RouterModule, Routes } from '@angular/router';
-import { HomeModule } from './features/home/home.module';
 import { guardinhaGuard } from './shared/services/guardinha.guard';
 
 const routes: Routes = [
@@ -30,6 +29,12 @@ const routes: Routes = [
     path: 'cart',
     loadChildren: () =>
       import('./features/cart/cart.module').then(m => m.CartModule),
+    canActivate:[guardinhaGuard]
+  },
+  {
+    path: 'admin',
+    loadChildren: () =>
+      import('./features/admin/admin.module').then(m => m.AdminModule),
     canActivate:[guardinhaGuard]
   },
   {

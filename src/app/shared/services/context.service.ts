@@ -12,7 +12,7 @@ export class ContextService {
       photo: "",
       userCode: "",
       name: "",
-      darkMode: false,
+      admin: false,
     },
     cart: {
       number: 0,

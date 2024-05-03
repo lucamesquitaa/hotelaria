@@ -1,25 +1,32 @@
 <div class="pageCart">
   <div class="cartComponent">
-    <app-card
+    <div class="sacola">
+      <h3>Sacola: {{this.context.cart.products.length}} itens</h3>
+    </div>
+    <app-cart-item
+    class="itensCart"
     *ngFor="let item of this.context.cart.products"
     [item]="item"
     >
-    </app-card>
+    </app-cart-item>
   </div>
-  <div class="cartComponent">
+  <div class="cartComponent2">
     <div class="boxFixed">
-      <h1>Itens:</h1>
+      <h3>Itens:</h3>
       <div class="itens" *ngFor="let item of this.context.cart.products">
-        <h3>{{ item.title }}</h3>
+        <p>{{ item.title }}</p>
         <span>{{ item.price | currency }}</span>
       </div>
-      <div class="itens">
-        <h2>Total</h2>
-        <span>{{ this.context.cart.number | currency  }}</span>
+      <div class="itens flexEnd">
+        <h4>Total</h4>
+        <h4>{{ this.context.cart.number | currency  }}</h4>
       </div>
-      <div class="end">
+       <div class="end">
         <po-button class="buttonComprar" p-danger="true" p-label="Limpar" (p-click)="onHandleCancelar()"> </po-button>
         <po-button id="comprarButton" class="buttonComprar" p-label="Finalizar" (p-click)="onHandleFinalizar()"> </po-button>
+      </div>
+      <div>
+        <po-input class="po-md-12" formControlName="address" p-clean p-icon="po-icon-pin" p-label="CEP"> </po-input>
       </div>
     </div>
   </div>

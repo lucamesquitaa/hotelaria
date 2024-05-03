@@ -1,10 +1,10 @@
 import { HttpClient } from '@angular/common/http';
-import { Router, ActivatedRoute } from '@angular/router';
 import { Injectable, Injector } from '@angular/core';
-import { ComponentInterface } from './component.interface';
+import { ActivatedRoute, Router } from '@angular/router';
+import { PoNotificationService } from '@po-ui/ng-components';
 import { ContextModel } from '../models/context.model';
 import { ContextService } from '../services/context.service';
-import { PoNotificationService } from '@po-ui/ng-components';
+import { ComponentInterface } from './component.interface';
 
 /**
  * @description
