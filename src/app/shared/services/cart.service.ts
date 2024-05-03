@@ -1,13 +1,14 @@
 import { Injectable } from '@angular/core';
-import { ServiceGeneric } from './generic.service';
-import { BehaviorSubject, Observable } from 'rxjs';
+import { BehaviorSubject } from 'rxjs';
 import { Product } from '../models/product.model';
+import { ServiceGeneric } from './generic.service';
 
 @Injectable({
   providedIn: 'root'
 })
 export class CartService extends ServiceGeneric{
   override urlServiceREST = '';
+
   override onReceiveLiterals(): void {
   }
   public cart = new BehaviorSubject<Product[]>([]);
@@ -20,6 +21,5 @@ export class CartService extends ServiceGeneric{
 
   getCart(){
     return this.cart.asObservable();
-
   }
 }

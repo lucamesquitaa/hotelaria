@@ -2,35 +2,52 @@
   cursor: pointer;
   position: relative;
   display: flex;
-  align-items: center;
+  justify-content: flex-end;
   flex-direction: column;
   background-color: var(--background-card-products);
   padding: 20px;
   margin: 20px;
   width: 280px;
-  height: 280px;
-  border-radius: 25px;
+  min-height: 370px;
+  height: auto;
+  border-radius: 15px;
+  box-shadow: 2px 2px 2px rgb(183, 183, 183);
+}
+.flexCenter{
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  flex-direction: column;
+}
+.cardContainer:hover{
+  box-shadow: 2px 2px 2px 2px rgb(183, 183, 183);
 }
 .textPosition{
   text-align: center;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
   width: 100%;
   margin-top: 2px;
-}
-.cardContainer:hover{
-  background-color: rgba(0, 0, 0, 0.185);
 }
 .colorText{
   color: var(--font-color-padrao-preto);
 }
 .colorTextInverso{
-  color:black;
+  color: var(--font-color-padrao-branco);
+}
+.risco{
+  text-decoration: line-through;
+  color: var(--font-color-padrao-preto);
+
 }
 .iconPosition{
   float: right;
 }
 .imgSize{
   display: flex;
-  width: 300px;
+  width: 260px;
   height: 200px;
   align-items: center;
   justify-content: center;
@@ -43,4 +60,16 @@
   display: block;
   margin: 0 auto;
 }
-
+.iconPercent{
+  display: flex;
+  width: 50px;
+  flex-direction: row;
+  align-items: center;
+  justify-content: center;
+  background-color: rgb(0, 74, 0);
+  border-radius: 25px;
+  padding: 5px;
+}
+.buttonComprar{
+  margin-top: 5px;
+}
