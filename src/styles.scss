@@ -9,7 +9,7 @@
   --color-brand-01-lightest: #5460ff;
   --toolbar-font-color: #ffffff;
   --widget-products-color: #ffffff;
-  --background-card-products: rgba(115, 115, 115, 0.18);
+  --background-card-products: #ffffff;
   --color-widget-color-action: black;
   --color-widget-color-action-hover: black;
   --color-widget-color-action-active: black;
@@ -22,28 +22,7 @@
   --background-danger-hover: #ffffff;
 }
 
-:root .dark-theme{
-  --background-pagina: rgba(0, 0, 0, 0.782);
-  --font-color-products: #111111;
-  --toolbar-color: #020eb9;
-  --toolbar-color-darker: #000875;
-  --color-brand-01-base: #020eb9;
-  --color-brand-01-dark:#000875;
-  --color-brand-01-lightest: #5460ff;
-  --toolbar-font-color: #ffffff;
-  --widget-products-color: #ffffff;
-  --background-card-products: rgba(0, 0, 0, 0.362);
-  --color-widget-color-action: #ffffff;
-  --color-widget-color-action-hover: #ffffff;
-  --color-widget-color-action-active: #ffffff;
-  --font-color-padrao-preto: #ffffff;
-  --font-color-padrao-branco: #111111;
-  --products-hover-color: #b6b6b6;
-  --color-toolbar-color-default: #020eb9;
-  --color-action-default: black;
-  --color-transparent: rgba(0, 0, 0, 0);
-  --background-danger-hover: #ffffff;
-}
+// :root .dark-theme{
 
 html,
 body {
@@ -106,7 +85,7 @@ h1,h2,p{
   color: var(--font-color-padrao-preto);
 }
 .po-tab-button{
-  color: #020eb9;
+  color: var(--font-color-padrao-preto);
   --color-tab-button-box-shadow-active: #020eb9;
 }
 .po-page-login-header-welcome{

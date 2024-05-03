@@ -1,0 +1,20 @@
+<div class="cartItemContainer">
+  <div class="cartItem">
+    <div class="imgSize">
+      <img src={{item.photo}} />
+    </div>
+  
+    <div class="textPosition">
+      <p class="po-font-subtitle colorText">{{item.title}}</p>
+      <p class="colorText">Lorem Ipsum is not simply random text. It has roots in a piece of c</p>
+    </div>
+
+    <div class="pricePosition">
+      <p class="po-font-subtitle colorText">{{item.price | currency}}</p>
+    </div>
+
+    <span>
+      <po-button *ngIf="!admin" p-label="" p-danger="true" p-icon="po-icon-delete" (p-click)="onHandleRemove()"></po-button>
+      <po-button *ngIf="admin" p-label="" p-icon="po-icon-edit" (p-click)="enviarEvento(item.id)"></po-button>
+    </span>
+</div>

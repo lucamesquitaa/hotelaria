@@ -35,6 +35,10 @@ export class LoginComponent extends ComponentBase implements AfterViewInit {
         localStorage.setItem('token', result.token);
         localStorage.setItem('usuarioAutenticado', "true");
         this.context.usuarioAutenticado = true;
+        
+        if(user.username == "admin")
+          this.context.usuario.admin = true;
+
         this.router.navigate(['/home']);
       },error : (error) => {
         localStorage.setItem('usuarioAutenticado', "false");
