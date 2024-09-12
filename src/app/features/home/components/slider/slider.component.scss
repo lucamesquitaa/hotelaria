@@ -1,0 +1,26 @@
+.tamanhoSlider{
+    width: 800px;
+    height: 400px;
+    max-height: 500px !important;
+    margin-top: 50px;
+}
+img {
+    max-height: 400px !important;
+    max-width: 100%;
+}
+h3{
+    text-shadow: 2px 2px black;
+}
+
+@media screen and (max-width: 500px){
+    .tamanhoSlider{
+        width: 100%;
+        height: auto;
+        max-height: 300px !important;
+    }
+    img {
+        max-height: 300px !important;
+        max-width: 100%;
+    }
+    
+}

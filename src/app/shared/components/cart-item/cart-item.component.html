@@ -14,7 +14,6 @@
     </div>
 
     <span>
-      <po-button *ngIf="!admin" p-label="" p-danger="true" p-icon="po-icon-delete" (p-click)="onHandleRemove()"></po-button>
       <po-button *ngIf="admin" p-label="" p-icon="po-icon-edit" (p-click)="enviarEvento(item.id)"></po-button>
     </span>
 </div>

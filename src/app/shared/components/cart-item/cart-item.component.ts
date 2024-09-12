@@ -28,11 +28,8 @@ export class CartItemComponent extends ComponentBase {
     super(injector);
   }
 
-  onHandleRemove(){
-    
-  }
-
   enviarEvento(id: number) {
+    let delet = false;
     this.eventoDoFilho.emit(id);
   }
 }

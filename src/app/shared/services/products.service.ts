@@ -23,7 +23,13 @@ export class ProductsService {
     return this.data;
   }
 
-  putProductQnt(id: number, requested: number): any {
-    this.http.put(`${this.url}/${id}`, requested)
+  updateProduct(id: number, requested:number): Observable<Product> {
+    this.data = this.http.put<Product>(`${this.url}/${id}`, requested);
+    return this.data;
+  }
+
+  deleteProduct(id: number): Observable<Product> {
+    this.data = this.http.delete<Product>(`${this.url}/${id}`);
+    return this.data;
   }
 }
