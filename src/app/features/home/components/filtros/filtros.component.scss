@@ -1,0 +1,25 @@
+.filtrosContainer{
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    flex-direction: row;
+    padding: 10px;
+}
+.itensCategories{
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    flex-direction: column;
+    margin: 0 10px ;
+}
+.itensCategories img{
+    background-color: rgb(129, 179, 255);
+    border-radius: 50%;
+    border: 1px solid black;
+}
+.imgCategory{
+    height: auto;
+    width: 80px;
+    max-height: 80px;
+    padding: 10px;
+}

@@ -9,17 +9,15 @@
     >
     </app-cart-item>
   </div>
-  <div class="cartComponent2">
-    <div class="boxFixed">
-      <po-input class="po-md-12" [(ngModel)]="itemSelected!.title" p-clean p-label="Título"> </po-input>
-      <po-input class="po-md-12" [(ngModel)]="itemSelected!.category" p-clean p-label="Categoria"> </po-input>
-      <po-input class="po-md-12" [(ngModel)]="itemSelected!.available" p-clean p-label="Disponivel"> </po-input>
-      <po-input class="po-md-12" [(ngModel)]="itemSelected!.photo" p-clean p-label="Foto"> </po-input>
-      <po-input class="po-md-12" [(ngModel)]="itemSelected!.price" p-clean p-label="Preço"> </po-input>
-      <div class="containerButtons">
-        <po-button p-danger="true" p-label="Excluir" (p-click)="onHandleExcluir(itemSelected?.id)"> </po-button>
-        <po-button p-label="Atualizar" (p-click)="onHandleAtualizar(itemSelected)"> </po-button>
+</div>
+  <po-modal #modal p-title="Item" [p-primary-action]="primaryButton" [p-secondary-action]="secondaryButton"> 
+    <div class="cartComponent2">
+      <div class="boxFixed">
+        <po-input class="po-md-12" [(ngModel)]="itemSelected!.title" p-clean p-label="Título"> </po-input>
+        <po-input class="po-md-12" [(ngModel)]="itemSelected!.category" p-clean p-label="Categoria"> </po-input>
+        <po-input class="po-md-12" [(ngModel)]="itemSelected!.available" p-clean p-label="Disponivel"> </po-input>
+        <po-input class="po-md-12" [(ngModel)]="itemSelected!.photo" p-clean p-label="Foto"> </po-input>
+        <po-input class="po-md-12" [(ngModel)]="itemSelected!.price" p-clean p-label="Preço"> </po-input>
       </div>
     </div>
-  </div>
-</div>
+</po-modal>

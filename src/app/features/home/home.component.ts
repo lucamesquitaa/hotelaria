@@ -1,5 +1,5 @@
 import { Component, Injector, ViewChild } from '@angular/core';
-import { PoPageSlideComponent } from '@po-ui/ng-components';
+import { PoPageSlideComponent, PoSlideItem } from '@po-ui/ng-components';
 import { AppComponent } from 'src/app/app.component';
 import { ComponentBase } from 'src/app/shared/components/component.base';
 import { Product } from 'src/app/shared/models/product.model';
@@ -31,6 +31,12 @@ export class HomeComponent extends ComponentBase {
 
   cartItens!: any[];
 
+  landscapes: Array<any> = [
+    { imagem: '/assets/img1.jpg', description: 'COMPRE AS ULTIMAS PEÇAS' },
+    { imagem: '/assets/img2.jpeg'},
+    { imagem: '/assets/img3.jpg', description: 'Tudo para você ficar na moda' }
+  ];
+
   constructor(private productService: ProductsService,
               private cartService: CartService,
               public override injector: Injector,
@@ -49,8 +55,6 @@ export class HomeComponent extends ComponentBase {
       this.context.cart.products = this.itens.filter(x => cart.map(y => y.id).includes(x.id));
       this.appComponent.changeIcon();
     });
-
-    this.appComponent.painelAdmin();
   }
 
   handleCategory(categorySeleced: any){

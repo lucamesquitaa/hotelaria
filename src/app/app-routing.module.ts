@@ -6,8 +6,7 @@ const routes: Routes = [
   {
     path: '',
     pathMatch: 'full',
-    loadChildren: () =>
-      import('./features/login/login.module').then(m => m.LoginModule),
+    redirectTo: 'home',
   },
   {
     path: 'login',
@@ -22,14 +21,12 @@ const routes: Routes = [
   {
     path: 'details/:id',
     loadChildren: () =>
-      import('./features/details/details.module').then(m => m.DetailsModule),
-    canActivate:[guardinhaGuard]
+      import('./features/details/details.module').then(m => m.DetailsModule)
   },
   {
     path: 'cart',
     loadChildren: () =>
-      import('./features/cart/cart.module').then(m => m.CartModule),
-    canActivate:[guardinhaGuard]
+      import('./features/cart/cart.module').then(m => m.CartModule)
   },
   {
     path: 'admin',

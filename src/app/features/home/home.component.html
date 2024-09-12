@@ -1,7 +1,8 @@
 <div class="homeComponent">
-  <div class="categories">
-    <app-filtros [category]="category" (categorySelected)="handleCategory($event)"></app-filtros>
-  </div>
+  
+    <app-slider></app-slider>
+    <app-filtros class="catCategories" [category]="category" (categorySelected)="handleCategory($event)"></app-filtros>
+  
 
   <div class="productsContainer">
     <app-card

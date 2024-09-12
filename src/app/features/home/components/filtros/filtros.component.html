@@ -1,13 +1,21 @@
-<po-tabs
+<div
 class="filtrosContainer">
-    <po-tab
-      (p-click)="onClickCategory('all')"
-      [p-label]="home"
-      [p-active]="true">
-    </po-tab>
-    <po-tab
+    <!-- <div class="itensCategories"
     *ngFor="let itemCat of category"
-    (p-click)="onClickCategory(itemCat)"
-    [p-label]="itemCat" >
-  </po-tab>
-</po-tabs>
+    (click)="onClickCategory(itemCat)">
+      <img src="assets/vestir.png" alt="logo" class="imgCategory" />
+      <p>{{itemCat}}</p>
+    </div> -->
+    <div class="itensCategories">
+      <img src="assets/sapato.png" alt="logo" class="imgCategory" />
+      <p>Sapato</p>
+    </div> 
+    <div class="itensCategories">
+      <img src="assets/vestir.png" alt="logo" class="imgCategory" />
+      <p>Vestido</p>
+    </div> 
+    <div class="itensCategories">
+      <img src="assets/calca.png" alt="logo" class="imgCategory" />
+      <p>Calça</p>
+    </div> 
+  </div>
