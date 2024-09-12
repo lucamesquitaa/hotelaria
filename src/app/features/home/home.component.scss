@@ -15,6 +15,37 @@
 .flex{
   display: flex;
 }
-.categories{
+.catCategories{
   width: 80%;
+}
+.colorBlack{
+  color: black;
+  text-wrap: wrap;
+  font-size: 2.0rem;
+}
+.img3{
+  width: 100%;
+  height: auto;
+  max-height: 300px;
+}
+
+.relativo{
+  width: 70%;
+  height: auto;
+  max-height: 300px;
+  position: relative;
+  display: inline-block;
+}
+.textoinImg{
+  position: absolute;
+  top: 80px;
+  left: 30px;
+  font-size: 1.3rem;
+  color: white;
+  text-shadow: 3px 3px black;
+}
+.botaoinImg{
+  position: absolute;
+  top: 120px;
+  left: 30px;
 }

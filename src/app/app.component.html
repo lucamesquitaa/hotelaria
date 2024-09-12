@@ -1,13 +1,25 @@
-<po-toolbar
-  *ngIf="context.usuarioAutenticado"
-  p-actions-icon="po-icon-cart"
-  [p-profile]="profile"
-  [p-profile-actions]="profileActions"
-  [p-title]="title"
-  [p-notification-actions]="notificationActions"
-  [p-notification-number]="context.cart.products.length"
-  p-notification-icon="po-icon-cart"
->
-</po-toolbar>
-
-<router-outlet></router-outlet>
+<nav class="navbar navbar-dark bg-primary navbar-expand-sm positoning">
+	<a class="navbar-brand padding10" href="#">
+	  <img src="../assets/logo.png" width="30" height="30" class="d-inline-block align-top" alt="">
+	  MR Store
+	</a>
+	<button class="navbar-toggler" type="button" (click)="isCollapsed = !isCollapsed" [attr.aria-expanded]="!isCollapsed" aria-controls="navbarText">
+	  <span class="navbar-toggler-icon"></span>
+	</button>
+	<div [ngbCollapse]="isCollapsed" class="collapse navbar-collapse padding10" id="navbarText">
+	  <ul class="navbar-nav mr-auto">
+		<li class="nav-item active">
+		  <a class="nav-link" href="/home">Home</a>
+		</li>
+		<li class="nav-item">
+		  <a class="nav-link" href="/cart">Carrinho</a>
+		</li>
+    <li class="nav-item">
+		  <a class="nav-link" href="/login">Admin</a>
+		</li>
+	  </ul>
+	</div>
+  </nav>
+<div class="telas">
+  <router-outlet></router-outlet>
+</div>

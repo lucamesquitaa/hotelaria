@@ -39,7 +39,7 @@ export class LoginComponent extends ComponentBase implements AfterViewInit {
         if(user.username == "admin")
           this.context.usuario.admin = true;
 
-        this.router.navigate(['/home']);
+        this.router.navigate(['/admin']);
       },error : (error) => {
         localStorage.setItem('usuarioAutenticado', "false");
         this.context.usuarioAutenticado = false;
