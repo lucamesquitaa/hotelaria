@@ -1,7 +1,6 @@
 <div class="cardContainer">
   <div class="iconPercent">
-    <span class=" colorTextInverso po-icon po-icon-arrow-down"></span>
-    <p class="colorTextInverso">12%</p>
+    <p class="colorTextInverso percent">-12%</p>
   </div>
   <div class="flexCenter">
     <div class="imgSize">
@@ -10,7 +9,6 @@
   
     <div class="textPosition">
       <p class="colorText">{{item.title}}</p>
-      <p class="colorText risco">RS 6399</p>
       <p class="po-font-subtitle colorText">R${{item.price}}</p>
       <po-button id="comprarButton" class="buttonComprar" p-icon="po-icon-cart" p-label="Comprar" (p-click)="onHandleComprar(item)"> </po-button>
     </div>
