@@ -1,6 +1,6 @@
 <div class="homeComponent">
   
-    <app-slider></app-slider>
+    <app-slider [images]="imagesHome" [sizeSmall]="false"></app-slider>
     <app-filtros class="catCategories" [category]="category" (categorySelected)="handleCategory($event)"></app-filtros>
   
 

@@ -16,6 +16,8 @@ export class DetailsComponent extends ComponentBase{
 
   appComponent!: AppComponent;
 
+  imagesVest = [{url: '/assets/vest.jpg'},{url: '/assets/vest2.jpg'}];
+
   override onReceiveLiterals(): void {
   }
 

@@ -1,4 +1,4 @@
-import { Component } from '@angular/core';
+import { Component, Input } from '@angular/core';
 import { NgbCarouselConfig, NgbCarouselModule } from '@ng-bootstrap/ng-bootstrap';
 
 @Component({
@@ -7,5 +7,9 @@ import { NgbCarouselConfig, NgbCarouselModule } from '@ng-bootstrap/ng-bootstrap
   styleUrls: ['./slider.component.scss']
 })
 export class SliderComponent {
+  @Input() 
+  images!: {url: string}[];
 
+  @Input() 
+  sizeSmall!: boolean;
 }

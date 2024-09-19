@@ -18,6 +18,8 @@ export class HomeComponent extends ComponentBase {
 
   appComponent!: AppComponent;
 
+  imagesHome = [{url: '/assets/img1.jpg'},{url: '/assets/img2.jpg'},{url: 'assets/img3.jpg'}];
+
   override onReceiveLiterals(): void {
   }
 
