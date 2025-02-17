@@ -30,6 +30,7 @@
               "src/assets"
             ],
             "styles": [
+              "@angular/material/prebuilt-themes/deeppurple-amber.css",
               "node_modules/@po-ui/style/css/po-theme-default-variables.min.css",
               "node_modules/@po-ui/style/css/po-theme-core.min.css",
               "src/styles.scss"
@@ -95,6 +96,7 @@
               "src/assets"
             ],
             "styles": [
+              "@angular/material/prebuilt-themes/deeppurple-amber.css",
               "node_modules/@po-ui/style/css/po-theme-default-variables.min.css",
               "node_modules/@po-ui/style/css/po-theme-core.min.css",
               "src/styles.scss"

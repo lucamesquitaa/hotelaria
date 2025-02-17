@@ -14,6 +14,8 @@ import { AuthInterceptor } from './shared/services/auth.interceptor';
 import { SharedModule } from './shared/shared.module';
 import { FormsModule, ReactiveFormsModule } from '@angular/forms';
 import { NgbModule, NgbNavModule } from '@ng-bootstrap/ng-bootstrap';
+import {MatToolbarModule} from '@angular/material/toolbar';
+import {MatIconModule} from '@angular/material/icon';
 
 
 @NgModule({
@@ -30,6 +32,8 @@ import { NgbModule, NgbNavModule } from '@ng-bootstrap/ng-bootstrap';
     NgbModule,
     NgbNavModule,
     FormsModule,
+    MatToolbarModule,
+    MatIconModule,
   ],
   declarations: [AppComponent],
   providers: [

@@ -1,6 +1,9 @@
+
+
 * {
   margin: 0;
   padding: 0;
+
 }
 .padding10 {
   padding: 10px;
@@ -9,4 +12,19 @@
   position: fixed;
   width: 100%;
   z-index: 1000;
+}
+
+.toolbarAll{
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  padding: 10px;
+  background-color: var(--primaryColorTheme01);
+  color: var(--secondColorTheme01);
+}
+.material-icons{
+  color: var(--secondColorTheme01);
+}
+.titleEcomm{
+  font-size: 1.3em;
 }

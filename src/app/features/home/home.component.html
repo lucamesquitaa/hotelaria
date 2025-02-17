@@ -1,16 +1,5 @@
-<div class="homeComponent">
-  
-    <app-slider [images]="imagesHome" [sizeSmall]="false"></app-slider>
-    <app-filtros class="catCategories" [category]="category" (categorySelected)="handleCategory($event)"></app-filtros>
-  
-
-  <div class="productsContainer">
-    <app-card
-        *ngFor="let item of filteredItens"
-        [item]="item"
-        class="flex"
-        (click)="showDetailPage(item.id)"
-      >
-    </app-card>
+<div class="homeContainer">
+  <div *ngFor="let _ of [].constructor(13)">
+    <app-card></app-card>
   </div>
 </div>
