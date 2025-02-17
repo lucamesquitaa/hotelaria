@@ -1,44 +1,7 @@
-.homeComponent{
+.homeContainer{
   display: flex;
-  flex-direction: column;
-  align-items: center;
   justify-content: center;
-}
-.productsContainer{
-  width: 80%;
-  display: flex;
   flex-direction: row;
-  align-items: center;
-  justify-content: center;
   flex-wrap: wrap;
-}
-.flex{
-  display: flex;
-}
-.catCategories{
-  width: 80%;
-}
-.colorBlack{
-  color: black;
-  text-wrap: wrap;
-  font-size: 2.0rem;
-}
-.img3{
-  width: 100%;
-  height: auto;
-  max-height: 300px;
-}
-
-.relativo{
-  width: 70%;
-  height: auto;
-  max-height: 300px;
-  position: relative;
-  display: inline-block;
-}
-
-.botaoinImg{
-  position: absolute;
-  top: 120px;
-  left: 30px;
+  margin: 20px;
 }

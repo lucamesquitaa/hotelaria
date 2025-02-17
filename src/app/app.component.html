@@ -1,25 +1,29 @@
-<nav class="navbar navbar-dark bg-dark navbar-expand-sm positoning">
-	<a class="navbar-brand padding10" href="#">
-	  <img src="../assets/logo.png" width="30" height="30" class="d-inline-block align-top" alt="">
-	  MR Store
-	</a>
-	<button class="navbar-toggler" type="button" (click)="isCollapsed = !isCollapsed" [attr.aria-expanded]="!isCollapsed" aria-controls="navbarText">
-	  <span class="navbar-toggler-icon"></span>
-	</button>
-	<div [ngbCollapse]="isCollapsed" class="collapse navbar-collapse padding10" id="navbarText">
-	  <ul class="navbar-nav mr-auto">
-		<li class="nav-item active">
-		  <a class="nav-link" href="/home">Home</a>
-		</li>
-		<li class="nav-item">
-		  <a class="nav-link" href="/cart">Carrinho</a>
-		</li>
-    <li class="nav-item">
-		  <a class="nav-link" href="/login">Admin</a>
-		</li>
-	  </ul>
+
+<mat-toolbar class="toolbarAll">
+	<div class="toolbarLeft">
+		<span class="material-icons">
+			menu
+		</span>
+		<span class="titleEcomm">Ecomm-v01</span>
 	</div>
-  </nav>
+	<div class="toolbarRight">
+		<a mat-icon-button aria-label="Home" href="/home">
+			<span class="material-icons">
+				home
+			</span>
+		</a>
+		<a mat-icon-button  aria-label="Admin" href="/login">
+			<span class="material-icons">
+				account_circle
+			</span>
+		</a>
+		<a mat-icon-button  aria-label="Carrinho" href="/cart">
+			<span class="material-icons">
+				shopping_cart
+			</span>
+		</a>
+	</div>
+</mat-toolbar>
 <div class="telas">
   <router-outlet></router-outlet>
 </div>

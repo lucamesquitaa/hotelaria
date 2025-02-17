@@ -1,4 +1,4 @@
-/* You can add global styles to this file, and also import other style files */
+
 :root{
   --background-pagina: #ffffff;
   --font-color-products: #ffffff;
@@ -20,6 +20,8 @@
   --color-action-default: black;
   --color-transparent: rgba(0, 0, 0, 0);
   --background-danger-hover: #ffffff;
+  --primaryColorTheme01: #5460ff;
+  --secondColorTheme01: #ffffff;
 }
 
 // :root .dark-theme{
@@ -100,3 +102,6 @@ input.po-input{
 
 /* Importing Bootstrap SCSS file. */
 @import 'bootstrap/scss/bootstrap';
+
+html, body { height: 100%; }
+body { margin: 0; font-family: Roboto, "Helvetica Neue", sans-serif; }

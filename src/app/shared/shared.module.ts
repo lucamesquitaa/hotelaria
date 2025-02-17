@@ -4,6 +4,9 @@ import { NgModule } from '@angular/core';
 import { RouterModule } from '@angular/router';
 import { CardComponent } from './components/card/card.component';
 
+//componentes Angular Material
+import {MatCardModule} from '@angular/material/card';
+import {MatButtonModule} from '@angular/material/button';
 
 //componentes PO-UI
 import { FormsModule, ReactiveFormsModule } from '@angular/forms';
@@ -15,12 +18,12 @@ import { NgbCarouselModule } from '@ng-bootstrap/ng-bootstrap';
 
 
 @NgModule({
-  imports: [CommonModule,ReactiveFormsModule, FormsModule, HttpClientModule, RouterModule, PoButtonModule, PoWidgetModule, PoPageLoginModule, PoTabsModule, PoToolbarModule, PoPageModule, PoFieldModule, PoModalModule, PoSlideModule, NgbCarouselModule],
+  imports: [CommonModule,ReactiveFormsModule, FormsModule, HttpClientModule, MatCardModule,MatButtonModule, RouterModule, PoButtonModule, PoWidgetModule, PoPageLoginModule, PoTabsModule, PoToolbarModule, PoPageModule, PoFieldModule, PoModalModule, PoSlideModule, NgbCarouselModule],
   declarations: [
     CardComponent,
     CartItemComponent,
     SliderComponent
   ],
-  exports: [CartItemComponent,SliderComponent,ReactiveFormsModule,FormsModule, HttpClientModule, RouterModule, PoButtonModule, PoWidgetModule, PoPageLoginModule, PoTabsModule, CardComponent, PoToolbarModule, PoPageModule, PoFieldModule,NgbCarouselModule, PoModalModule, PoSlideModule],
+  exports: [CartItemComponent,SliderComponent,ReactiveFormsModule,FormsModule, MatCardModule,MatButtonModule, HttpClientModule, RouterModule, PoButtonModule, PoWidgetModule, PoPageLoginModule, PoTabsModule, CardComponent, PoToolbarModule, PoPageModule, PoFieldModule,NgbCarouselModule, PoModalModule, PoSlideModule],
 })
 export class SharedModule { }
