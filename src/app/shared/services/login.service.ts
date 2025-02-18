@@ -26,7 +26,4 @@ export class LoginService extends ServiceGeneric {
   static getToken(){
     return localStorage.getItem('token');
   }
-  static getUsuarioAutenticado(){
-    return localStorage.getItem('usuarioAutenticado');
-  }
 }

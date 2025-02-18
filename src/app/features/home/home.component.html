@@ -1,5 +1,5 @@
 <div class="homeContainer">
-  <div *ngFor="let _ of [].constructor(13)">
-    <app-card></app-card>
+  <div *ngFor="let item of itens">
+    <app-card [item]="item"></app-card>
   </div>
 </div>

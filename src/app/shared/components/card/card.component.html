@@ -1,11 +1,12 @@
 <mat-card class="cardProduct" appearance="outlined">
-  <img mat-card-image src="https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcSX2rYf1exhSG26YXDD3Yh1GNS31i1TSCmyjA&s" alt="Photo of hat" width="200px" height="150px">
+  <img mat-card-image src={{item.photo}} alt="Photo of hat" width="200px" height="150px">
   <mat-card-content>
-    <mat-card-title>Bone da Nike</mat-card-title>
-    <mat-card-subtitle>-10% OFF</mat-card-subtitle>
-    <span class="priceProduct">R$ 139,00</span>
+    <mat-card-title>{{item.title}}</mat-card-title>
+    <mat-card-subtitle class="discountProduct">-10% OFF</mat-card-subtitle>
+    <span class="priceProduct">R$ {{item.price}}</span>
   </mat-card-content>
-  <mat-card-actions>
-    <button mat-button>Comprar</button>
-  </mat-card-actions>
+  <button mat-fab extended class="buttonBuy">
+    <mat-icon>add_shopping_cart</mat-icon>
+    <span>Comprar</span>
+  </button>
 </mat-card>

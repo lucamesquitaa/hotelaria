@@ -16,6 +16,20 @@ export class HomeComponent extends ComponentBase {
   override onReceiveLiterals(): void {
     throw new Error('Method not implemented.');
   }
+  itens: Product[] = [];
+  /**
+   *
+   */
+  constructor(public override injector: Injector, public productService: ProductsService) {
+    super(injector);
+
+  }
+
+  override ngOnInit(){
+    this.productService.getProducts().subscribe((item) => {
+      this.itens = item;
+    });
+  }
 
 }
 

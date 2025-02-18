@@ -33,15 +33,13 @@ export class LoginComponent extends ComponentBase implements AfterViewInit {
     this.loginService.doLogin(user).subscribe({
       next: (result) => {
         localStorage.setItem('token', result.token);
-        localStorage.setItem('usuarioAutenticado', "true");
         this.context.usuarioAutenticado = true;
-        
+
         if(user.username == "admin")
           this.context.usuario.admin = true;
 
         this.router.navigate(['/admin']);
       },error : (error) => {
-        localStorage.setItem('usuarioAutenticado', "false");
         this.context.usuarioAutenticado = false;
         console.log(error);
       }

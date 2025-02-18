@@ -41,3 +41,11 @@
   justify-content: center;
   align-items: center;
 }
+
+.buttonNew{
+  position: absolute;
+  bottom: 20px;
+  right: 20px;
+  background-color: var(--primaryColorTheme01);
+  color: var(--secondColorTheme01);
+}
