@@ -17,19 +17,15 @@ export class CartItemComponent extends ComponentBase {
 
   @Output() eventoDoFilho = new EventEmitter();
 
-  clickedHeart = false;
-
   override onReceiveLiterals(): void {
     throw new Error('Method not implemented.');
   }
 
-  constructor(override injector: Injector,
-              private cartService: CartService) {
+  constructor(override injector: Injector) {
     super(injector);
   }
 
   enviarEvento(id: number) {
-    let delet = false;
     this.eventoDoFilho.emit(id);
   }
 }

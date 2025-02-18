@@ -1,19 +1,12 @@
-<div class="cartItemContainer">
-  <div class="cartItem">
-    <div class="imgSize">
-      <img src={{item.photo}} />
-    </div>
-  
-    <div class="textPosition">
-      <p class="po-font-subtitle colorText">{{item.title}}</p>
-      <p class="colorText">Lorem Ipsum is not simply random text. It has roots in a piece of c</p>
-    </div>
-
-    <div class="pricePosition">
-      <p class="po-font-subtitle colorText">{{item.price | currency}}</p>
-    </div>
-
-    <span>
-      <po-button *ngIf="admin" p-label="" p-icon="po-icon-edit" (p-click)="enviarEvento(item.id)"></po-button>
-    </span>
-</div>
+<mat-card class="cartProduct" appearance="outlined">
+  <img mat-card-image src={{item.photo}} alt="Photo of hat" width="200px" height="150px" class="imgCart">
+  <mat-card-content>
+    <mat-card-title>{{item.title}}</mat-card-title>
+    <p>Categoria: {{item.category}}</p>
+    <p>Disponível: {{item.available}}</p>
+    <p>Preço: R$ {{item.price}}</p>
+  </mat-card-content>
+  <mat-card-actions>
+    <button mat-button (click)="enviarEvento(item.id!)">Editar</button>
+  </mat-card-actions>
+</mat-card>

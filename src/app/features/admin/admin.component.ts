@@ -1,5 +1,7 @@
-import { Component, Injector, ViewChild } from '@angular/core';
+import { Component, inject, Injector, ViewChild } from '@angular/core';
+import { MatDialog } from '@angular/material/dialog';
 import { ComponentBase } from 'src/app/shared/components/component.base';
+import { DialogComponent } from 'src/app/shared/components/dialog/dialog.component';
 import { Product } from 'src/app/shared/models/product.model';
 import { ProductsService } from 'src/app/shared/services/products.service';
 
@@ -9,34 +11,24 @@ import { ProductsService } from 'src/app/shared/services/products.service';
   styleUrls: ['./admin.component.scss']
 })
 export class AdminComponent extends ComponentBase{
-  @ViewChild('modal', { static: true }) modal: any;
+  readonly dialog = inject(MatDialog);
+
+  openDialog(event?: any): void {
+    const dialogRef = this.dialog.open(DialogComponent, {
+      data: event ? { event } : {}
+    });
+
+    dialogRef.afterClosed().subscribe(result => {
+      console.log(`Dialog result: ${result}`);
+    });
+  }
 
   itens!: Product[];
 
-  itemSelected: Product | undefined = <Product>({
-    title: "",
-    photo: "",
-    category: "",
-    price: 0,
-    available: 0,
-  });
-
+  isAuthenticated: boolean = false;
   requested: number = 0;
 
-  primaryButton = {
-    label: 'Atualizar',
-    icon: 'po-icon-edit',
-    danger: false,
-    action: () => this.onHandleAtualizar(this.itemSelected)
-  };
-  secondaryButton = {
-    label: 'Excluir',
-    icon: 'po-icon-delete',
-    danger: true,
-    action: () => this.onHandleExcluir(this.itemSelected?.id)
-  };
-  
-  constructor(public override injector: Injector, 
+  constructor(public override injector: Injector,
               public productService: ProductsService){
     super(injector);
   }
@@ -47,12 +39,8 @@ export class AdminComponent extends ComponentBase{
   override ngOnInit(){
     this.productService.getProducts().subscribe((item) => {
       this.itens = item;
+      console.log(this.itens);
     });
-  }
-
-  receberEvento(eventoFilhoId: number) {
-    this.itemSelected = this.itens.find(x => x.id == eventoFilhoId);
-    this.modal.open();
   }
 
   onHandleExcluir(id?: number){
@@ -64,14 +52,5 @@ export class AdminComponent extends ComponentBase{
       });
     }
 
-  }
-  onHandleAtualizar(item?: Product){
-    if(item){
-      this.productService.updateProduct(item.id, this.requested).subscribe(() => {
-        next: () => {
-          this.poNotificationService.success({message: 'Produto atualizado com sucesso!'});
-          }
-      });
-    }
   }
 }
