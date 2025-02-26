@@ -1,7 +1,6 @@
 import { HttpClient } from '@angular/common/http';
 import { Injectable, Injector } from '@angular/core';
 import { ActivatedRoute, Router } from '@angular/router';
-import { PoNotificationService } from '@po-ui/ng-components';
 import { ContextModel } from '../models/context.model';
 import { ContextService } from '../services/context.service';
 import { ComponentInterface } from './component.interface';
@@ -51,7 +50,6 @@ import { ComponentInterface } from './component.interface';
 	public activatedRoute: ActivatedRoute;
 
 
-  public poNotificationService: PoNotificationService;
 
 	constructor(
 		public injector: Injector
@@ -59,7 +57,6 @@ import { ComponentInterface } from './component.interface';
 		this.http = injector.get(HttpClient);
 		this.router = injector.get(Router);
 		this.activatedRoute = injector.get(ActivatedRoute);
-    this.poNotificationService = injector.get(PoNotificationService);
 
 		// Carrega o contexto global do usuário
 		this.context = ContextService.getContext();
