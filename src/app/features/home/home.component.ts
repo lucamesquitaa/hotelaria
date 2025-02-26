@@ -3,6 +3,7 @@ import { ComponentBase } from 'src/app/shared/components/component.base';
 
 @Component({
   selector: 'app-home',
+  standalone: false,
   templateUrl: './home.component.html',
   styleUrls: ['./home.component.scss']
 })

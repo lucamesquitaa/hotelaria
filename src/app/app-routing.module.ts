@@ -19,22 +19,6 @@ const routes: Routes = [
       import('./features/home/home.module').then(m => m.HomeModule),
   },
   {
-    path: 'details/:id',
-    loadChildren: () =>
-      import('./features/details/details.module').then(m => m.DetailsModule)
-  },
-  {
-    path: 'cart',
-    loadChildren: () =>
-      import('./features/cart/cart.module').then(m => m.CartModule)
-  },
-  {
-    path: 'admin',
-    loadChildren: () =>
-      import('./features/admin/admin.module').then(m => m.AdminModule),
-    canActivate:[guardinhaGuard]
-  },
-  {
     path:'**',
     redirectTo:''
   }

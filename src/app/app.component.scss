@@ -5,26 +5,33 @@
   padding: 0;
 
 }
-.padding10 {
-  padding: 10px;
+.telas{
+  margin-top: 50px;
 }
-.positoning{
-  position: fixed;
-  width: 100%;
-  z-index: 1000;
-}
-
-.toolbarAll{
+.toolbarCustom{
   display: flex;
-  justify-content: space-between;
   align-items: center;
+  justify-content: space-between;
+  margin: 5px;
+  background-color: rgba(13,110,253, 0.9);
+}
+.titleCustom{
+  color: white;
+  font-size: 1.7rem;
+  margin: 5px
+}
+.buttonLoginCustom{
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  width: 70px;
+  height: 30px;
   padding: 10px;
-  background-color: var(--primaryColorTheme01);
-  color: var(--secondColorTheme01);
+  border-radius: 4px;
+  background-color: rgb(0, 21, 178);
+  box-shadow: 1px 1px 1px white;
+  color: white;
 }
-.material-icons{
-  color: var(--secondColorTheme01);
-}
-.titleEcomm{
-  font-size: 1.3em;
+div#navbarTogglerDemo03.collapse.navbar-collapse{
+  margin-left: 85%;
 }
