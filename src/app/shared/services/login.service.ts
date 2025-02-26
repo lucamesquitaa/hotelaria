@@ -1,6 +1,5 @@
 import { HttpClient } from '@angular/common/http';
 import { Injectable, Injector } from '@angular/core';
-import { LoginModel, User } from '../models/login.model';
 import { ServiceGeneric } from './generic.service';
 import { Observable } from 'rxjs';
 
@@ -17,8 +16,8 @@ export class LoginService extends ServiceGeneric {
   override onReceiveLiterals(): void {
   }
 
-  doLogin(user: User): Observable<LoginModel>{
-    return this.http.post<LoginModel>(this.urlServiceREST, user);
+  doLogin(user: any): Observable<any>{
+    return this.http.post<any>(this.urlServiceREST, user);
   }
   static doLogout(){
     localStorage.clear();
