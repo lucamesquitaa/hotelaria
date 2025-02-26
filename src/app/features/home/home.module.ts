@@ -4,12 +4,11 @@ import { CommonModule } from '@angular/common';
 import { HomeRoutingModule } from './home-routing.module';
 import { HomeComponent } from './home.component';
 import { SharedModule } from 'src/app/shared/shared.module';
-import { FiltrosComponent } from './components/filtros/filtros.component';
-import { NgbCarousel, NgbCarouselConfig, NgbCarouselModule } from '@ng-bootstrap/ng-bootstrap';
+import {NgbCarouselConfig, NgbCarouselModule } from '@ng-bootstrap/ng-bootstrap';
 
 
 @NgModule({
-  declarations: [HomeComponent, FiltrosComponent],
+  declarations: [HomeComponent],
   imports: [
     CommonModule,
     SharedModule,

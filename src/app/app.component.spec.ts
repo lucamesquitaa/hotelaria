@@ -21,7 +21,7 @@ describe('AppComponent', () => {
     fixture.detectChanges();
     const compiled = fixture.nativeElement as HTMLElement;
     expect(compiled.querySelector('.content span')?.textContent).toContain(
-      'ecommerce app is running!'
+      'saudeia app is running!'
     );
   });
 });
