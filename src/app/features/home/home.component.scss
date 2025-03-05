@@ -1,7 +1,22 @@
 .homeContainer{
   display: flex;
+  width: 600px;
   justify-content: center;
   flex-direction: row;
   flex-wrap: wrap;
-  margin: 20px;
+  margin: 0 auto;
+}
+.imgCustom{
+  width: 100%;
+  height: auto;
+  margin: 10px;
+}
+.card{
+  width: 100%;
+}
+
+@media screen and (max-width: 700px){
+  .homeContainer{
+    width: 80%;
+  }
 }
