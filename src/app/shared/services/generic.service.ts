@@ -8,7 +8,9 @@ import { ContextService } from '../services/context.service';
  *
  * Serviço REST genérico
  */
-@Injectable()
+@Injectable({
+  providedIn: 'root'
+})
 export abstract class ServiceGeneric {
 
 	/**
@@ -23,7 +25,7 @@ export abstract class ServiceGeneric {
  	/**
 	  * Labels traduzidos
 	  */
-	public literals: any = {};	
+	public literals: any = {};
 
 	/**
 	 * LocaleId para os filtros de data, currency e decimal

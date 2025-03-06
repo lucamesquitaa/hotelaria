@@ -1,14 +1,28 @@
+import { CommonModule } from '@angular/common';
 import { AfterViewInit, Component, Injector } from '@angular/core';
+import { FormControl, FormGroup, Validators } from '@angular/forms';
 import { ComponentBase } from 'src/app/shared/components/component.base';
+import { LoginModel } from 'src/app/shared/models/login.model';
 import { LoginService } from 'src/app/shared/services/login.service';
+import { SharedModule } from 'src/app/shared/shared.module';
 
 @Component({
   selector: 'app-login',
-  standalone: false,
+  standalone: true,
+  imports: [
+    CommonModule,
+    SharedModule,
+  ],
   templateUrl: './login.component.html',
   styleUrls: ['./login.component.scss'],
 })
 export class LoginComponent extends ComponentBase implements AfterViewInit {
+
+  formGroup: FormGroup = new FormGroup({
+    email: new FormControl('', [Validators.required, Validators.email]),
+    password: new FormControl('', [Validators.required, Validators.minLength(6), Validators.maxLength(20)]),
+  });
+
   override onReceiveLiterals(): void {
   }
   constructor(public override injector: Injector, public loginService: LoginService){
@@ -19,22 +33,12 @@ export class LoginComponent extends ComponentBase implements AfterViewInit {
     this.context.usuarioAutenticado = false;
   }
 
-  onLoginSubmit(event: any){
-    let user: any = {
-      username: event.login,
-      password: event.password
-    }
-    this.loginService.doLogin(user).subscribe({
+  onLoginSubmit(formGroup: FormGroup): void {
+    this.loginService.doLogin(formGroup.value).subscribe({
       next: (result) => {
-        localStorage.setItem('token', result.token);
-        this.context.usuarioAutenticado = true;
-
-        if(user.username == "admin")
-          this.context.usuario.admin = true;
-
-        this.router.navigate(['/admin']);
+        sessionStorage.setItem('token', result.token);
+        this.router.navigate(['/home']);
       },error : (error) => {
-        this.context.usuarioAutenticado = false;
         console.log(error);
       }
   });

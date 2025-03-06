@@ -1,9 +1,22 @@
-/// <reference types="@angular/localize" />
 
-import { platformBrowserDynamic } from '@angular/platform-browser-dynamic';
+import { provideRouter } from '@angular/router';
+import { AppComponent } from './app/app.component';
+import { bootstrapApplication, BrowserModule } from '@angular/platform-browser';
+import { HTTP_INTERCEPTORS, provideHttpClient } from '@angular/common/http';
+import { AuthInterceptor } from './app/shared/services/auth.interceptor';
+import { ROUTES } from './app/app.routes';
+import { importProvidersFrom } from '@angular/core';
 
-import { AppModule } from './app/app.module';
 
-platformBrowserDynamic()
-  .bootstrapModule(AppModule)
-  .catch(err => console.error(err));
+bootstrapApplication(AppComponent, {
+  providers: [
+    provideRouter(ROUTES),
+    provideHttpClient(),
+    importProvidersFrom(BrowserModule),
+    {
+      provide: HTTP_INTERCEPTORS,
+      useClass: AuthInterceptor,
+      multi: true
+    }
+  ]
+});

@@ -11,14 +11,7 @@ import { FormsModule, ReactiveFormsModule } from '@angular/forms';
 
 
 @NgModule({
-  imports: [CommonModule,ReactiveFormsModule, FormsModule, HttpClientModule, RouterModule],
-  declarations: [
-    CardComponent,
-  ],
-  exports: [ReactiveFormsModule,FormsModule, HttpClientModule, RouterModule,
-    //componentes bootstrap
-    //...
-
-   ],
+  imports: [ FormsModule, ReactiveFormsModule,HttpClientModule, RouterModule],
+  exports: [ FormsModule, ReactiveFormsModule, HttpClientModule, RouterModule],
 })
 export class SharedModule { }
