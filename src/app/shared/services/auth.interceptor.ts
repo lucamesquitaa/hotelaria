@@ -8,7 +8,9 @@ import {
 import { LoginService } from './login.service';
 import { Observable } from 'rxjs';
 
-@Injectable()
+@Injectable({
+  providedIn: 'root'
+})
 export class AuthInterceptor implements HttpInterceptor {
 
   constructor() {}

@@ -1,9 +1,18 @@
+import { CommonModule } from '@angular/common';
 import { Component, Injector, ViewChild } from '@angular/core';
+import { NgbCarouselModule, NgbCarouselConfig } from '@ng-bootstrap/ng-bootstrap';
 import { ComponentBase } from 'src/app/shared/components/component.base';
+import { SharedModule } from 'src/app/shared/shared.module';
 
 @Component({
   selector: 'app-home',
-  standalone: false,
+  standalone: true,
+  imports: [
+      CommonModule,
+      SharedModule,
+      NgbCarouselModule
+    ],
+    providers: [NgbCarouselConfig],
   templateUrl: './home.component.html',
   styleUrls: ['./home.component.scss']
 })

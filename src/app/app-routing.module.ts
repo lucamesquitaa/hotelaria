@@ -9,6 +9,11 @@ const routes: Routes = [
     redirectTo: 'home',
   },
   {
+    path: 'cadastro',
+    loadChildren: () =>
+      import('./features/cadastro/cadastro.module').then(m => m.CadastroModule),
+  },
+  {
     path: 'login',
     loadChildren: () =>
       import('./features/login/login.module').then(m => m.LoginModule),

@@ -1,9 +1,15 @@
 import { Component, Injector, Input } from '@angular/core';
 import { ComponentBase } from '../component.base';
+import { CommonModule } from '@angular/common';
+import { SharedModule } from '../../shared.module';
 
 @Component({
   selector: 'app-card',
-  standalone: false,
+  standalone: true,
+  imports: [
+    CommonModule,
+    SharedModule,
+  ],
   templateUrl: './card.component.html',
   styleUrls: ['./card.component.scss']
 })
