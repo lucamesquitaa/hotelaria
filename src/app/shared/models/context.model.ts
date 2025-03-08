@@ -5,5 +5,6 @@ import { Usuario } from "./usuario.model";
  */
 export interface ContextModel {
     usuarioAutenticado: boolean,
-    usuario: Usuario
+    usuario: Usuario,
+    token: boolean,
 }

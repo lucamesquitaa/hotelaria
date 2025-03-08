@@ -1,4 +1,5 @@
 import { Routes } from '@angular/router';
+import { AuthenticationGuard } from './shared/services/guardinha.guard';
 
 export const ROUTES: Routes = [
   {
@@ -20,6 +21,12 @@ export const ROUTES: Routes = [
     path: 'home',
     loadComponent: () =>
       import('./features/home/home.component').then(m => m.HomeComponent),
+  },
+  {
+    path: 'dashboard',
+    loadComponent: () =>
+      import('./features/dashboard/dashboard.component').then(m => m.DashboardComponent),
+    canActivate: [AuthenticationGuard]
   },
   {
     path:'**',

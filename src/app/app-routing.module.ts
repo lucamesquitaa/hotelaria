@@ -11,17 +11,22 @@ const routes: Routes = [
   {
     path: 'cadastro',
     loadChildren: () =>
-      import('./features/cadastro/cadastro.module').then(m => m.CadastroModule),
+      import('./features/cadastro/cadastro.component').then(m => m.CadastroComponent),
   },
   {
     path: 'login',
     loadChildren: () =>
-      import('./features/login/login.module').then(m => m.LoginModule),
+      import('./features/login/login.component').then(m => m.LoginComponent),
   },
   {
     path: 'home',
     loadChildren: () =>
-      import('./features/home/home.module').then(m => m.HomeModule),
+      import('./features/home/home.component').then(m => m.HomeComponent),
+  },
+  {
+    path: 'dashboard',
+    loadChildren: () =>
+      import('./features/dashboard/dashboard.component').then(m => m.DashboardComponent),
   },
   {
     path:'**',

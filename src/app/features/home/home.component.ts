@@ -1,6 +1,5 @@
 import { CommonModule } from '@angular/common';
-import { Component, Injector, ViewChild } from '@angular/core';
-import { NgbCarouselModule, NgbCarouselConfig } from '@ng-bootstrap/ng-bootstrap';
+import { Component, Injector } from '@angular/core';
 import { ComponentBase } from 'src/app/shared/components/component.base';
 import { SharedModule } from 'src/app/shared/shared.module';
 
@@ -10,9 +9,7 @@ import { SharedModule } from 'src/app/shared/shared.module';
   imports: [
       CommonModule,
       SharedModule,
-      NgbCarouselModule
     ],
-    providers: [NgbCarouselConfig],
   templateUrl: './home.component.html',
   styleUrls: ['./home.component.scss']
 })
@@ -28,7 +25,8 @@ export class HomeComponent extends ComponentBase {
 
   }
 
-  override ngOnInit(){
+  override ngOnInit(): void {
+    this.context.token = false;
   }
 
 }
