@@ -43,7 +43,7 @@ export class AppComponent extends ComponentBase implements OnInit{
   }
 
   logOut(){
-    LoginService.doLogout();
+    this.loginService.logout();
     this.context.usuarioAutenticado = false;
     this.router.navigate(['/login']);
   }

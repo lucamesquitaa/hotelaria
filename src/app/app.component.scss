@@ -1,9 +1,8 @@
 
 
-* {
+*, body {
   margin: 0;
   padding: 0;
-
 }
 .toolbarCustom{
   position: sticky;
@@ -25,4 +24,11 @@
 }
 .customToggle{
   color: white;
+}
+.telas{
+  height: 100vh;
+}
+.menuCustom{
+  display: flex;
+  flex-direction: row;
 }

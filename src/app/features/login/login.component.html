@@ -1,8 +1,8 @@
 <form [formGroup]="formGroup" (ngSubmit)="onLoginSubmit(formGroup)" class="formLogin">
-  <h2>Login</h2>
-  <div class="mb-3">
+  <h4>Login</h4>
+  <div class="mb-3 primeiroFormCustom">
     <label for="email" class="form-label">Email</label>
-    <input type="email" class="form-control" formControlName="email" placeholder="nome@exemplo.com">
+    <input type="email" class="form-control" formControlName="email">
   </div>
   <div class="mb-3">
     <label for="password" class="form-label">Senha</label>

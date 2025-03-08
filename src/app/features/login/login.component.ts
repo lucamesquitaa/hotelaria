@@ -30,13 +30,12 @@ export class LoginComponent extends ComponentBase implements AfterViewInit {
   }
 
   ngAfterViewInit(): void {
-    this.context.usuarioAutenticado = false;
   }
 
   onLoginSubmit(formGroup: FormGroup): void {
     this.loginService.doLogin(formGroup.value).subscribe({
       next: (result) => {
-        sessionStorage.setItem('token', result.token);
+        sessionStorage.setItem('access_token', result.token);
         this.router.navigate(['/home']);
       },error : (error) => {
         console.log(error);
@@ -44,8 +43,7 @@ export class LoginComponent extends ComponentBase implements AfterViewInit {
   });
   }
   onLogoutSubmit(){
-    LoginService.doLogout();
-    this.context.usuarioAutenticado = false;
+    this.loginService.logout();
     this.router.navigate(['/login']);
   }
 }

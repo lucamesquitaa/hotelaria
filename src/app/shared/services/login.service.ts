@@ -3,6 +3,7 @@ import { Injectable, Injector } from '@angular/core';
 import { ServiceGeneric } from './generic.service';
 import { Observable } from 'rxjs';
 import { LoginModel, LoginResponseModel } from '../models/login.model';
+import { RefreshToken } from '../models/refreshToken';
 
 @Injectable({
   providedIn: 'root'
@@ -20,7 +21,7 @@ export class LoginService extends ServiceGeneric {
   doLogin(user: LoginModel): Observable<LoginResponseModel>{
     return this.http.post<LoginResponseModel>(this.urlServiceREST, user);
   }
-  static doLogout(){
+  public logout(){
     localStorage.clear();
   }
   static getToken(){
