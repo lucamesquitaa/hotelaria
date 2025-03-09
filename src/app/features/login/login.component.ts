@@ -1,6 +1,7 @@
 import { CommonModule } from '@angular/common';
 import { AfterViewInit, Component, Injector } from '@angular/core';
 import { FormControl, FormGroup, Validators } from '@angular/forms';
+import { ToastrService } from 'ngx-toastr';
 import { ComponentBase } from 'src/app/shared/components/component.base';
 import { LoginModel } from 'src/app/shared/models/login.model';
 import { LoginService } from 'src/app/shared/services/login.service';
@@ -23,27 +24,32 @@ export class LoginComponent extends ComponentBase implements AfterViewInit {
     password: new FormControl('', [Validators.required, Validators.minLength(6), Validators.maxLength(20)]),
   });
 
-  override onReceiveLiterals(): void {
-  }
-  constructor(public override injector: Injector, public loginService: LoginService){
+  constructor(public override injector: Injector,
+    private toastr: ToastrService,
+    public loginService: LoginService){
     super(injector);
   }
 
   ngAfterViewInit(): void {
   }
 
-  onLoginSubmit(formGroup: FormGroup): void {
+  async onLoginSubmit(formGroup: FormGroup) {
+    sessionStorage.clear();
     this.loginService.doLogin(formGroup.value).subscribe({
       next: (result) => {
         sessionStorage.setItem('access_token', result.token);
-        this.router.navigate(['/home']);
-      },error : (error) => {
-        console.log(error);
+        sessionStorage.setItem('user_id', result.result);
+      },
+      error : (error) => {
+        this.toastr.error(error);
+    },
+      complete: () => {
+        this.router.navigate(['dashboard']);
       }
   });
   }
   onLogoutSubmit(){
     this.loginService.logout();
-    this.router.navigate(['/login']);
+    this.router.navigate(['login']);
   }
 }

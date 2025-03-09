@@ -38,8 +38,6 @@ export abstract class ServiceGeneric {
 		this.context = this.objContext;
 	}
 
-	abstract onReceiveLiterals(): void;
-
 	/**
 	 * Contexto do usuário
 	 */

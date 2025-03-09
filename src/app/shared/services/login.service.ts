@@ -9,13 +9,10 @@ import { RefreshToken } from '../models/refreshToken';
   providedIn: 'root'
 })
 export class LoginService extends ServiceGeneric {
-  override urlServiceREST: string = "https://localhost:44383/api/Login/login";
+  override urlServiceREST: string = "https://localhost:44383/api/Login";
 
   constructor(public override injector: Injector) {
     super(injector);
-  }
-
-  override onReceiveLiterals(): void {
   }
 
   doLogin(user: LoginModel): Observable<LoginResponseModel>{

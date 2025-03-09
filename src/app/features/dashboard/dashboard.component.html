@@ -29,71 +29,57 @@
                   </li>
               </ul>
           </div>
+          <section class="overflow-auto bemVindoCustom">
 
-      <section class="overflow-auto bemVindoCustom">
-          <div class="bg-light border rounded-3 p-3 containerchatrs">
-            <h4>Seja Bem Vindo, Luca!</h4>
-            <h5>Vamos conferir as metas da semana?</h5>
-            <div class="form-check form-switch switchCustom">
-              <input class="form-check-input" type="checkbox" role="switch" id="flexSwitchCheckChecked" checked>
-              <label class="form-check-label" for="flexSwitchCheckChecked">Ir na Academia 3x semana</label>
-            </div>
-            <div class="form-check form-switch switchCustom">
-              <input class="form-check-input" type="checkbox" role="switch" id="flexSwitchCheckDefault" checked>
-              <label class="form-check-label" for="flexSwitchCheckDefault">Melhorar alimentação</label>
-            </div>
-            <div class="form-check form-switch switchCustom">
-              <input class="form-check-input" type="checkbox" role="switch" id="flexSwitchCheckDefault" >
-              <label class="form-check-label" for="flexSwitchCheckDefault">Beber 1L de água por dia</label>
-            </div>
-            <div class="form-check form-switch switchCustom">
-              <input class="form-check-input" type="checkbox" role="switch" id="flexSwitchCheckChecked">
-              <label class="form-check-label" for="flexSwitchCheckChecked">Outra meta aqui</label>
-            </div>
-            <div class="form-check form-switch switchCustom">
-              <input class="form-check-input" type="checkbox" role="switch" id="flexSwitchCheckDefault" >
-              <label class="form-check-label" for="flexSwitchCheckDefault">outra meta aqui</label>
-            </div>
-            <div class="form-check form-switch switchCustom">
-              <input class="form-check-input" type="checkbox" role="switch" id="flexSwitchCheckDefault">
-              <label class="form-check-label" for="flexSwitchCheckDefault">outra meta aqui</label>
-            </div>
-          </div>
-      </section>
-      <section class="overflow-auto bemVindoCustom">
+            <div class="bg-light border rounded-3 p-3 containerchatrs">
 
-        <div class="bg-light border rounded-3 p-3 containerchatrs">
+              <h4>Acompanhamento das Metas</h4>
+              <h5>Para não perder de vista</h5>
+              <ngx-charts-pie-chart
+                [view]="view"
+                [scheme]="colorScheme"
+                [results]="charts"
+                [gradient]="gradient"
+                [legend]="showLegend"
+                [labels]="showLabels"
+                [doughnut]="isDoughnut"
+                (select)="onSelect($event)"
+              >
+              </ngx-charts-pie-chart>
 
-          <h4>Acompanhamento das Metas</h4>
-          <h5>Para não perder de vista</h5>
-          <ngx-charts-pie-chart
-            [view]="view"
-            [scheme]="colorScheme"
-            [results]="itens"
-            [gradient]="gradient"
-            [legend]="showLegend"
-            [labels]="showLabels"
-            [doughnut]="isDoughnut"
-            (select)="onSelect($event)"
-          >
-          </ngx-charts-pie-chart>
-
-        </div>
-      </section>
-
+            </div>
+          </section>
+      <div class="containerBoxes">
+        <section class="bemVindoCustom">
+            <div class="bg-light border rounded-3 p-3 containerchatrs">
+              <div >
+                <h4>Bom dia!</h4>
+                <h5>Vamos conferir as metas da semana?</h5>
+                <button class="btn btn-lg btn-outline-primary botaoMetaCustom" (click)="open(content)">Criar nova meta</button>
+                <hr/>
+              </div>
+              <div class="boxCustonContainerSwitches">
+                <div *ngFor="let item of itens" class="form-check form-switch switchCustom">
+                  <input *ngIf="item.state == 1" class="form-check-input" type="checkbox" id="flexSwitchCheck" (change)="onSwitchChange(item.id)" checked >
+                  <input *ngIf="item.state == 2" class="form-check-input" type="checkbox" id="flexSwitchCheck" (change)="onSwitchChange(item.id)" >
+                  <label class="form-check-label psCustom" for="flexSwitchCheck"><p class="titleCustom">{{item.title}}</p> <p class="textCustom">{{itemCategoryString(item.category)}}</p></label>
+                  <button class="bi bi-trash fs-5 excluirButtonCustom" (click)="deleteMeta(item.id)" ></button>
+                </div>
+              </div>
+            </div>
+        </section>
+      </div>
   </div>
 </div>
-<ng-template #content let-modal>
+<ng-template #content let-c="close">
 	<div class="modal-header">
-		<h4 class="modal-title">Modal title</h4>
-		<button type="button" class="btn-close" aria-label="Close" (click)="modal.dismiss('Cross click')"></button>
+		<h4 class="modal-title" id="modal-basic-title">Hi there!</h4>
+		<button type="button" class="btn-close" aria-label="Close" (click)="c()"></button>
 	</div>
 	<div class="modal-body">
-		<p>One fine body&hellip;</p>
+		<app-newmeta></app-newmeta>
 	</div>
 	<div class="modal-footer">
-		<button type="button" class="btn btn-secondary" (click)="modal.close('Close click')">Close</button>
+		<button type="button" class="btn btn-outline-secondary" (click)="saveModal()">Fechar</button>
 	</div>
 </ng-template>
-
-

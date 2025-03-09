@@ -14,12 +14,7 @@ import { SharedModule } from 'src/app/shared/shared.module';
   styleUrls: ['./home.component.scss']
 })
 export class HomeComponent extends ComponentBase {
-  override onReceiveLiterals(): void {
-    throw new Error('Method not implemented.');
-  }
-  /**
-   *
-   */
+
   constructor(public override injector: Injector) {
     super(injector);
 
