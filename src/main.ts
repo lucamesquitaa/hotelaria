@@ -6,6 +6,8 @@ import { HTTP_INTERCEPTORS, provideHttpClient, withInterceptorsFromDi } from '@a
 import { SessionInterceptor } from './app/shared/services/session.interceptor';
 import { ROUTES } from './app/app.routes';
 import { importProvidersFrom, inject, LOCALE_ID, provideAppInitializer } from '@angular/core';
+import { provideAnimations } from '@angular/platform-browser/animations';
+import { provideToastr } from 'ngx-toastr';
 
 
 bootstrapApplication(AppComponent, {
@@ -13,6 +15,8 @@ bootstrapApplication(AppComponent, {
     importProvidersFrom(BrowserModule),
     provideHttpClient(withInterceptorsFromDi()),
     provideRouter(ROUTES),
+    provideAnimations(), // required animations providers
+    provideToastr(),
     /*AppConfigService,
     provideAppInitializer(()=> {
       const appConfig = inject(AppConfigService);

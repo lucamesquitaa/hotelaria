@@ -49,8 +49,6 @@ import { ComponentInterface } from './component.interface';
 	 */
 	public activatedRoute: ActivatedRoute;
 
-
-
 	constructor(
 		public injector: Injector
 	) {
@@ -91,8 +89,6 @@ import { ComponentInterface } from './component.interface';
 			this._loading = false;
 		}
 	}
-
-	abstract onReceiveLiterals(): void;
 
 	/**
 	 * Retorna o objeto da propriedade "data" da rota ativa

@@ -34,9 +34,6 @@ export class AppComponent extends ComponentBase implements OnInit{
     super(injector);
   }
 
-  override onReceiveLiterals(): void {
-
-  }
 
   override ngOnInit(){
     this.menusVisivel = !sessionStorage.getItem('token');
@@ -45,7 +42,7 @@ export class AppComponent extends ComponentBase implements OnInit{
   logOut(){
     this.loginService.logout();
     this.context.usuarioAutenticado = false;
-    this.router.navigate(['/login']);
+    this.router.navigate(['login']);
   }
 }
 

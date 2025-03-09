@@ -32,14 +32,42 @@ section{
   width: 100px;
 }
 .bemVindoCustom{
-  width: 100%;
-  max-height: 600px;
+  margin-left: 20px;
 }
 .switchCustom{
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
   padding: 20px;
   margin-left: 30px;
   box-shadow: 1px 1px 1px rgb(185, 185, 185);
   border-radius: 5px;
+}
+.botaoMetaCustom{
+  width: 100%;
+}
+.containerBoxes{
+  max-height: 500px;
+  overflow-y: scroll;
+}
+.excluirButtonCustom{
+  color: rgb(150, 0, 0);
+  cursor: pointer;
+  border: none;
+}
+.excluirButtonCustom:hover{
+  background-color:rgb(215, 138, 138);
+}
+.titleCustom{
+  font-size: 1.4rem;
+}
+.textCustom{
+  font-size: 1.1rem;
+  font-weight: bold;
+}
+.psCustom p {
+  padding: 0px;
+  margin: 0px;
 }
 
 @media screen and (max-width: 450px){

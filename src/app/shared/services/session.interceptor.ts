@@ -37,7 +37,8 @@ export class SessionInterceptor implements HttpInterceptor {
   ): Observable<HttpEvent<any>> {
 
     // Evita colocar a autenticação para API de refresh token, recuperação de senha e troca de senha
-    if (!req.url.includes('api/connect/token')) {
+    if (!req.url.includes('Users/Cadastro') &&
+        !req.url.includes('Login') ) {
 
       // Se a requisição não tiver o header "Authorization"
       if (!req.headers.has('Authorization')) {
@@ -49,17 +50,15 @@ export class SessionInterceptor implements HttpInterceptor {
       }
     }
 
-    return next.handle(req).pipe(catchError(error => {
-      // Verifica se o erro é 401 e se existe token SAML
-      if (error instanceof HttpErrorResponse &&
-          error.status === 401) {
-        // Se o erro for 401 (Unauthorized), tenta fazer o refresh do token
-        this.loginService.logout();
-      }
+    return next.handle(req).pipe(
+      catchError((error: HttpErrorResponse) => {
+        if (error.status == 401) {
+          this.loginService.logout();
+        }
 
-      // Falha normal de autenticação básica
-      return throwError("Por favor realizar o login novamente.");
-    }));
+        return throwError(() => error.error);
+      })
+    );
   }
 
   public static getAccessToken(): string | null{

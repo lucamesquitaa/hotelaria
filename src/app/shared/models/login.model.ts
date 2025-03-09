@@ -4,4 +4,5 @@ export interface LoginModel{
 }
 export interface LoginResponseModel{
   token: string;
+  result: string;
 }

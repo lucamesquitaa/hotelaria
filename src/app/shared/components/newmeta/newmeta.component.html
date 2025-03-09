@@ -1,0 +1,20 @@
+<form [formGroup]="formGroup" (ngSubmit)="metaSubmit(formGroup)" class="formCadastro">
+  <h4>Nova meta</h4>
+  <div class="mb-3 primeiroFormCustom">
+    <label for="name" class="form-label">Título</label>
+    <input type="string" class="form-control" formControlName="title" placeholder="">
+  </div>
+  <div class="mb-3">
+    <label for="email" class="form-label">Categoria</label>
+    <select class="form-select" formControlName="category" aria-label="Selecione categoria">
+      <option value="1">Alimentação</option>
+      <option value="2">Atividade Fisíca</option>
+      <option value="3">Outros</option>
+    </select>
+  </div>
+  <div class="mb-3">
+    <label for="password" class="form-label">Descrição</label>
+    <input type="password" formControlName="description" class="form-control">
+  </div>
+  <button type="submit" class="btn btn-primary leftButtonCustom">Criar</button>
+</form>
