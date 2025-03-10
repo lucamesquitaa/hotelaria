@@ -8,7 +8,7 @@ export class ContextService {
 
   private static context : ContextModel = <ContextModel>{
     usuarioAutenticado: false,
-    token: false,
+    token: "",
     usuario: {
       photo: "",
       userCode: "",

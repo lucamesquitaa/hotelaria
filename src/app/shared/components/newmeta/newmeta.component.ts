@@ -23,7 +23,6 @@ export class NewmetaComponent extends ComponentBase{
 
   userId!: string | null;
 
-
   formGroup: FormGroup = new FormGroup({
     userId: new FormControl('', [Validators.required]),
     title: new FormControl('', [Validators.required, Validators.maxLength(20)]),
@@ -50,7 +49,7 @@ export class NewmetaComponent extends ComponentBase{
     this.metasService.doCadastraMeta(formGroup.value).subscribe({
       next: (result) =>{
         this.toastr.success("Meta criada com sucesso!");
-        //this.subbitmid.emit();
+
         this.formGroup = new FormGroup({
           userId: new FormControl('', [Validators.required]),
           title: new FormControl('', [Validators.required, Validators.maxLength(20)]),

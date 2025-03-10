@@ -44,6 +44,8 @@ export class SessionInterceptor implements HttpInterceptor {
       if (!req.headers.has('Authorization')) {
 
         const access_token = SessionInterceptor.getAccessToken();
+        if(access_token)
+          this.loginService.setTokenContext(access_token);
 
         // Insere o cabeçalho de autorização na requisição HTTP
         req = this.setTokenHeader(req, <string>access_token);
@@ -63,6 +65,7 @@ export class SessionInterceptor implements HttpInterceptor {
 
   public static getAccessToken(): string | null{
     let access_token = sessionStorage.getItem('access_token');
+
     return access_token;
   }
 }

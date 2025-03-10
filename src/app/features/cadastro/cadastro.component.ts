@@ -36,6 +36,12 @@ export class CadastroComponent extends ComponentBase{
     super(injector);
   }
 
+  override ngOnInit(): void {
+    let token = sessionStorage.getItem('access_token');
+    if(token)
+      this.context.token = token;
+  }
+
   cadastroSubmit(formGroup: FormGroup): void {
     if(formGroup.value.password != formGroup.value.passConfirm){
       this.toastr.error("As senhas não são iguais.");

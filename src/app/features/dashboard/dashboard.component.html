@@ -1,37 +1,8 @@
 
-<div class="sizeCustom">
-<div class="container-fluid pb-3 flex-grow-1 d-flex flex-column flex-sm-row ">
-          <div class="bg-light border rounded-3 p-1 h-100 sticky-top">
-              <ul class="nav nav-pills flex-sm-column flex-row mb-auto justify-content-between text-truncate">
-                  <li class="nav-item">
-                      <a href="#" class="nav-link px-2 text-truncate">
-                          <i class="bi bi-house fs-5"></i>
-                          <span class="d-none d-sm-inline categoriaCustom">Home</span>
-                      </a>
-                  </li>
-                  <li>
-                      <a href="#" class="nav-link px-2 text-truncate">
-                          <i class="bi bi-speedometer fs-5"></i>
-                          <span class="d-none d-sm-inline categoriaCustom">Dashboard</span>
-                      </a>
-                  </li>
-                  <li>
-                      <a href="#" class="nav-link px-2 text-truncate"><i class="bi bi-card-text fs-5"></i>
-                          <span class="d-none d-sm-inline categoriaCustom">Orders</span> </a>
-                  </li>
-                  <li>
-                      <a href="#" class="nav-link px-2 text-truncate"><i class="bi bi-bricks fs-5"></i>
-                          <span class="d-none d-sm-inline categoriaCustom">Products</span> </a>
-                  </li>
-                  <li>
-                      <a href="#" class="nav-link px-2 text-truncate"><i class="bi bi-people fs-5"></i>
-                          <span class="d-none d-sm-inline categoriaCustom">Customers</span> </a>
-                  </li>
-              </ul>
-          </div>
-          <section class="overflow-auto bemVindoCustom">
+<div class="containerBoxes">
+          <section class="overflow-auto bemVindoCustom ">
 
-            <div class="bg-light border rounded-3 p-3 containerchatrs">
+            <div class="bg-light border rounded-3 p-3 containerchatrs ngxChartsCustom">
 
               <h4>Acompanhamento das Metas</h4>
               <h5>Para não perder de vista</h5>
@@ -49,19 +20,19 @@
 
             </div>
           </section>
-      <div class="containerBoxes">
-        <section class="bemVindoCustom">
+
+        <section class="bemVindoCustom containerCustom2">
             <div class="bg-light border rounded-3 p-3 containerchatrs">
               <div >
-                <h4>Bom dia!</h4>
-                <h5>Vamos conferir as metas da semana?</h5>
+                <h4 style="text-align: center;">Bom dia!</h4>
+                <h5 style="text-align: center;">Vamos conferir as metas da semana?</h5>
                 <button class="btn btn-lg btn-outline-primary botaoMetaCustom" (click)="open(content)">Criar nova meta</button>
                 <hr/>
               </div>
               <div class="boxCustonContainerSwitches">
                 <div *ngFor="let item of itens" class="form-check form-switch switchCustom">
-                  <input *ngIf="item.state == 1" class="form-check-input" type="checkbox" id="flexSwitchCheck" (change)="onSwitchChange(item.id)" checked >
-                  <input *ngIf="item.state == 2" class="form-check-input" type="checkbox" id="flexSwitchCheck" (change)="onSwitchChange(item.id)" >
+                  <input *ngIf="item.state == 1" class="form-check-input switchBotaon" type="checkbox" id="flexSwitchCheck" (change)="onSwitchChange(item.id)" checked >
+                  <input *ngIf="item.state == 2" class="form-check-input switchBotaon" type="checkbox" id="flexSwitchCheck" (change)="onSwitchChange(item.id)" >
                   <label class="form-check-label psCustom" for="flexSwitchCheck"><p class="titleCustom">{{item.title}}</p> <p class="textCustom">{{itemCategoryString(item.category)}}</p></label>
                   <button class="bi bi-trash fs-5 excluirButtonCustom" (click)="deleteMeta(item.id)" ></button>
                 </div>
@@ -69,8 +40,7 @@
             </div>
         </section>
       </div>
-  </div>
-</div>
+
 <ng-template #content let-c="close">
 	<div class="modal-header">
 		<h4 class="modal-title" id="modal-basic-title">Hi there!</h4>

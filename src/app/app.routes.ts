@@ -29,6 +29,12 @@ export const ROUTES: Routes = [
     canActivate: [AuthenticationGuard]
   },
   {
+    path: 'imc',
+    loadComponent: () =>
+      import('./features/imc/imc.component').then(m => m.IMCComponent),
+    canActivate: [AuthenticationGuard]
+  },
+  {
     path:'**',
     redirectTo:''
   }
