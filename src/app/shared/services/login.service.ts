@@ -24,4 +24,7 @@ export class LoginService extends ServiceGeneric {
   static getToken(){
     return localStorage.getItem('token');
   }
+  setTokenContext(token:string){
+    this.objContext.token = token;
+  }
 }

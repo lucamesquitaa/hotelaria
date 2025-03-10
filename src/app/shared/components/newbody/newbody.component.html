@@ -1,0 +1,20 @@
+
+<div class="modal-header">
+  <h4 class="modal-title" id="modal-basic-title">Calcular IMC</h4>
+  <button type="button" class="btn-close" aria-label="Close" (click)="content.close()"></button>
+</div>
+<div class="modal-body">
+  <form [formGroup]="formGroup" class="formCadastro">
+    <div class="mb-3 primeiroFormCustom">
+      <label for="name" class="form-label">Altura</label>
+      <input type="number" class="form-control" formControlName="altura" placeholder="">
+    </div>
+    <div class="mb-3">
+      <label for="peso" class="form-label">Peso</label>
+      <input type="number" formControlName="peso" class="form-control">
+    </div>
+  </form>
+</div>
+<div class="modal-footer">
+  <button type="submit" class="btn btn-primary" (click)="bodySubmit(formGroup)">Calcular</button>
+</div>

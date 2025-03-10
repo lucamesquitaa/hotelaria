@@ -1,0 +1,15 @@
+<div class="containerIMC">
+  <h5>IMC's</h5>
+  <div *ngFor="let item of body">
+    <p >IMC: {{item.imc}}, na data de {{item.createDate | date:'dd/MM/yyyy'}} </p>
+  </div>
+  <button class="btn btn-lg btn-outline-primary botaoMetaCustom" (click)="open(content)">IMC</button>
+</div>
+
+
+
+
+
+<ng-template #content let-c="close">
+  <app-newbody [content]="content" (subbimit)="c()"></app-newbody>
+</ng-template>

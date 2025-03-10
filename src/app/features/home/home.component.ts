@@ -20,9 +20,5 @@ export class HomeComponent extends ComponentBase {
 
   }
 
-  override ngOnInit(): void {
-    this.context.token = false;
-  }
-
 }
 

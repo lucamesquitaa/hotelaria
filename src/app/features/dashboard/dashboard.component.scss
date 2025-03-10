@@ -3,11 +3,6 @@ section{
   display: flex;
   justify-content: center;
 }
-.sizeCustom{
-  height: 100vh;
-  padding-top: 20px;
-  background-color: var(--background-pagina);
-}
 .categoriaCustom{
   padding-left: 5px;
 }
@@ -28,11 +23,19 @@ section{
 .containerchatrs{
   width: 600px;
 }
+.ngxChartsCustom{
+  display: flex;
+  align-items: center;
+  flex-direction: column;
+  margin-top: 70px;
+}
 .legend-labels{
   width: 100px;
 }
 .bemVindoCustom{
   margin-left: 20px;
+  margin-top: 0px;
+  height: 100%;
 }
 .switchCustom{
   display: flex;
@@ -47,7 +50,21 @@ section{
   width: 100%;
 }
 .containerBoxes{
-  max-height: 500px;
+  margin-left: 150px;
+  display: flex;
+  flex-direction: row;
+  flex-wrap: wrap;
+}
+.switchBotaon{
+  cursor: pointer;
+}
+.containerCustom2{
+  max-height: 550px;
+
+}
+.boxCustonContainerSwitches{
+  width: 100%;
+  max-height: 380px;
   overflow-y: scroll;
 }
 .excluirButtonCustom{
@@ -70,8 +87,13 @@ section{
   margin: 0px;
 }
 
-@media screen and (max-width: 450px){
+@media screen and (max-width: 570px){
   .containerchatrs{
     width: 400px;
+  }
+  .containerBoxes{
+    margin: 0px;
+    padding: 0px;
+    align-items: center;
   }
 }

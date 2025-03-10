@@ -36,7 +36,6 @@ export class AppComponent extends ComponentBase implements OnInit{
 
 
   override ngOnInit(){
-    this.menusVisivel = !sessionStorage.getItem('token');
   }
 
   logOut(){

@@ -37,7 +37,6 @@ export class DashboardComponent extends ComponentBase{
    */
   constructor(public override injector: Injector,
               private toastr: ToastrService,
-              private loginService: LoginService,
               private metaService: MetaService,
               config: NgbModalConfig,) {
     super(injector);
@@ -51,10 +50,11 @@ export class DashboardComponent extends ComponentBase{
     }
 
   override ngOnInit(): void {
-    this.context.token = true;
+    let token = sessionStorage.getItem('access_token');
+    if(token)
+      this.context.token = token;
     this.captureScreenSize();
     window.addEventListener('resize', this.captureScreenSize.bind(this));
-
     this.getMetas();
   }
 
