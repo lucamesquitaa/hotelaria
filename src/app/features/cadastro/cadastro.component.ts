@@ -47,13 +47,18 @@ export class CadastroComponent extends ComponentBase{
       this.toastr.error("As senhas não são iguais.");
       return;
     }
+    formGroup.value.email = "teste@teste.com";
     this.cadastroService.doCadastro(formGroup.value).subscribe({
         next: (retorno) => {
           this.toastr.success(retorno);
         },
         complete: () => {
-          this.router.navigate(['home']);
+          this.router.navigate(['login']);
         }
     });
+  }
+
+  navegaLogin(){
+    this.router.navigate(['login'])
   }
 }

@@ -1,4 +1,9 @@
 
+
+*, body {
+  margin: 0;
+  padding: 0;
+}
 section{
   display: flex;
   justify-content: center;
@@ -20,23 +25,6 @@ section{
   justify-content: center;
   align-items: center;
 }
-.containerchatrs{
-  width: 600px;
-}
-.ngxChartsCustom{
-  display: flex;
-  align-items: center;
-  flex-direction: column;
-  margin-top: 70px;
-}
-.legend-labels{
-  width: 100px;
-}
-.bemVindoCustom{
-  margin-left: 20px;
-  margin-top: 0px;
-  height: 100%;
-}
 .switchCustom{
   display: flex;
   align-items: center;
@@ -48,24 +36,32 @@ section{
 }
 .botaoMetaCustom{
   width: 100%;
+  margin: 5px 0;
+}
+.botaoMetaCustom:hover{
+  box-shadow: 1px 1px 1px rgb(120, 120, 120);
 }
 .containerBoxes{
   margin-left: 150px;
   display: flex;
+  align-items: center;
+  justify-content: center;
   flex-direction: row;
   flex-wrap: wrap;
+  margin-bottom: 30px;
 }
-.switchBotaon{
+.switchBotaoncheck{
   cursor: pointer;
-}
-.containerCustom2{
-  max-height: 550px;
-
 }
 .boxCustonContainerSwitches{
   width: 100%;
-  max-height: 380px;
+  max-height: 460px;
   overflow-y: scroll;
+}
+.metasCOntainer{
+    width: 80%;
+    margin: 50px;
+    min-width: 370px;
 }
 .excluirButtonCustom{
   color: rgb(150, 0, 0);
@@ -73,27 +69,54 @@ section{
   border: none;
 }
 .excluirButtonCustom:hover{
-  background-color:rgb(215, 138, 138);
+  background-color:rgb(231, 195, 195);
+  border-radius: 5px;
 }
 .titleCustom{
-  font-size: 1.4rem;
+  font-size: 1.3rem;
 }
 .textCustom{
   font-size: 1.1rem;
-  font-weight: bold;
+}
+.textDescCustom{
+  font-size: 1.1rem;
 }
 .psCustom p {
   padding: 0px;
   margin: 0px;
 }
-
+.modal1{
+  padding: 30px;
+}
 @media screen and (max-width: 570px){
   .containerchatrs{
-    width: 400px;
+    width: 100%;
   }
   .containerBoxes{
-    margin: 0px;
-    padding: 0px;
+    margin: 0;
+    padding: 0;
+    display: flex;
     align-items: center;
+    justify-content: center;
+    width: 100%;
+  }
+  .divGiga{
+    height: auto;
+    max-width: 100%;
+
+    margin: 0;
+    padding: 0;
+    padding-bottom: 80px;
+  }
+  .metasCOntainer{
+    width: 100%;
+    margin: 20px;
+    margin-bottom: 0px;
+    height: 100%;
+    max-height: 590px;
+  }
+  .hrCustom{
+    width: 100%;
+    padding: 5px;
   }
 }

@@ -2,7 +2,7 @@ import { Component, EventEmitter, Injector, Output } from '@angular/core';
 import { ComponentBase } from '../component.base';
 import { ItensMetaModel } from '../../models/meta.model';
 import { MetaService } from '../../services/meta.service';
-import { FormGroup, FormControl, Validators } from '@angular/forms';
+import { FormGroup, FormControl, Validators, NgSelectOption } from '@angular/forms';
 import { CommonModule } from '@angular/common';
 import { SharedModule } from '../../shared.module';
 import { ToastrService } from 'ngx-toastr';
@@ -11,13 +11,13 @@ import { window } from 'rxjs';
 @Component({
   selector: 'app-newmeta',
   imports: [CommonModule,
-        SharedModule,],
+        SharedModule],
   templateUrl: './newmeta.component.html',
   styleUrl: './newmeta.component.scss'
 })
 export class NewmetaComponent extends ComponentBase{
- // @Output()
- // submitted = new EventEmitter()
+  @Output('subbimit')
+  subbimit = new EventEmitter();
 
   itens!: ItensMetaModel[];
 
@@ -27,7 +27,6 @@ export class NewmetaComponent extends ComponentBase{
     userId: new FormControl('', [Validators.required]),
     title: new FormControl('', [Validators.required, Validators.maxLength(20)]),
     description: new FormControl('', [Validators.maxLength(30)]),
-    category: new FormControl(''),
   });
   /**
    *ng
@@ -45,7 +44,7 @@ export class NewmetaComponent extends ComponentBase{
 
   metaSubmit(formGroup: FormGroup): void {
     formGroup.value.userId = this.userId;
-    formGroup.value.category = Number.parseInt(formGroup.value.category);
+
     this.metasService.doCadastraMeta(formGroup.value).subscribe({
       next: (result) =>{
         this.toastr.success("Meta criada com sucesso!");
@@ -54,12 +53,14 @@ export class NewmetaComponent extends ComponentBase{
           userId: new FormControl('', [Validators.required]),
           title: new FormControl('', [Validators.required, Validators.maxLength(20)]),
           description: new FormControl('', [Validators.maxLength(30)]),
-          category: new FormControl(''),
         });
       },
       error : (error) => {
           this.toastr.error(error);
       },
+      complete: () => {
+        this.subbimit.emit()
+      }
     });
   }
 }

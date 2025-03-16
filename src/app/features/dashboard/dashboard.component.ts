@@ -12,23 +12,14 @@ import { SharedModule } from 'src/app/shared/shared.module';
 
 @Component({
   selector: 'app-dashboard',
-  imports: [CommonModule, SharedModule, NgbModalModule, NewmetaComponent, NgbDropdownModule, NgbOffcanvasModule, NgxChartsModule],
+  imports: [CommonModule, SharedModule, NgbModalModule, NewmetaComponent, NgbDropdownModule, NgbOffcanvasModule],
   providers: [NgbModalConfig, NgbModal],
   templateUrl: './dashboard.component.html',
   styleUrl: './dashboard.component.scss'
 })
 export class DashboardComponent extends ComponentBase{
 
-  view: [number, number] = [400, 400];
-
   itens !: ItensMetaModel[];
-  charts: any = [];
-
-  //options chart
-  gradient: boolean = true;
-  showLegend: boolean = false;
-  showLabels: boolean = true;
-  isDoughnut: boolean = true;
 
   private modalService = inject(NgbModal);
 
@@ -53,29 +44,8 @@ export class DashboardComponent extends ComponentBase{
     let token = sessionStorage.getItem('access_token');
     if(token)
       this.context.token = token;
-    this.captureScreenSize();
-    window.addEventListener('resize', this.captureScreenSize.bind(this));
+
     this.getMetas();
-  }
-
-  override ngOnDestroy(): void {
-    window.removeEventListener('resize', this.captureScreenSize.bind(this));
-  }
-
-  colorScheme: any = {
-    domain: ['#5AA454', '#C7B42C', '#AAAAAA']
-  };
-
-
-  onSelect(event: any) {
-    console.log(event);
-  }
-
-  captureScreenSize() {
-    const width = window.innerWidth;
-    const height = window.innerHeight;
-    if(innerWidth < 450)
-      this.view = [300,300];
   }
 
   onSwitchChange(id: any){
@@ -107,31 +77,10 @@ export class DashboardComponent extends ComponentBase{
         }
       },
       complete: () => {
-        this.getChart();
       }
     });
   }
 
-  getChart(){
-    let countConcluido = 0;
-    let countAguardando = 0;
-          this.itens.forEach((x: ItensMetaModel) => {
-            if(x.state == 1)
-              countConcluido++;
-            else if(x.state == 2)
-              countAguardando++;
-          });
-          this.charts = [
-            {
-              name: "Concluído",
-              value: countConcluido
-            },
-            {
-              name: "Em andamento",
-              value: countAguardando
-            }
-          ];
-  }
   deleteMeta(id?: string){
     console.log(id);
     if(id){

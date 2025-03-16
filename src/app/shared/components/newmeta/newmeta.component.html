@@ -1,20 +1,37 @@
 <form [formGroup]="formGroup" (ngSubmit)="metaSubmit(formGroup)" class="formCadastro">
-  <h4>Nova meta</h4>
-  <div class="mb-3 primeiroFormCustom">
-    <label for="name" class="form-label">Título</label>
-    <input type="string" class="form-control" formControlName="title" placeholder="">
+  <div class="modal-header">
+    <h4 class="modal-title" id="modal-basic-title">Nova Meta</h4>
+    <button type="button" class="btn-close" aria-label="Close" (click)="subbimit.emit()"></button>
   </div>
-  <div class="mb-3">
-    <label for="email" class="form-label">Categoria</label>
-    <select class="form-select" formControlName="category" aria-label="Selecione categoria">
-      <option value="1">Alimentação</option>
-      <option value="2">Atividade Fisíca</option>
-      <option value="3">Outros</option>
-    </select>
+  <div class="modal-body">
+    <div class="mb-3">
+      <label for="name" class="form-label">Título</label>
+      <input type="string" class="form-control" formControlName="title" placeholder="">
+   </div>
+    <!--
+    <div class="mb-3">
+      <label class="form-label">Repetir</label>
+      <select [ngModel]="3" class="form-select" formControlName="frequency" id="freqSelect" aria-label="Selecione a frequência">
+        <option value="1">Todo dia</option>
+        <option value="2">Toda semana</option>
+        <option value="3">Não</option>
+      </select>
+    </div>
+    <div class="mb-3">
+      <label class="form-label">Periodo</label>
+      <select [ngModel]="4" class="form-select" formControlName="hour" id="hourSelect" aria-label="Selecione a hora">
+        <option value="1">Manhã</option>
+        <option value="2">Tarde</option>
+        <option value="3">Noite</option>
+        <option value="4">Dia inteiro</option>
+      </select>
+    </div>-->
+    <div class="mb-3">
+      <label for="description" class="form-label">Descrição</label>
+      <input type="description" formControlName="description" class="form-control">
+    </div>
   </div>
-  <div class="mb-3">
-    <label for="password" class="form-label">Descrição</label>
-    <input type="password" formControlName="description" class="form-control">
+  <div class="modal-footer">
+    <button type="submit" class="btn btn-outline-primary leftButtonCustom">Criar</button>
   </div>
-  <button type="submit" class="btn btn-primary leftButtonCustom">Criar</button>
 </form>
