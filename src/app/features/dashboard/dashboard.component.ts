@@ -21,6 +21,8 @@ export class DashboardComponent extends ComponentBase{
 
   itens !: ItensMetaModel[];
 
+  maisDe5Metas: boolean = false;
+
   private modalService = inject(NgbModal);
 
   /**
@@ -77,6 +79,11 @@ export class DashboardComponent extends ComponentBase{
         }
       },
       complete: () => {
+        if(this.itens.length > 5){
+          this.maisDe5Metas = true;
+        }else{
+          this.maisDe5Metas = false;
+        }
       }
     });
   }

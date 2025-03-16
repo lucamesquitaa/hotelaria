@@ -1,4 +1,4 @@
-import { Component, EventEmitter, Injector, Output } from '@angular/core';
+import { Component, EventEmitter, Injector, Input, Output } from '@angular/core';
 import { ComponentBase } from '../component.base';
 import { ItensMetaModel } from '../../models/meta.model';
 import { MetaService } from '../../services/meta.service';
@@ -18,6 +18,9 @@ import { window } from 'rxjs';
 export class NewmetaComponent extends ComponentBase{
   @Output('subbimit')
   subbimit = new EventEmitter();
+
+  @Input('maisDe5Metas')
+  maisDe5Metas!: boolean;
 
   itens!: ItensMetaModel[];
 
@@ -43,6 +46,11 @@ export class NewmetaComponent extends ComponentBase{
   }
 
   metaSubmit(formGroup: FormGroup): void {
+    if(this.maisDe5Metas){
+      this.toastr.warning("Só pode criar 5 metas (Demo v1)")
+    }
+
+
     formGroup.value.userId = this.userId;
 
     this.metasService.doCadastraMeta(formGroup.value).subscribe({
