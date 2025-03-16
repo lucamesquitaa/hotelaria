@@ -1,55 +1,27 @@
-
+<div class="divGiga">
 <div class="containerBoxes">
-          <section class="overflow-auto bemVindoCustom ">
 
-            <div class="bg-light border rounded-3 p-3 containerchatrs ngxChartsCustom">
-
-              <h4>Acompanhamento das Metas</h4>
-              <h5>Para não perder de vista</h5>
-              <ngx-charts-pie-chart
-                [view]="view"
-                [scheme]="colorScheme"
-                [results]="charts"
-                [gradient]="gradient"
-                [legend]="showLegend"
-                [labels]="showLabels"
-                [doughnut]="isDoughnut"
-                (select)="onSelect($event)"
-              >
-              </ngx-charts-pie-chart>
-
-            </div>
-          </section>
-
-        <section class="bemVindoCustom containerCustom2">
-            <div class="bg-light border rounded-3 p-3 containerchatrs">
+            <div class="bg-light border rounded-3 p-3 metasCOntainer">
               <div >
-                <h4 style="text-align: center;">Bom dia!</h4>
-                <h5 style="text-align: center;">Vamos conferir as metas da semana?</h5>
-                <button class="btn btn-lg btn-outline-primary botaoMetaCustom" (click)="open(content)">Criar nova meta</button>
-                <hr/>
+                <h4 style="text-align: center;">Metas da semana</h4>
+                <button class="btn btn-lg btn-outline-primary botaoMetaCustom" (click)="open(content)">Nova Meta</button>
+                <hr class="hrCustom"/>
               </div>
               <div class="boxCustonContainerSwitches">
                 <div *ngFor="let item of itens" class="form-check form-switch switchCustom">
-                  <input *ngIf="item.state == 1" class="form-check-input switchBotaon" type="checkbox" id="flexSwitchCheck" (change)="onSwitchChange(item.id)" checked >
+                  <input *ngIf="item.state == 1" class="form-check-input switchBotaoncheck" type="checkbox" id="flexSwitchCheck" (change)="onSwitchChange(item.id)" checked >
                   <input *ngIf="item.state == 2" class="form-check-input switchBotaon" type="checkbox" id="flexSwitchCheck" (change)="onSwitchChange(item.id)" >
-                  <label class="form-check-label psCustom" for="flexSwitchCheck"><p class="titleCustom">{{item.title}}</p> <p class="textCustom">{{itemCategoryString(item.category)}}</p></label>
+                  <label class="form-check-label psCustom" for="flexSwitchCheck">
+                    <p class="titleCustom">{{item.title}}</p>
+                    <p class="textDescCustom">{{item.description}}</p>
+                  </label>
                   <button class="bi bi-trash fs-5 excluirButtonCustom" (click)="deleteMeta(item.id)" ></button>
                 </div>
               </div>
             </div>
-        </section>
       </div>
 
 <ng-template #content let-c="close">
-	<div class="modal-header">
-		<h4 class="modal-title" id="modal-basic-title">Hi there!</h4>
-		<button type="button" class="btn-close" aria-label="Close" (click)="c()"></button>
-	</div>
-	<div class="modal-body">
-		<app-newmeta></app-newmeta>
-	</div>
-	<div class="modal-footer">
-		<button type="button" class="btn btn-outline-secondary" (click)="saveModal()">Fechar</button>
-	</div>
+  <app-newmeta [maisDe5Metas]="maisDe5Metas" (subbimit)="saveModal()"></app-newmeta>
 </ng-template>
+</div>

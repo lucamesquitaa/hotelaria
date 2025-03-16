@@ -3,7 +3,8 @@
 export interface ItensMetaModel{
   id?: string,
   userModelId: string,
-  category?: number,
+  frequency: number,
+  hour: number,
   title: string,
   description?: string,
   state?: number

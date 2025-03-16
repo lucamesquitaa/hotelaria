@@ -10,10 +10,9 @@ export class ContextService {
     usuarioAutenticado: false,
     token: "",
     usuario: {
-      photo: "",
-      userCode: "",
-      name: "",
-      admin: false,
+      id: "",
+      email: "",
+      username: ""
     },
     cart: {
       number: 0,

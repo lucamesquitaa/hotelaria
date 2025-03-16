@@ -1,43 +1,16 @@
-
-:root{
-  --background-pagina: #e2fffa;
-  --font-color-products: #ffffff;
-  --toolbar-color: #020eb9;
-  --toolbar-color-darker: #000875;
-  --color-brand-01-base: #020eb9;
-  --color-brand-01-dark:#000875;
-  --color-brand-01-lightest: #5460ff;
-  --toolbar-font-color: #ffffff;
-  --widget-products-color: #ffffff;
-  --background-card-products: #ffffff;
-  --color-widget-color-action: black;
-  --color-widget-color-action-hover: black;
-  --color-widget-color-action-active: black;
-  --font-color-padrao-preto: black;
-  --font-color-padrao-branco: white;
-  --products-hover-color: rgba(0, 0, 0, 0.185);
-  --color-toolbar-color-default: #020eb9;
-  --color-action-default: black;
-  --color-transparent: rgba(0, 0, 0, 0);
-  --background-danger-hover: #ffffff;
-  --primaryColorTheme01: #5460ff;
-  --secondColorTheme01: #ffffff;
-}
-
-// :root .dark-theme{
+@import "../node_modules/bootstrap/scss/bootstrap";
 
 html,
 body {
   height: 100vh;
-}
-
-body {
   margin: 0;
-  font-family: Roboto, 'Helvetica Neue', sans-serif;
 }
 
-h1,h2,p{
+h1,h2,h3,h4,h5,h6{
   color: var(--font-color-padrao-preto);
+  font-family: "Onest", sans-serif;
+  font-optical-sizing: auto;
+  font-weight: 300;
 }
 .po-button{
   --background-color: var(--font-color-padrao-branco);

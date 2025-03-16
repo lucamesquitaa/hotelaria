@@ -1,7 +1,7 @@
 
 <div class="modal-header">
   <h4 class="modal-title" id="modal-basic-title">Calcular IMC</h4>
-  <button type="button" class="btn-close" aria-label="Close" (click)="content.close()"></button>
+  <button type="button" class="btn-close" aria-label="Close" (click)="subbimit.emit()"></button>
 </div>
 <div class="modal-body">
   <form [formGroup]="formGroup" class="formCadastro">
@@ -16,5 +16,5 @@
   </form>
 </div>
 <div class="modal-footer">
-  <button type="submit" class="btn btn-primary" (click)="bodySubmit(formGroup)">Calcular</button>
+  <button type="submit" class="btn btn-outline-primary leftButtonCustom" (click)="bodySubmit(formGroup)">Calcular</button>
 </div>

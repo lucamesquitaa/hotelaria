@@ -20,7 +20,7 @@ import { SharedModule } from 'src/app/shared/shared.module';
 export class LoginComponent extends ComponentBase implements AfterViewInit {
 
   formGroup: FormGroup = new FormGroup({
-    email: new FormControl('', [Validators.required, Validators.email]),
+    username: new FormControl('', [Validators.required]),
     password: new FormControl('', [Validators.required, Validators.minLength(6), Validators.maxLength(20)]),
   });
 
@@ -38,18 +38,27 @@ export class LoginComponent extends ComponentBase implements AfterViewInit {
     this.loginService.doLogin(formGroup.value).subscribe({
       next: (result) => {
         sessionStorage.setItem('access_token', result.token);
-        sessionStorage.setItem('user_id', result.result);
+        sessionStorage.setItem('user_id', result.result.id);
+        sessionStorage.setItem('user_name', result.result.username);
+
+        this.context.usuario.id = result.result.id;
+        this.context.usuario.username = result.result.username;
+        this.context.usuario.email = result.result.email;
       },
       error : (error) => {
-        this.toastr.error(error);
+        this.toastr.error("Erro ao realizar autenticação.");
     },
       complete: () => {
-        this.router.navigate(['dashboard']);
+        this.router.navigate(['home']);
       }
   });
   }
   onLogoutSubmit(){
     this.loginService.logout();
     this.router.navigate(['login']);
+  }
+
+  navegaCadastro(){
+    this.router.navigate(['cadastro'])
   }
 }

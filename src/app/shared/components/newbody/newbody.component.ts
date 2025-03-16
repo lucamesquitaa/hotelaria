@@ -44,7 +44,16 @@ export class NewbodyComponent extends ComponentBase {
     }
 
     bodySubmit(formGroup: FormGroup): void {
+      if(!formGroup?.value?.altura){
+        this.subbimit.emit();
+        return;
+      }
+
       formGroup.value.userId = this.userId;
+      if(formGroup.value.altura > 2){
+        this.toastr.warning("Coloque sua altura no formato correto ex: '1.78'");
+        return;
+      }
       Number(formGroup.value.altura.toString().replaceAll(',', '.'));
       Number(formGroup.value.peso.toString().replaceAll(',', '.'));
 

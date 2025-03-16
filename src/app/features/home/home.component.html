@@ -1,0 +1,33 @@
+<div class="containerHome">
+  <div class="containerBoxes" >
+      <div class="bg-light border rounded-3 p-3 ngxContainer">
+
+        <h4>Acompanhe suas Metas</h4>
+        <h5 *ngIf="successValue">{{successValue}}% de conclusão na semana.</h5>
+        <h5 *ngIf="!successValue">Cadastre uma meta!</h5>
+        <hr class="hrCustom"/>
+        <ngx-charts-pie-chart
+          [view]="view"
+          [scheme]="colorScheme"
+          [results]="charts"
+          [gradient]="gradient"
+          [legend]="showLegend"
+          [labels]="showLabels"
+          [doughnut]="isDoughnut"
+        >
+        </ngx-charts-pie-chart>
+
+      </div>
+  </div>
+  <div class="buttonsHome" >
+    <div class="border rounded-3 p-3 buttonHome btn1" (click)="router.navigate(['dashboard'])">
+      <i class="bi bi-card-text fs-2"></i>
+      <p>Criar Meta</p>
+    </div>
+    <div class="border rounded-3 p-3 buttonHome btn2" (click)="router.navigate(['imc'])">
+      <i class="bi bi-calculator fs-2" style="text-align: center"></i>
+      <p>Calcular IMC</p>
+    </div>
+  </div>
+
+</div>
