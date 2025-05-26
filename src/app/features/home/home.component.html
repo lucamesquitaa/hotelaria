@@ -1,33 +1,23 @@
 <div class="containerHome">
-  <div class="containerBoxes" >
-      <div class="bg-light border rounded-3 p-3 ngxContainer">
+    <div class="propagandaContainer">
+      <span>Propaganda do site aqui*</span>
+      <img src="https://i.imgur.com/U7GcMwB.jpg" alt="hotel"/>
+      <p>Hoteis e pousadas para você escolher! Os melhores hoteis e pousadas do Brasil!</p>
 
-        <h4>Acompanhe suas Metas</h4>
-        <h5 *ngIf="successValue">{{successValue}}% de conclusão na semana.</h5>
-        <h5 *ngIf="!successValue">Cadastre uma meta!</h5>
-        <hr class="hrCustom"/>
-        <ngx-charts-pie-chart
-          [view]="view"
-          [scheme]="colorScheme"
-          [results]="charts"
-          [gradient]="gradient"
-          [legend]="showLegend"
-          [labels]="showLabels"
-          [doughnut]="isDoughnut"
-        >
-        </ngx-charts-pie-chart>
+      <hr/>
 
-      </div>
-  </div>
-  <div class="buttonsHome" >
-    <div class="border rounded-3 p-3 buttonHome btn1" (click)="router.navigate(['dashboard'])">
-      <i class="bi bi-card-text fs-2"></i>
-      <p>Criar Meta</p>
+       <label for="typeahead-format">Busque por um Hotel:</label>
+      <input
+        id="typeahead-format"
+        type="text"
+        class="form-control"
+        [(ngModel)]="hotel"
+        [ngbTypeahead]="search"
+        accentSensitive="false"
+        [resultFormatter]="formatter"
+        [inputFormatter]="formatter"
+      />
     </div>
-    <div class="border rounded-3 p-3 buttonHome btn2" (click)="router.navigate(['imc'])">
-      <i class="bi bi-calculator fs-2" style="text-align: center"></i>
-      <p>Calcular IMC</p>
-    </div>
-  </div>
-
+    
+   
 </div>

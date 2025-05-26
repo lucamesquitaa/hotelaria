@@ -1,18 +1,18 @@
 import { ComponentFixture, TestBed } from '@angular/core/testing';
 
-import { IMCComponent } from './imc.component';
+import { HotelComponent } from './hotel.component';
 
-describe('IMCComponent', () => {
-  let component: IMCComponent;
-  let fixture: ComponentFixture<IMCComponent>;
+describe('HotelComponent', () => {
+  let component: HotelComponent;
+  let fixture: ComponentFixture<HotelComponent>;
 
   beforeEach(async () => {
     await TestBed.configureTestingModule({
-      imports: [IMCComponent]
+      imports: [HotelComponent]
     })
     .compileComponents();
 
-    fixture = TestBed.createComponent(IMCComponent);
+    fixture = TestBed.createComponent(HotelComponent);
     component = fixture.componentInstance;
     fixture.detectChanges();
   });

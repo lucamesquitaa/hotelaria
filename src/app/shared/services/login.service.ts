@@ -9,7 +9,7 @@ import { RefreshToken } from '../models/refreshToken';
   providedIn: 'root'
 })
 export class LoginService extends ServiceGeneric {
-  override urlServiceREST: string = "https://localhost:44383/api/Login";
+  override urlServiceREST: string = "https://hotelaria-back-a84b6288af20.herokuapp.com/api/Login";
 
   constructor(public override injector: Injector) {
     super(injector);
@@ -17,14 +17,5 @@ export class LoginService extends ServiceGeneric {
 
   doLogin(user: LoginModel): Observable<LoginResponseModel>{
     return this.http.post<LoginResponseModel>(this.urlServiceREST, user);
-  }
-  public logout(){
-    localStorage.clear();
-  }
-  static getToken(){
-    return localStorage.getItem('token');
-  }
-  setTokenContext(token:string){
-    this.objContext.token = token;
   }
 }

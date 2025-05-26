@@ -1,16 +1,20 @@
 import { CommonModule } from '@angular/common';
-import { HttpClientModule } from '@angular/common/http';
 import { NgModule } from '@angular/core';
-import { RouterModule } from '@angular/router';
 import { FormsModule, ReactiveFormsModule } from '@angular/forms';
-//componentes Bootstrap
-
-
-
+import { BrowserAnimationsModule } from '@angular/platform-browser/animations';
+import { NgbModule, NgbTypeaheadModule } from '@ng-bootstrap/ng-bootstrap';
 
 
 @NgModule({
-  imports: [ FormsModule, ReactiveFormsModule,HttpClientModule, RouterModule],
-  exports: [ FormsModule, ReactiveFormsModule, HttpClientModule, RouterModule],
+  imports: [
+        FormsModule,
+        ReactiveFormsModule,
+        NgbModule,
+        NgbTypeaheadModule],
+  exports: [
+        FormsModule,
+        ReactiveFormsModule,
+        NgbModule,
+        NgbTypeaheadModule],
 })
 export class SharedModule { }

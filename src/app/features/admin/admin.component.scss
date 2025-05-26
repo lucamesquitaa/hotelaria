@@ -1,0 +1,51 @@
+.adminContainer{
+  width: 100%;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  flex-direction: column;
+  flex-wrap: wrap;
+  padding: 20px;
+  margin: 0px;
+  box-sizing: border-box;
+}
+.hotelCard{
+  width: 100%;
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  flex-direction: row;
+  flex-wrap: wrap;
+  padding: 15px;
+  margin-top: 10px;
+  border-radius: 15px;
+  border: 1px solid #8f8f8f;
+}
+
+.buttonFlutua{
+  position: fixed;
+  bottom: 20px;
+  right: 20px;
+  padding: 15px;
+}
+.fotosContainer{
+  width: 100%;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  flex-direction: column;
+  flex-wrap: wrap;
+  padding: 10px;
+}
+.paddingPhoto{
+  padding: 5px;
+}
+
+@media screen and (max-width: 570px){
+  .hotelCard{
+    justify-content: center;
+  }
+  .spanName{
+    width:560px;
+  }
+}
