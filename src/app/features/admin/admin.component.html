@@ -1,0 +1,233 @@
+<div class="adminContainer">
+  <h4>Buscar:</h4>
+      <input
+        id="typeahead-format"
+        type="text"
+        class="form-control col-lg-6 col-md-12"
+        [(ngModel)]="hotel"
+        (ngModelChange)="onHotelSelecionado()"
+        [ngbTypeahead]="search"
+        accentSensitive="false"
+        [resultFormatter]="formatter"
+        [inputFormatter]="formatter"
+      />
+      <hr/>
+  <div  *ngFor="let item of filteredHoteis" class="hotelCard col-lg-6 col-md-12">
+    <span class="text-center spanName">{{item.name}}</span>
+    <span class="text-center spanName">{{item.url}}</span>
+    <button class="btn btn-outline-primary mb-2 me-2 bi bi-pencil" (click)="openLg(content, item.id)">Editar</button>
+    <button class="btn btn-outline-danger" (click)="doExcluirHotel(item.id)">Excluir</button>
+  </div>
+  <button class="btn btn-primary mb-2 me-2 bi bi-plus-circle buttonFlutua" (click)="openLg(content)"> Adicionar</button>
+</div>
+
+
+
+  <ng-template #content let-modal>
+    <div class="modal-header">
+      <h4 class="modal-title pull-left">Cadastro Hotel</h4>
+      <button type="button" class="btn-close pull-right" aria-label="Close" (click)="modal.dismiss()"></button>
+    </div>
+    <div class="modal-body">
+      <form [formGroup]="formGroupAdmin" (ngSubmit)="onCadastraSubmit(formGroupAdmin)">
+        <div class="row">
+            <div class="col-lg-6 col-md-12">
+              <label for="name" class="form-label">Nome</label>
+              <input type="text" class="form-control" formControlName="name" required>
+            </div>
+            <div class="col-lg-6 col-md-12">
+              <label for="desc" class="form-label">Descrição</label>
+              <input type="text" formControlName="desc" class="form-control" required>
+            </div>
+        </div>
+        <div class="row">
+            <div class="col-lg-6 col-md-12">
+              <label for="rede" class="form-label">Rede</label>
+              <input type="text" class="form-control" formControlName="rede" required>
+            </div>
+            <div class="col-lg-6 col-md-12">
+              <label for="city" class="form-label">Cidade</label>
+              <input type="text" formControlName="city" class="form-control" required>
+            </div>
+        </div>
+        <div class="row">
+          <div class="col-lg-6 col-md-12">
+            <label for="category" class="form-label">Categoria</label>
+            <select class="form-select" formControlName="category" required>
+              <option value="" disabled selected>Selecione:</option>
+              <option value="1">Resort</option>
+              <option value="2">Hotel</option>
+              <option value="3">Pousada</option>
+            </select>
+          </div>
+          <div class="col-lg-6 col-md-12">
+            <label for="child" class="form-label">Crianças</label>
+            <select class="form-select" formControlName="child" required>
+              <option value="" disabled selected>Selecione:</option>
+              <option value="1">Adequado para Crianças</option>
+              <option value="2">Não Adequado para Crianças</option>
+            </select>
+          </div>
+        </div>
+        <div class="row">
+          <div class="col-lg-6 col-md-12">
+            <label for="pet" class="form-label">Animais</label>
+            <select class="form-select" formControlName="pet" required>
+              <option value="" disabled selected>Selecione:</option>
+              <option value="1">Adequado para Animais</option>
+              <option value="2">Não Adequado para Animais</option>
+            </select>
+          </div>
+          <div class="col-lg-6 col-md-12">
+              <label for="tax" class="form-label">Taxa animal (opcional)</label>
+              <input type="text" class="form-control" formControlName="tax" placeholder="R$">
+          </div>
+        </div>
+        <div class="row">
+            <div class="col-lg-6 col-md-12">
+              <label for="url" class="form-label">Url</label>
+              <input type="text" class="form-control" formControlName="url" required>
+            </div>
+            <div class="col-lg-6 col-md-12">
+              <label for="cep" class="form-label">CEP</label>
+              <input type="text" class="form-control" formControlName="cep" required>
+            </div>
+        </div>
+        <div class="row">
+            <div class="col-lg-6 col-md-12">
+              <label for="endereco" class="form-label">Endereço</label>
+              <input type="text" class="form-control" formControlName="endereco" required>
+            </div>
+            <div class="col-lg-3 col-md-12">
+              <label for="num" class="form-label">Número</label>
+              <input type="text" class="form-control" formControlName="num" required>
+            </div>
+            <div class="col-lg-3 col-md-12">
+              <label for="comp" class="form-label">Complemento</label>
+              <input type="text" class="form-control" formControlName="comp">
+            </div>
+        </div>
+         <div class="row">
+            <div class="col-lg-6 col-md-12">
+              <label for="lobby" class="form-label">Recepção</label>
+              <input type="text" class="form-control" formControlName="lobby" required>
+            </div>
+            <div class="col-lg-6 col-md-12">
+              <label for="diff" class="form-label">Diferenciais</label>
+              <input type="text" formControlName="diff" class="form-control" required>
+            </div>
+        </div>
+
+      <div class="fotosContainer" formArrayName="fotos">
+        <span class="text-center">Fotos</span>
+        <div *ngFor="let foto of fotos.controls; let i = index" [formGroupName]="i" class="col-lg-12 col-md-12 paddingPhoto d-flex align-items-center">
+          <button type="button" *ngIf="foto.value?.stared" class="btn btn-primary btn-sm bi bi-star-fill starredButton" (click)="starImg(i)"></button>
+          <button type="button" *ngIf="!foto.value?.stared" class="btn btn-outline-primary btn-sm bi bi-star starredButton" (click)="starImg(i)"></button>
+          <input type="text" class="form-control me-2" formControlName="url" placeholder="Endereço da foto">
+          <button type="button" class="btn btn-outline-danger btn-sm" (click)="removeFoto(i)">&#10005;</button>
+        </div>
+        <button type="button" class="btn bi bi-camera btn-outline-primary" (click)="addFoto()"> Adicionar</button>
+      </div>
+       <div class="row">
+        
+          <div class="col-lg-6 col-md-12">
+            <label for="checkCafe" class="form-label">Café da manhã</label>
+            <select class="form-select" formControlName="checkCafe" required>
+              <option value="" disabled selected>Selecione:</option>
+              <option value="1">Incluso</option>
+              <option value="2">Não incluso</option>
+            </select>
+          </div>
+          <div class="col-lg-6 col-md-12">
+            <label for="checkWifi" class="form-label">Wifi</label>
+            <select class="form-select" formControlName="checkWifi" required>
+              <option value="" disabled selected>Selecione:</option>
+              <option value="1">Incluso</option>
+              <option value="2">Não incluso</option>
+            </select>
+          </div>
+        </div>
+         <div class="row">
+          <div class="col-lg-6 col-md-12">
+            <label for="checkPiscina" class="form-label">Piscina</label>
+            <select class="form-select" formControlName="checkPiscina" required>
+              <option value="" disabled selected>Selecione:</option>
+               <option value="1">Incluso</option>
+              <option value="2">Não incluso</option>
+            </select>
+          </div>
+          <div class="col-lg-6 col-md-12">
+            <label for="checkLimpeza" class="form-label">Serviço de limpeza</label>
+            <select class="form-select" formControlName="checkLimpeza" required>
+              <option value="" disabled selected>Selecione:</option>
+               <option value="1">Incluso</option>
+              <option value="2">Não incluso</option>
+            </select>
+          </div>
+        </div>
+        <div class="row">
+          <div class="col-lg-6 col-md-12">
+            <label for="checkAcademia" class="form-label">Academia no local</label>
+            <select class="form-select" formControlName="checkAcademia" required>
+              <option value="" disabled selected>Selecione:</option>
+               <option value="1">Incluso</option>
+              <option value="2">Não incluso</option>
+            </select>
+          </div>
+          </div>
+  
+         <div class="row rowProximidades">
+          <div class="col-lg-12 col-md-12">
+            <div>
+              <div class="form-check">
+              <input class="form-check-input" type="checkbox" value="" formControlName="checkPraia">
+              <label class="form-check-label" for="checkPraia">
+                Próximo a praia
+              </label>
+            </div>
+            <div class="form-check">
+              <input class="form-check-input" type="checkbox" value="" formControlName="checkCentro">
+              <label class="form-check-label" for="checkCentro">
+                Próximo ao centro
+              </label>
+            </div>
+            <div class="form-check">
+              <input class="form-check-input" type="checkbox" value="" formControlName="checkAeroporto">
+              <label class="form-check-label" for="checkAeroporto">
+                Próximo ao aeroporto
+              </label>
+            </div>
+            <div class="form-check">
+              <input class="form-check-input" type="checkbox" value="" formControlName="checkRodoviria">
+              <label class="form-check-label" for="checkRodoviria">
+                Próximo a rodoviária
+              </label>
+            </div>
+            <div class="form-check">
+              <input class="form-check-input" type="checkbox" value="" formControlName="checkHospitais">
+              <label class="form-check-label" for="checkHospitais">
+                Próximo a hospitais
+              </label>
+            </div>
+          </div>
+        </div>
+        
+        <div class="fotosContainer" formArrayName="contatos">
+          <span class="text-center">Contatos (max. 3)</span>
+          <div *ngFor="let ctt of contatos.controls; let i = index" [formGroupName]="i" class="col-lg-12 col-md-12 paddingPhoto d-flex align-items-center">
+            <input type="text" class="form-control me-1" formControlName="name" placeholder="Nome">
+            <input type="text" class="form-control me-1" formControlName="contact" placeholder="Contato">
+            <button type="button" class="btn btn-outline-danger btn-sm" (click)="removeContato(i)">&#10005;</button>
+          </div>
+          <button type="button" class="btn bi bi-phone btn-outline-primary" (click)="addContato()" [disabled]="contatos.length >= 3"> Adicionar</button>
+        </div>
+            
+        </div>
+      <div class="modal-footer">
+        <button type="button" class="btn btn-secondary" (click)="modal.dismiss('Cross click')">Cancelar</button>
+        <button type="submit" class="btn btn-primary">Salvar</button>
+      </div>
+      </form>
+    </div>
+    
+  </ng-template>

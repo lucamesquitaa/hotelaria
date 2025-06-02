@@ -4,6 +4,8 @@ import { ActivatedRoute, Router } from '@angular/router';
 import { ContextModel } from '../models/context.model';
 import { ContextService } from '../services/context.service';
 import { ComponentInterface } from './component.interface';
+import { CookieService } from 'ngx-cookie-service';
+import { ToastrService } from 'ngx-toastr';
 
 /**
  * @description
@@ -44,6 +46,10 @@ import { ComponentInterface } from './component.interface';
 	 */
 	public router: Router;
 
+	public cookieService: CookieService
+
+	public toastr: ToastrService;
+
 	/**
 	 * Serviço da Rota Ativa
 	 */
@@ -55,7 +61,8 @@ import { ComponentInterface } from './component.interface';
 		this.http = injector.get(HttpClient);
 		this.router = injector.get(Router);
 		this.activatedRoute = injector.get(ActivatedRoute);
-
+		this.cookieService = injector.get(CookieService);
+		this.toastr = injector.get(ToastrService);
 		// Carrega o contexto global do usuário
 		this.context = ContextService.getContext();
 	}

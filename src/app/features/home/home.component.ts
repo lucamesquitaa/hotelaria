@@ -1,95 +1,63 @@
-import { CommonModule } from '@angular/common';
 import { Component, Injector } from '@angular/core';
-import { NgbProgressbarModule } from '@ng-bootstrap/ng-bootstrap';
-import { NgxChartsModule } from '@swimlane/ngx-charts';
+import { Observable, OperatorFunction } from 'rxjs';
+import { debounceTime, distinctUntilChanged, map  } from 'rxjs/operators';
 import { ComponentBase } from 'src/app/shared/components/component.base';
-import { ItensMetaModel } from 'src/app/shared/models/meta.model';
-import { MetaService } from 'src/app/shared/services/meta.service';
-import { SharedModule } from 'src/app/shared/shared.module';
+import { HotelService } from 'src/app/shared/services/hotel.service';
+
 @Component({
   selector: 'app-home',
-  standalone: true,
-  imports: [
-      CommonModule,
-      SharedModule,
-      NgbProgressbarModule,
-      NgxChartsModule
-    ],
+  standalone: false,
   templateUrl: './home.component.html',
   styleUrls: ['./home.component.scss']
 })
 export class HomeComponent extends ComponentBase {
 
-   view: [number, number] = [400, 400];
+  hotel: any;
 
-    itens !: ItensMetaModel[];
-    charts: any = [];
+	filteredHoteis: any[] = [];
 
-    successValue!: number;
+  hoteis!: any[];
 
-    //options chart
-    gradient: boolean = true;
-    showLegend: boolean = false;
-    showLabels: boolean = true;
-    isDoughnut: boolean = true;
-
-    colorScheme: any = {
-      domain: ['#51A351','#C7C7C7']
-    };
-  constructor(public override injector: Injector, private metasService: MetaService) {
+  constructor(public override injector: Injector, private hotelService: HotelService) {
     super(injector);
 
   }
   override ngOnInit(): void {
-    this.captureScreenSize();
-    window.addEventListener('resize', this.captureScreenSize.bind(this));
-    this.getMetas();
+		this.doGetAllHoteis()
   }
 
-  override ngOnDestroy(): void {
-    window.removeEventListener('resize', this.captureScreenSize.bind(this));
-  }
+	doGetAllHoteis(){
+		this.hotelService.doGetAllHoteis().subscribe({
+			next: (result) => {
+				this.hoteis = result;
+				this.filteredHoteis = this.hoteis;
+			},
+		});
+	}
 
-  captureScreenSize() {
-    const width = window.innerWidth;
-    const height = window.innerHeight;
-    if(innerWidth < 450)
-      this.view = [300,300];
-  }
+	formatter = (result: any) => result.name.toUpperCase() + " (" + result.id + ")";
 
-  getMetas(){
-    let userId = sessionStorage.getItem("user_id")!;
+	search: OperatorFunction<string, readonly any[]> = (text$: Observable<any>) =>
+		text$.pipe(
+			debounceTime(200),
+			distinctUntilChanged(),
+			map((term) =>
+				term === ''
+					? []
+					: this.hoteis.filter((v) => v.name.toLowerCase().indexOf(term.toLowerCase()) > -1).slice(0, 10),
+			),
+		);
 
-    this.metasService.doGetMetas(userId).subscribe({
-      next : (result) => {
-        this.itens = result;
-      },
-      complete: () => {
-        this.getChart();
-      }
-    });
-  }
+		onHotelSelecionado() {
+			if(!this.hotel) {
+				this.filteredHoteis = this.hoteis;
+				return;
+				}
+				this.filteredHoteis = this.hoteis.map((v) => this.hotel.name === v.name ? v : null).filter((v) => v !== null);
+	 	}
 
-  getChart(){
-    let countConcluido = 0;
-    let countAguardando = 0;
-          this.itens.forEach((x: ItensMetaModel) => {
-            if(x.state == 1)
-              countConcluido++;
-            else if(x.state == 2)
-              countAguardando++;
-          });
-          this.successValue  = (countConcluido / (countConcluido + countAguardando)) * 100;
-          this.charts = [
-            {
-              name: "Concluído",
-              value: countConcluido
-            },
-            {
-              name: "Em andamento",
-              value: countAguardando
-            }
-          ];
-  }
+		visitarSite(item: any){
+			this.router.navigate(['hotel/' + item.url]);
+		}
 }
 

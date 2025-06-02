@@ -3,7 +3,7 @@
   "version": 1,
   "newProjectRoot": "projects",
   "projects": {
-    "saudeia": {
+    "hotelaria": {
       "projectType": "application",
       "schematics": {
         "@schematics/angular:component": {
@@ -17,7 +17,7 @@
         "build": {
           "builder": "@angular-devkit/build-angular:browser",
           "options": {
-            "outputPath": "dist/saudeia",
+            "outputPath": "dist/hotelaria",
             "index": "src/index.html",
             "main": "src/main.ts",
             "polyfills": [
@@ -67,14 +67,14 @@
         "serve": {
           "builder": "@angular-devkit/build-angular:dev-server",
           "options": {
-            "buildTarget": "saudeia:build:development"
+            "buildTarget": "hotelaria:build:development"
           },
           "configurations": {
             "production": {
-              "buildTarget": "saudeia:build:production"
+              "buildTarget": "hotelaria:build:production"
             },
             "development": {
-              "buildTarget": "saudeia:build:development"
+              "buildTarget": "hotelaria:build:development"
             }
           },
           "defaultConfiguration": "development"

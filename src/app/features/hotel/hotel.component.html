@@ -1,0 +1,23 @@
+
+<div class="containerHotel">
+    <h4>Seja bem vindo!</h4>
+    <h3>Você está an página do <br/>{{hotelId}}</h3>
+    
+    <div class="hotel"> 
+      <span>Propaganda do HOTEL aqui*</span>
+      <google-map  *ngIf="center"
+        height="500px" 
+        width="100%" 
+        [center]="center" 
+        [zoom]="100">
+        
+        <map-marker 
+          [position]="center" 
+          [label]="'Local'">
+        </map-marker>
+
+      </google-map>
+    </div>
+
+
+</div>

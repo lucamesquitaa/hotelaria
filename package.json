@@ -1,5 +1,5 @@
 {
-  "name": "saudeia",
+  "name": "hotelaria",
   "version": "1.0.0",
   "scripts": {
     "ng": "ng",
@@ -17,6 +17,7 @@
     "@angular/compiler": "^19.0.0",
     "@angular/core": "^19.0.0",
     "@angular/forms": "^19.0.0",
+    "@angular/google-maps": "^19.2.18",
     "@angular/platform-browser": "^19.0.0",
     "@angular/platform-browser-dynamic": "^19.0.0",
     "@angular/router": "^19.0.0",
@@ -24,11 +25,11 @@
     "@floating-ui/dom": "^1.6.13",
     "@ng-bootstrap/ng-bootstrap": "^18.0.0",
     "@popperjs/core": "^2.11.8",
-    "@swimlane/ngx-charts": "^22.0.0-alpha.0",
     "bootstrap": "^5.3.3",
     "bootstrap-icons": "^1.11.3",
+    "ngx-cookie-service": "^19.1.2",
     "ngx-toastr": "^19.0.0",
-    "rxjs": "~7.5.5",
+    "rxjs": "^7.4.0",
     "tslib": "^2.3.0",
     "zone.js": "^0.15.0"
   },
