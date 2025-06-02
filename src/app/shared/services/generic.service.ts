@@ -2,6 +2,7 @@ import { ContextModel } from '../models/context.model';
 import { HttpClient } from '@angular/common/http';
 import { Injectable, Injector } from '@angular/core';
 import { ContextService } from '../services/context.service';
+import { CookieService } from 'ngx-cookie-service';
 
 /**
  * @description
@@ -32,9 +33,13 @@ export abstract class ServiceGeneric {
 	 */
 	public localeId: string | undefined;
 
+
+	protected cookieService: CookieService;
+
 	constructor(
 		public injector: Injector) {
         this.http = this.injector.get(HttpClient);
+				this.cookieService = injector.get(CookieService);
 		this.context = this.objContext;
 	}
 

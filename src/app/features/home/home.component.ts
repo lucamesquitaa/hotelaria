@@ -1,25 +1,8 @@
-import { CommonModule, JsonPipe } from '@angular/common';
 import { Component, Injector } from '@angular/core';
-import { NgbTypeaheadModule } from '@ng-bootstrap/ng-bootstrap';
 import { Observable, OperatorFunction } from 'rxjs';
-import { debounceTime, distinctUntilChanged, switchMap, catchError, map  } from 'rxjs/operators';
+import { debounceTime, distinctUntilChanged, map  } from 'rxjs/operators';
 import { ComponentBase } from 'src/app/shared/components/component.base';
-
-const hoteis = [
-	{
-		name: "Hotel ABC",
-		id: "hotel-abc"
-	},
-	{
-		name: "Hotel Teste 1",
-		id: "hotel-teste-1"
-	},
-	{
-		name: "Hotel Teste 2",
-		id: "hotel-teste-2"
-	},
-];
-
+import { HotelService } from 'src/app/shared/services/hotel.service';
 
 @Component({
   selector: 'app-home',
@@ -31,12 +14,26 @@ export class HomeComponent extends ComponentBase {
 
   hotel: any;
 
-  constructor(public override injector: Injector) {
+	filteredHoteis: any[] = [];
+
+  hoteis!: any[];
+
+  constructor(public override injector: Injector, private hotelService: HotelService) {
     super(injector);
 
   }
   override ngOnInit(): void {
+		this.doGetAllHoteis()
   }
+
+	doGetAllHoteis(){
+		this.hotelService.doGetAllHoteis().subscribe({
+			next: (result) => {
+				this.hoteis = result;
+				this.filteredHoteis = this.hoteis;
+			},
+		});
+	}
 
 	formatter = (result: any) => result.name.toUpperCase() + " (" + result.id + ")";
 
@@ -47,12 +44,20 @@ export class HomeComponent extends ComponentBase {
 			map((term) =>
 				term === ''
 					? []
-					: hoteis.filter((v) => v.name.toLowerCase().indexOf(term.toLowerCase()) > -1).slice(0, 10),
+					: this.hoteis.filter((v) => v.name.toLowerCase().indexOf(term.toLowerCase()) > -1).slice(0, 10),
 			),
 		);
 
-		visitHotel(){
-			this.router.navigate(['hotel/' + this.hotel.id]);
+		onHotelSelecionado() {
+			if(!this.hotel) {
+				this.filteredHoteis = this.hoteis;
+				return;
+				}
+				this.filteredHoteis = this.hoteis.map((v) => this.hotel.name === v.name ? v : null).filter((v) => v !== null);
+	 	}
+
+		visitarSite(item: any){
+			this.router.navigate(['hotel/' + item.url]);
 		}
 }
 

@@ -9,7 +9,7 @@ import { RefreshToken } from '../models/refreshToken';
   providedIn: 'root'
 })
 export class LoginService extends ServiceGeneric {
-  override urlServiceREST: string = "https://hotelaria-back-a84b6288af20.herokuapp.com/api/Login";
+  override urlServiceREST: string = "https://hotelaria-vstudio2022-54700728866.us-central1.run.app/api/Login";
 
   constructor(public override injector: Injector) {
     super(injector);

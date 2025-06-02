@@ -3,12 +3,13 @@ import { Observable } from 'rxjs';
 import { ServiceGeneric } from './generic.service';
 import { DetalhesModel } from '../models/hotel.model';
 import { HoteisAllModel } from '../models/hoteisAll.model';
+import { HttpHeaders } from '@angular/common/http';
 
 @Injectable({
   providedIn: 'root'
 })
 export class HotelService extends ServiceGeneric {
-  override urlServiceREST: string = "https://hotelaria-back-a84b6288af20.herokuapp.com/api/Hotel";
+  override urlServiceREST: string = "https://hotelaria-vstudio2022-54700728866.us-central1.run.app/api/Hotel";
 
   constructor(public override injector: Injector) {
     super(injector);
@@ -22,11 +23,21 @@ export class HotelService extends ServiceGeneric {
     return this.http.get<DetalhesModel[]>(this.urlServiceREST +"/" + hotelId);
   }
 
-  // doDeleteMeta(id: string): Observable<string>{
-  //   return this.http.delete(this.urlServiceREST + "/" +id, { responseType: 'text'});
-  // }
+  doDeleteHotel(id: string): Observable<string>{
+    //setar token Authorization
+    const headers = new HttpHeaders().set('Authorization', 'Bearer ' + this.cookieService.get('access_token'));
+    
+    return this.http.delete<any>(this.urlServiceREST + "/" +id, { headers});
+  }
 
-  // doPatchMeta(id: string): Observable<Object>{
-  //   return this.http.patch(this.urlServiceREST + "/" +id, { responseType: 'text'});
-  // }
+  doPostHotel(hotel: DetalhesModel): Observable<DetalhesModel> {
+    const headers = new HttpHeaders().set('Authorization', 'Bearer ' + this.cookieService.get('access_token'));
+    if (!hotel.id) {
+      return this.http.post<DetalhesModel>(this.urlServiceREST, hotel, { headers });
+    } else {
+      return this.http.put<DetalhesModel>(this.urlServiceREST + "/" + hotel.id, hotel, { headers });
+    }
+  }
+
+  
 }

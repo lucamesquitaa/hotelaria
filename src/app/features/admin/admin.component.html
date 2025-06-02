@@ -16,6 +16,7 @@
     <span class="text-center spanName">{{item.name}}</span>
     <span class="text-center spanName">{{item.url}}</span>
     <button class="btn btn-outline-primary mb-2 me-2 bi bi-pencil" (click)="openLg(content, item.id)">Editar</button>
+    <button class="btn btn-outline-danger" (click)="doExcluirHotel(item.id)">Excluir</button>
   </div>
   <button class="btn btn-primary mb-2 me-2 bi bi-plus-circle buttonFlutua" (click)="openLg(content)"> Adicionar</button>
 </div>
@@ -40,6 +41,16 @@
             </div>
         </div>
         <div class="row">
+            <div class="col-lg-6 col-md-12">
+              <label for="rede" class="form-label">Rede</label>
+              <input type="text" class="form-control" formControlName="rede" required>
+            </div>
+            <div class="col-lg-6 col-md-12">
+              <label for="city" class="form-label">Cidade</label>
+              <input type="text" formControlName="city" class="form-control" required>
+            </div>
+        </div>
+        <div class="row">
           <div class="col-lg-6 col-md-12">
             <label for="category" class="form-label">Categoria</label>
             <select class="form-select" formControlName="category" required>
@@ -47,25 +58,24 @@
               <option value="1">Resort</option>
               <option value="2">Hotel</option>
               <option value="3">Pousada</option>
-              <option value="4">Hostel</option>
             </select>
           </div>
           <div class="col-lg-6 col-md-12">
-            <label for="child" class="form-label">Aequado para crianças</label>
+            <label for="child" class="form-label">Crianças</label>
             <select class="form-select" formControlName="child" required>
               <option value="" disabled selected>Selecione:</option>
-              <option value="1">Sim</option>
-              <option value="2">Não</option>
+              <option value="1">Adequado para Crianças</option>
+              <option value="2">Não Adequado para Crianças</option>
             </select>
           </div>
         </div>
         <div class="row">
           <div class="col-lg-6 col-md-12">
-            <label for="pet" class="form-label">Aequado para animais</label>
+            <label for="pet" class="form-label">Animais</label>
             <select class="form-select" formControlName="pet" required>
               <option value="" disabled selected>Selecione:</option>
-              <option value="1">Sim</option>
-              <option value="2">Não</option>
+              <option value="1">Adequado para Animais</option>
+              <option value="2">Não Adequado para Animais</option>
             </select>
           </div>
           <div class="col-lg-6 col-md-12">
@@ -75,8 +85,8 @@
         </div>
         <div class="row">
             <div class="col-lg-6 col-md-12">
-              <label for="id" class="form-label">Id</label>
-              <input type="text" class="form-control" formControlName="id" required>
+              <label for="url" class="form-label">Url</label>
+              <input type="text" class="form-control" formControlName="url" required>
             </div>
             <div class="col-lg-6 col-md-12">
               <label for="cep" class="form-label">CEP</label>
@@ -97,58 +107,77 @@
               <input type="text" class="form-control" formControlName="comp">
             </div>
         </div>
+         <div class="row">
+            <div class="col-lg-6 col-md-12">
+              <label for="lobby" class="form-label">Recepção</label>
+              <input type="text" class="form-control" formControlName="lobby" required>
+            </div>
+            <div class="col-lg-6 col-md-12">
+              <label for="diff" class="form-label">Diferenciais</label>
+              <input type="text" formControlName="diff" class="form-control" required>
+            </div>
+        </div>
 
       <div class="fotosContainer" formArrayName="fotos">
         <span class="text-center">Fotos</span>
-        <div *ngFor="let foto of fotos.controls; let i = index" class="col-lg-12 col-md-12 paddingPhoto d-flex align-items-center">
-          <input type="text" class="form-control me-2" [formControlName]="i" placeholder="Endereço da foto">
+        <div *ngFor="let foto of fotos.controls; let i = index" [formGroupName]="i" class="col-lg-12 col-md-12 paddingPhoto d-flex align-items-center">
+          <button type="button" *ngIf="foto.value?.stared" class="btn btn-primary btn-sm bi bi-star-fill starredButton" (click)="starImg(i)"></button>
+          <button type="button" *ngIf="!foto.value?.stared" class="btn btn-outline-primary btn-sm bi bi-star starredButton" (click)="starImg(i)"></button>
+          <input type="text" class="form-control me-2" formControlName="url" placeholder="Endereço da foto">
           <button type="button" class="btn btn-outline-danger btn-sm" (click)="removeFoto(i)">&#10005;</button>
         </div>
         <button type="button" class="btn bi bi-camera btn-outline-primary" (click)="addFoto()"> Adicionar</button>
       </div>
-
-        <div class="row">
-          Comodidades:
+       <div class="row">
+        
           <div class="col-lg-6 col-md-12">
-            <div>
-              <div class="form-check">
-              <input class="form-check-input" type="checkbox" value="" formControlName="checkCafe">
-              <label class="form-check-label" for="checkCafe">
-                Café da manhã
-              </label>
-            </div>
-            <div class="form-check">
-              <input class="form-check-input" type="checkbox" value="" formControlName="checkWifi">
-              <label class="form-check-label" for="checkWifi">
-                Wifi
-              </label>
-            </div>
-            <div class="form-check">
-              <input class="form-check-input" type="checkbox" value="" formControlName="checkPiscina">
-              <label class="form-check-label" for="checkPiscina">
-                Piscina
-              </label>
-            </div>
-            <div class="form-check">
-              <input class="form-check-input" type="checkbox" value="" formControlName="checkLimpeza">
-              <label class="form-check-label" for="checkLimpeza">
-                Serviço de limpeza
-              </label>
-            </div>
-            <div class="form-check">
-              <input class="form-check-input" type="checkbox" value="" formControlName="checkAcademia">
-              <label class="form-check-label" for="checkAcademia">
-                Academia
-              </label>
-            </div>
+            <label for="checkCafe" class="form-label">Café da manhã</label>
+            <select class="form-select" formControlName="checkCafe" required>
+              <option value="" disabled selected>Selecione:</option>
+              <option value="1">Incluso</option>
+              <option value="2">Não incluso</option>
+            </select>
+          </div>
+          <div class="col-lg-6 col-md-12">
+            <label for="checkWifi" class="form-label">Wifi</label>
+            <select class="form-select" formControlName="checkWifi" required>
+              <option value="" disabled selected>Selecione:</option>
+              <option value="1">Incluso</option>
+              <option value="2">Não incluso</option>
+            </select>
           </div>
         </div>
-        
-            
-        </div>
          <div class="row">
-          Proximidades:
           <div class="col-lg-6 col-md-12">
+            <label for="checkPiscina" class="form-label">Piscina</label>
+            <select class="form-select" formControlName="checkPiscina" required>
+              <option value="" disabled selected>Selecione:</option>
+               <option value="1">Incluso</option>
+              <option value="2">Não incluso</option>
+            </select>
+          </div>
+          <div class="col-lg-6 col-md-12">
+            <label for="checkLimpeza" class="form-label">Serviço de limpeza</label>
+            <select class="form-select" formControlName="checkLimpeza" required>
+              <option value="" disabled selected>Selecione:</option>
+               <option value="1">Incluso</option>
+              <option value="2">Não incluso</option>
+            </select>
+          </div>
+        </div>
+        <div class="row">
+          <div class="col-lg-6 col-md-12">
+            <label for="checkAcademia" class="form-label">Academia no local</label>
+            <select class="form-select" formControlName="checkAcademia" required>
+              <option value="" disabled selected>Selecione:</option>
+               <option value="1">Incluso</option>
+              <option value="2">Não incluso</option>
+            </select>
+          </div>
+          </div>
+  
+         <div class="row rowProximidades">
+          <div class="col-lg-12 col-md-12">
             <div>
               <div class="form-check">
               <input class="form-check-input" type="checkbox" value="" formControlName="checkPraia">
@@ -183,13 +212,22 @@
           </div>
         </div>
         
+        <div class="fotosContainer" formArrayName="contatos">
+          <span class="text-center">Contatos (max. 3)</span>
+          <div *ngFor="let ctt of contatos.controls; let i = index" [formGroupName]="i" class="col-lg-12 col-md-12 paddingPhoto d-flex align-items-center">
+            <input type="text" class="form-control me-1" formControlName="name" placeholder="Nome">
+            <input type="text" class="form-control me-1" formControlName="contact" placeholder="Contato">
+            <button type="button" class="btn btn-outline-danger btn-sm" (click)="removeContato(i)">&#10005;</button>
+          </div>
+          <button type="button" class="btn bi bi-phone btn-outline-primary" (click)="addContato()" [disabled]="contatos.length >= 3"> Adicionar</button>
+        </div>
             
         </div>
-
+      <div class="modal-footer">
+        <button type="button" class="btn btn-secondary" (click)="modal.dismiss('Cross click')">Cancelar</button>
+        <button type="submit" class="btn btn-primary">Salvar</button>
+      </div>
       </form>
     </div>
-    <div class="modal-footer">
-      <button type="button" class="btn btn-secondary" (click)="modal.dismiss('Cross click')">Cancelar</button>
-      <button type="submit" class="btn btn-primary">Salvar</button>
-    </div>
+    
   </ng-template>

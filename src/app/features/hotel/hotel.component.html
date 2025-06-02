@@ -1,17 +1,23 @@
 
 <div class="containerHotel">
     <h4>Seja bem vindo!</h4>
-    <h2>Você está an página do {{hotelId}}</h2>
+    <h3>Você está an página do <br/>{{hotelId}}</h3>
     
     <div class="hotel"> 
       <span>Propaganda do HOTEL aqui*</span>
-      <img src="../../../assets/hotel-free.jpg" alt="hotel"/>
+      <google-map  *ngIf="center"
+        height="500px" 
+        width="100%" 
+        [center]="center" 
+        [zoom]="100">
+        
+        <map-marker 
+          [position]="center" 
+          [label]="'Local'">
+        </map-marker>
+
+      </google-map>
     </div>
 
-    <div class="inline-row">
-      <span class="material-symbols-outlined">
-      location_on
-      </span>
-      <span>Endereço: Rua Espirito Santo 1209, Brasilia - GO</span>
-    </div>
+
 </div>

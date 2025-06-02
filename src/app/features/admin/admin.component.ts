@@ -3,6 +3,7 @@ import { FormArray, FormControl, FormGroup, Validators } from '@angular/forms';
 import { NgbModal } from '@ng-bootstrap/ng-bootstrap';
 import { OperatorFunction, Observable, debounceTime, distinctUntilChanged, map } from 'rxjs';
 import { ComponentBase } from 'src/app/shared/components/component.base';
+import { Contact, Photo } from 'src/app/shared/models/hotel.model';
 import { HotelService } from 'src/app/shared/services/hotel.service';
 
 
@@ -20,6 +21,7 @@ export class AdminComponent extends ComponentBase implements OnInit {
 
   hoteis!: any[];
 
+
 /**
  *
  */
@@ -29,6 +31,24 @@ constructor(public override injector: Injector, private hotelService: HotelServi
 }
 
 override ngOnInit(): void {
+  this.doGetAllHoteis();
+
+   // Atualiza o campo url conforme o nome é digitado
+  this.formGroupAdmin.get('name')?.valueChanges.subscribe((value: string) => {
+    if (value) {
+      const url = value
+        .toLowerCase()
+        .normalize('NFD').replace(/[\u0300-\u036f]/g, '') // remove acentos
+        .replace(/[^a-z0-9]+/g, '-') // substitui por hífen
+        .replace(/(^-|-$)/g, ''); // remove hífens do início/fim
+      this.formGroupAdmin.get('url')?.setValue(url, { emitEvent: false });
+    } else {
+      this.formGroupAdmin.get('url')?.setValue('', { emitEvent: false });
+    }
+  });
+}
+
+doGetAllHoteis(){
   this.hotelService.doGetAllHoteis().subscribe({
     next: (result) => {
       this.hoteis = result;
@@ -39,16 +59,20 @@ override ngOnInit(): void {
 
   formGroupAdmin: FormGroup = new FormGroup({
     name: new FormControl('', [Validators.required]),
+    rede: new FormControl('', [Validators.required]),
+    city: new FormControl('', [Validators.required]),
     desc: new FormControl('', [Validators.required]),
     category: new FormControl('', [Validators.required]),
     child: new FormControl('', [Validators.required]),
     pet: new FormControl('', [Validators.required]),
     tax: new FormControl(''),
-    id: new FormControl('', [Validators.required]),
+    url: new FormControl('', [Validators.required]),
     cep: new FormControl('', [Validators.required]),
     endereco: new FormControl('', [Validators.required]),
     num: new FormControl('', [Validators.required]),
     comp: new FormControl(''),
+    lobby: new FormControl(''),
+    diff: new FormControl(''),
     checkPraia: new FormControl(false),
     checkCentro: new FormControl(false),
     checkAeroporto: new FormControl(false),
@@ -60,6 +84,7 @@ override ngOnInit(): void {
     checkLimpeza: new FormControl(false),
     checkAcademia: new FormControl(false),
     fotos: new FormArray([]),
+    contatos: new FormArray([]),
   });
 
   private modalService = inject(NgbModal);
@@ -69,17 +94,22 @@ override ngOnInit(): void {
       this.hotelService.doGetHotelId(id).subscribe({
         next: (result) => {
           this.formGroupAdmin.patchValue({
+            id: result[0].id,
             name: result[0].name,
+            rede: result[0].rede,
+            city: result[0].city,
             desc: result[0].description,
             category: result[0].category ,
             child: result[0].child == true ? 1 : 2,
             pet: result[0].pets == true ? 1 : 2,
             tax: result[0].petsTax,
-            id: result[0].id,
+            url: result[0].url,
             cep: result[0].cep,
             endereco: result[0].address,
             num: result[0].number,
             comp: result[0].complement,
+            lobby: result[0].lobby,
+            diff: result[0].diff,
             checkPraia: result[0].beach,
             checkCentro: result[0].downtown,
             checkAeroporto: result[0].airpot,
@@ -94,7 +124,21 @@ override ngOnInit(): void {
           this.fotos.clear();
           if (result[0].photos && Array.isArray(result[0].photos)) {
             for (const photo of result[0].photos) {
-              this.fotos.push(new FormControl(photo.url));
+              this.fotos.push(new FormGroup({
+                url: new FormControl(photo.url ?? ''),
+                alt: new FormControl(photo.alt ?? ''),
+                stared: new FormControl(photo.stared ?? false)
+              }));
+            }
+          }
+          this.contatos.clear();
+          if (result[0].contacts && Array.isArray(result[0].contacts)) {
+            for (const contact of result[0].contacts) {
+              console.log(contact);
+              this.contatos.push(new FormGroup({
+                name:  new FormControl(contact.name ?? ''),
+                contact: new FormControl(contact.contact ?? ''),
+              }));
             }
           }
           this.modalService.open(content, { size: 'lg' });
@@ -107,14 +151,60 @@ override ngOnInit(): void {
 
   onCadastraSubmit(formGroup: FormGroup) {
     if(formGroup) {
+      this.hotelService.doPostHotel({
+        id: formGroup.value.id ?? undefined,
+        name: formGroup.value.name,
+        rede: formGroup.value.rede,
+        city: formGroup.value.city,
+        url: formGroup.value.url,
+        description: formGroup.value.desc,
+        category: formGroup.value.category,
+        child: formGroup.value.child == '1',
+        pets: formGroup.value.pet == '1',
+        petsTax: formGroup.value.tax ?? 0,
+        cep: formGroup.value.cep,
+        address: formGroup.value.endereco,
+        number: formGroup.value.num,
+        complement: formGroup.value.comp,
+        lobby: formGroup.value.lobby,
+        diff: formGroup.value.diff,
+        beach: formGroup.value.checkPraia,
+        downtown: formGroup.value.checkCentro,
+        airpot: formGroup.value.checkAeroporto,
+        highway: formGroup.value.checkRodoviria,
+        hospital: formGroup.value.checkHospitais,
+        coffee: formGroup.value.checkCafe == '1',
+        wifi: formGroup.value.checkWifi == '1',
+        swimming: formGroup.value.checkPiscina == '1',
+        cleaning: formGroup.value.checkLimpeza == '1',
+        gym: formGroup.value.checkAcademia == '1', 
+        photos: this.fotos.value.map((photo: Photo | null) => ({
+          url: photo?.url ?? '',
+          alt: photo?.alt ?? '',
+          stared: photo?.stared ?? false
+        })),
+        contacts: this.contatos.value.map((ctt: Contact | null ) => ({
+          name: ctt?.name ?? '',
+          contact: ctt?.contact ?? '',
+        })),
+      }).subscribe({
+        next: (result) => {
+          this.toastr.success("Hotel cadastrado com sucesso!");
+          this.doGetAllHoteis();
+          this.modalService.dismissAll();
+          this.formGroupAdmin.reset();
+          this.fotos.clear();
+          this.contatos.clear();
+        },
+        error: (error) => {
+          this.toastr.error("Erro ao cadastrar hotel: " + error.message);
+        }
+      });
       
-      this.formGroupAdmin.reset();
-      this.fotos.clear();
-      return;
     }
   }
 
-  formatter = (result: any) => result.name.toUpperCase() + " (" + result.id + ")";
+  formatter = (result: any) => result.name.toUpperCase() + " (" + result.url + ")";
   
     search: OperatorFunction<string, readonly any[]> = (text$: Observable<any>) =>
       text$.pipe(
@@ -135,14 +225,51 @@ override ngOnInit(): void {
     this.filteredHoteis = this.hoteis.map((v) => this.hotel.name === v.name ? v : null).filter((v) => v !== null);
   }
 
-  get fotos(): FormArray {
-    return this.formGroupAdmin.get('fotos') as FormArray;
+  get fotos(): FormArray<FormGroup> {
+  return this.formGroupAdmin.get('fotos') as FormArray<FormGroup>;
+}
+get contatos(): FormArray<FormGroup> {
+  return this.formGroupAdmin.get('contatos') as FormArray<FormGroup>;
+}
+
+addFoto() {
+  this.fotos.push(new FormGroup({
+    url: new FormControl(''),
+    alt: new FormControl(''),
+    stared: new FormControl(false)
+  }));
+}
+ addContato() {
+  this.contatos.push(new FormGroup({
+    name: new FormControl(''),
+    contact: new FormControl('')
+  }));
+}
+removeFoto(index: number) {
+  this.fotos.removeAt(index);
+}
+removeContato(index: number) {
+  this.contatos.removeAt(index);
+}
+
+  doExcluirHotel(id: string){
+    if(id && id != ''){
+      this.hotelService.doDeleteHotel(id).subscribe({
+        next: (result) => {
+            this.toastr.success("Hotel excluído com sucesso!");
+            this.doGetAllHoteis();
+          }
+      });
+    }
   }
 
-  addFoto() {
-    this.fotos.push(new FormControl(''));
-  }
-  removeFoto(index: number) {
-    this.fotos.removeAt(index);
+  starImg(index: any){
+    const fotosArray = this.fotos;
+    const fotoControl = fotosArray.at(index);
+    const foto = fotoControl?.value;
+    if (foto) {
+      foto.stared = !foto.stared;
+      fotoControl.setValue(foto);
+    }
   }
 }

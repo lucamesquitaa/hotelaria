@@ -1,22 +1,25 @@
 
 
- interface Contact {
-  id: string;
-  detalhesModelId: string;
+ export interface Contact {
+  id?: string;
+  detalhesModelId?: string;
   name: string;
   contact: string;
 }
 
-interface Photo {
-  id: string;
-  detalhesModelId: string;
+export interface Photo {
+  id?: string;
+  detalhesModelId?: string;
   alt: string;
   url: string;
+  stared?: boolean;
 }
 
 export interface DetalhesModel {
-  id: string;
+  id?: string;
   name: string;
+  rede: string;
+  city: string;
   url: string;
   description: string;
   category: number;
@@ -27,6 +30,8 @@ export interface DetalhesModel {
   address: string;
   number: string;
   complement: string;
+  lobby: string;
+  diff: string;
   beach: boolean;
   downtown: boolean;
   airpot: boolean;
@@ -37,6 +42,6 @@ export interface DetalhesModel {
   swimming: boolean;
   cleaning: boolean;
   gym: boolean;
-  contacts: Contact[];
-  photos: Photo[];
+  contacts?: Contact[];
+  photos?: Photo[];
 }

@@ -12,6 +12,7 @@ import { ROUTES } from './app.routes'
 import { CommonModule } from '@angular/common';
 import { CookieService } from 'ngx-cookie-service';
 import { ToastrModule } from 'ngx-toastr';
+import { GoogleMapsModule } from '@angular/google-maps';
 
 
 @NgModule({

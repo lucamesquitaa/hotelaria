@@ -40,7 +40,16 @@
 .paddingPhoto{
   padding: 5px;
 }
-
+.starredButton{
+  color: yellow;
+  margin: 5px;
+}
+.rowProximidades{
+  display: flex;
+  width: 100%;
+  justify-content: flex-end;
+  align-items: flex-end;
+}
 @media screen and (max-width: 570px){
   .hotelCard{
     justify-content: center;
