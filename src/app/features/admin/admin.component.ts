@@ -21,7 +21,7 @@ export class AdminComponent extends ComponentBase implements OnInit {
 
   hoteis!: any[];
 
-
+  id?: string;
 /**
  *
  */
@@ -93,6 +93,7 @@ doGetAllHoteis(){
     if (id) {
       this.hotelService.doGetHotelId(id).subscribe({
         next: (result) => {
+          this.id = result[0].id ?? undefined;
           this.formGroupAdmin.patchValue({
             id: result[0].id,
             name: result[0].name,
@@ -115,11 +116,11 @@ doGetAllHoteis(){
             checkAeroporto: result[0].airpot,
             checkRodoviria: result[0].highway,
             checkHospitais: result[0].hospital,
-            checkCafe: result[0].coffee,
-            checkWifi: result[0].wifi,
-            checkPiscina: result[0].swimming,
-            checkLimpeza: result[0].cleaning,
-            checkAcademia: result[0].gym
+            checkCafe: result[0].coffee == true ? 1 : 2,
+            checkWifi: result[0].wifi == true ? 1 : 2,
+            checkPiscina: result[0].swimming == true ? 1 : 2,
+            checkLimpeza: result[0].cleaning == true ? 1 : 2,
+            checkAcademia: result[0].gym == true ? 1 : 2
           });
           this.fotos.clear();
           if (result[0].photos && Array.isArray(result[0].photos)) {
@@ -152,7 +153,7 @@ doGetAllHoteis(){
   onCadastraSubmit(formGroup: FormGroup) {
     if(formGroup) {
       this.hotelService.doPostHotel({
-        id: formGroup.value.id ?? undefined,
+        id: this.id ?? undefined,
         name: formGroup.value.name,
         rede: formGroup.value.rede,
         city: formGroup.value.city,
@@ -195,6 +196,7 @@ doGetAllHoteis(){
           this.formGroupAdmin.reset();
           this.fotos.clear();
           this.contatos.clear();
+          this.id = undefined;
         },
         error: (error) => {
           this.toastr.error("Erro ao cadastrar hotel: " + error.message);
