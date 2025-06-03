@@ -1,3 +1,10 @@
+.telasContainer {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  min-height: 100vh; // ocupa toda a altura da tela
+  background-color: #FAF0E6;
+}
 .containerHotel{
   width: 100%;
   display: flex;
@@ -5,6 +12,27 @@
   justify-content: center;
   flex-direction: column;
   flex-wrap: wrap;
+  align-self: center;
+}
+.headerContainer {
+  width: 100%;
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  padding: 0 16px;
+  background-color: #FFFFFF;
+}
+
+.logoCasinha {
+  width: 100px;
+  height: auto;
+}
+
+
+.headerContainer p {
+  margin: 0;
+  cursor: pointer;
+  font-size: 1.5rem;
 }
 .inline-row{
   width: 100%;
@@ -14,15 +42,127 @@
   flex-direction: row;
   flex-wrap: wrap;
 }
-.hotel
+.maps
 {
-  width: 300px;
+  width: 95%;
+  margin-bottom: 30px;
 }
-.hotel img{
+img{
   width: 100%;
   height: auto;
+  max-height: 250px;
 }
-@media screen and (max-width: 570px){
-  
+.buttonLink{
+  color: #002D4F;
+  margin-top: -20px;
+}
+.sliderContainer{
+  width: 100%;
+}
+.containerInfos{
+  width: 100%;
+  z-index: 3;
+  padding: 10px;
+  background-color: #FAF0E6;;
+  border-radius: 25px;
+  margin-top: -20px;
+  display: flex;
+  align-items: center;
+  justify-self: center;
+  flex-direction: column;
+}
+.titleHotel{
+  width: 100%;
+  text-align: center;
+  padding: 15px;
+  font-weight: 600;
+}
+.subtitleHotel{
+  margin-top: -25px;
+}
+.detalhesContainer{
+  width: 95%;
+  padding: 10px;
+  border-radius: 25px;
+  border: 0.5px solid #5A5A5A80;
+}
+.icones{
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  flex-direction: row;
+  flex-wrap: wrap;
+}
+.icones span{
+   width: 49%;
+}
+.buttonWPP button{
+  padding: 10px;
+  margin: 20px;
+  background-color: #002D4F;
+}
+.alignSelf1{
+  display: flex;
+  align-self: flex-end;
+}
+.ZZZ img{
+  width: 100%;
+  height: auto;
+  max-height: 250px;
 
+}
+.textBold{
+  font-weight: bold;
+  
+}
+.textApenas{
+  padding: 10px;
+}
+
+@media screen and (min-width: 580px){
+  .containerHotel{
+    flex-direction: row;
+  }
+  .sliderContainer{
+    width: 50%;
+    height: auto;
+    margin-top: 20px;
+    margin-bottom: 20px;
+  }
+  img{
+    max-height:300px;
+     border-radius: 25px;
+  }
+  .containerInfos{
+    width: 50%;
+    margin-top: 20px;
+  }
+  .detalhesContainer{
+    width: 100%;
+    margin-top: 10px;
+  }
+  .buttonWPP{
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    width: 100%;
+    margin: 0px auto;
+    padding: 0;
+  }
+  .maps{
+    width: 100%;
+    margin-top: 10px;
+  }
+  .ZZZ img{
+    width: 100%;
+    height: auto;
+    max-height: 500px;
+  }
+}
+@media screen and (min-width: 1000px){
+  .containerHotel{
+    width: 100%;
+    max-width: 1000px;
+    background-color: #FAF0E6;
+  }
 }

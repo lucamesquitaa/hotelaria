@@ -1,38 +1,6 @@
 
 <div class="telas">
-  <div *ngIf="this.context.token" class="border rounded-3 p-3 headerBomdia">
-    <h5>{{textSaudacao}}, {{this.context.usuario.username}}</h5>
-  </div>
 
-
-
-
-
-
-  <div *ngIf="this.context.token" class="container-fluid flex-grow-1 d-flex flex-column flex-sm-row">
-
-      <div class="bg-light border rounded-3 p-1 fixed-top containerMenu">
-        <ul class="nav nav-pills flex-sm-column flex-row mb-auto justify-content-between text-truncate">
-            <li class="nav-item">
-                <a href="home" class="nav-link px-2 text-truncate">
-                    <i class="bi bi-house fs-5"></i>
-                    <span class="d-none d-sm-inline categoriaCustom">Home</span>
-                </a>
-            </li>
-            <li>
-                <a href="dashboard" class="nav-link px-2 text-truncate">
-                    <i class="bi bi-card-text fs-5"></i>
-                    <span class="d-none d-sm-inline categoriaCustom">Metas</span>
-                </a>
-            </li>
-            <li>
-                <a href="imc" class="nav-link px-2 text-truncate"><i class="bi bi-calculator fs-5"></i>
-                    <span class="d-none d-sm-inline categoriaCustom">IMC</span> </a>
-            </li>
-        </ul>
-      </div>
-    </div>
-  <div class="telasContainer">
     <router-outlet></router-outlet>
-  </div>
+
 </div>

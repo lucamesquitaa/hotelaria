@@ -1,4 +1,4 @@
-import { Component, Inject, inject, Injector, OnInit, TemplateRef } from '@angular/core';
+import { Component, Inject, inject, Injector, OnInit, resolveForwardRef, TemplateRef } from '@angular/core';
 import { FormArray, FormControl, FormGroup, Validators } from '@angular/forms';
 import { NgbModal } from '@ng-bootstrap/ng-bootstrap';
 import { OperatorFunction, Observable, debounceTime, distinctUntilChanged, map } from 'rxjs';
@@ -21,7 +21,8 @@ export class AdminComponent extends ComponentBase implements OnInit {
 
   hoteis!: any[];
 
-  id?: string;
+  detalhesModelId!: string | undefined;
+
 /**
  *
  */
@@ -58,6 +59,7 @@ doGetAllHoteis(){
 }
 
   formGroupAdmin: FormGroup = new FormGroup({
+    id: new FormControl(''),
     name: new FormControl('', [Validators.required]),
     rede: new FormControl('', [Validators.required]),
     city: new FormControl('', [Validators.required]),
@@ -93,7 +95,6 @@ doGetAllHoteis(){
     if (id) {
       this.hotelService.doGetHotelId(id).subscribe({
         next: (result) => {
-          this.id = result[0].id ?? undefined;
           this.formGroupAdmin.patchValue({
             id: result[0].id,
             name: result[0].name,
@@ -135,7 +136,6 @@ doGetAllHoteis(){
           this.contatos.clear();
           if (result[0].contacts && Array.isArray(result[0].contacts)) {
             for (const contact of result[0].contacts) {
-              console.log(contact);
               this.contatos.push(new FormGroup({
                 name:  new FormControl(contact.name ?? ''),
                 contact: new FormControl(contact.contact ?? ''),
@@ -153,7 +153,7 @@ doGetAllHoteis(){
   onCadastraSubmit(formGroup: FormGroup) {
     if(formGroup) {
       this.hotelService.doPostHotel({
-        id: this.id ?? undefined,
+        id: formGroup.value.id,
         name: formGroup.value.name,
         rede: formGroup.value.rede,
         city: formGroup.value.city,
@@ -196,7 +196,6 @@ doGetAllHoteis(){
           this.formGroupAdmin.reset();
           this.fotos.clear();
           this.contatos.clear();
-          this.id = undefined;
         },
         error: (error) => {
           this.toastr.error("Erro ao cadastrar hotel: " + error.message);
@@ -244,7 +243,7 @@ addFoto() {
  addContato() {
   this.contatos.push(new FormGroup({
     name: new FormControl(''),
-    contact: new FormControl('')
+    contact: new FormControl(''),
   }));
 }
 removeFoto(index: number) {
@@ -265,13 +264,11 @@ removeContato(index: number) {
     }
   }
 
-  starImg(index: any){
-    const fotosArray = this.fotos;
-    const fotoControl = fotosArray.at(index);
-    const foto = fotoControl?.value;
-    if (foto) {
-      foto.stared = !foto.stared;
-      fotoControl.setValue(foto);
+  starImg(index: number) {
+    const fotoControl = this.fotos.at(index);
+    if (fotoControl) {
+      const stared = fotoControl.get('stared')?.value;
+      fotoControl.patchValue({ stared: !stared });
     }
   }
 }

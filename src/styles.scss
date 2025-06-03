@@ -8,9 +8,12 @@ body {
 
 h1,h2,h3,h4,h5,h6{
   color: var(--font-color-padrao-preto);
-  font-family: "Onest", sans-serif;
-  font-optical-sizing: auto;
-  font-weight: 300;
+  font-family: "Source Sans 3", sans-serif;
+  font-weight: 400;
+}
+span, p {
+  font-family: "Quicksand", sans-serif;
+  font-weight: 400;
 }
 .po-button{
   --background-color: var(--font-color-padrao-branco);
