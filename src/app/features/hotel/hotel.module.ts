@@ -5,6 +5,7 @@ import { HotelRoutingModule } from './hotel-routing.module';
 import { SharedModule } from 'src/app/shared/shared.module';
 import { GoogleMapsModule } from '@angular/google-maps';
 import { HotelComponent } from './hotel.component';
+import { NgbCarouselModule } from '@ng-bootstrap/ng-bootstrap';
 
 
 @NgModule({
@@ -16,6 +17,7 @@ import { HotelComponent } from './hotel.component';
     HotelRoutingModule,
     SharedModule,
     GoogleMapsModule,
+    NgbCarouselModule
   ]
 })
 export class HotelModule { }

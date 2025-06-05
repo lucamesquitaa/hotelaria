@@ -1,28 +1,32 @@
-<div class="containerHome">
-    <div class="propagandaContainer">
-      <span>Propaganda do site aqui*</span>
-      <img src="https://i.imgur.com/U7GcMwB.jpg" alt="hotel"/>
-      <p>Hoteis e pousadas para você escolher! Os melhores hoteis e pousadas do Brasil!</p>
-
-      <hr/>
-
-       <label for="typeahead-format">Busque por um Hotel:</label>
-      <input
-        id="typeahead-format"
-        type="text"
-        class="form-control"
-        [(ngModel)]="hotel"
-        (ngModelChange)="onHotelSelecionado()"
-        [ngbTypeahead]="search"
-        accentSensitive="false"
-        [resultFormatter]="formatter"
-        [inputFormatter]="formatter"
-      />
+<div class="telasContainer">
+  <div class="containerHome">
+    <div class="headerContainer">
+        <img src="assets/imglogo.png" class="logoCasinha" (click)="router.navigate(['home'])" alt="logo turify casinha"/>
+        <p class="bi bi-upload" (click)="compartilhar()"></p>
     </div>
-    <div  *ngFor="let item of filteredHoteis" class="hotelCard col-lg-6 col-md-12">
-      <span class="text-center spanName">{{item.name}}</span>
-      <span class="text-center spanName">{{item.url}}</span>
-      <button class="btn btn-outline-primary mb-2 me-2 bi bi-arrow-up-right-circle" (click)="visitarSite(item)">Visitar</button>
-    </div>
-   
+      <div class="propagandaContainer">
+
+        <input
+          id="typeahead-format"
+          type="text"
+          class="form-control"
+          [(ngModel)]="hotel"
+          (ngModelChange)="onHotelSelecionado()"
+          [ngbTypeahead]="search"
+          accentSensitive="false"
+          placeholder="Busque por um Hotel:"
+          [resultFormatter]="formatter"
+          [inputFormatter]="formatter"
+        />
+      </div>
+        <div *ngFor="let item of filteredHoteis" class="hotelCard col-lg-6 col-md-12">
+          <img [src]="item.photosStared[0]" alt="imagem principal hotel"/> 
+          <h3 class="text-center spanName">{{item.name}}</h3>
+          <span class="text-center spanName">{{item.description}}</span>
+          <button class="btn btn-outline-primary mb-2 me-2 bi bi-arrow-up-right-circle" (click)="visitarSite(item)"> Visitar</button>
+        </div>
+      
+    
+  </div>
 </div>
+

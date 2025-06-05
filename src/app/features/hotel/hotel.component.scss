@@ -1,3 +1,10 @@
+.telasContainer {
+  display: flex;
+  align-items: start;
+  justify-content: center;
+  min-height: 100vh; // ocupa toda a altura da tela
+  background-color: #FFFFFF;
+}
 .containerHotel{
   width: 100%;
   display: flex;
@@ -5,6 +12,27 @@
   justify-content: center;
   flex-direction: column;
   flex-wrap: wrap;
+  align-self: center;
+}
+.headerContainer {
+  width: 100%;
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  padding: 0 16px;
+  background-color: #cecece;
+}
+
+.logoCasinha {
+  width: 100px;
+  height: auto;
+}
+
+
+.headerContainer p {
+  margin: 0;
+  cursor: pointer;
+  font-size: 1.5rem;
 }
 .inline-row{
   width: 100%;
@@ -14,15 +42,183 @@
   flex-direction: row;
   flex-wrap: wrap;
 }
-.hotel
+.maps
 {
-  width: 300px;
+  width: 95%;
+  margin-bottom: 80px;
+  margin-top: 30px;
 }
-.hotel img{
+img{
   width: 100%;
   height: auto;
+  max-height: 250px;
 }
-@media screen and (max-width: 570px){
-  
+.buttonLink{
+  color: rgb(3, 67, 116);
+  margin-top: -20px;
+}
+.sliderContainer{
+  width: 100%;
+}
+.MILpxEsconde{
+  display: flex;
+}
+.MILpxMostra{
+  display: none;
+}
+.containerInfos{
+  width: 100%;
+  z-index: 3;
+  padding: 10px;
+  background-color: #FFFFFF;;
+  border-radius: 25px;
+  margin-top: -20px;
+  display: flex;
+  align-items: center;
+  justify-self: center;
+  flex-direction: column;
+}
+.titleHotel{
+  width: 100%;
+  text-align: center;
+  padding: 15px;
+  font-weight: 600;
+}
+.subtitleHotel{
+  margin-top: -25px;
+}
+.detalhesContainer{
+  width: 90%;
+  padding: 10px;
+  margin: 0 auto;
+  border-radius: 5px;
+  border: 0.5px solid #5A5A5A80;
+  box-shadow: 1px 1px 1px #afafaf;
+}
+.icones{
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  flex-direction: row;
+  flex-wrap: wrap;
+}
+.icones span{
+   width: 49%;
+}
+.buttonWPP button{
+  position: fixed;
+  bottom: 30px;
+  right: 30px;
+  padding: 18px;
+  background-color: rgb(3, 67, 116);
+  z-index: 4;
+  box-shadow: 1px 1px 1px #afafaf;
+}
+.alignSelf1{
+  display: flex;
+  align-self: flex-end;
+}
+.ZZZ img{
+  width: 100%;
+  height: auto;
+  max-height: 250px;
 
+}
+.textBold{
+  font-weight: bold;
+  
+}
+.textApenas{
+  padding: 5px;
+}
+.maps{
+    max-width: 90%;
+    padding: 10px;
+    margin: 0 auto;
+    margin-bottom: 60px;
+    box-shadow: 1px 1px 1px #afafaf;
+  }
+.textP {
+    padding: 10px;
+  }
+@media screen and (min-width: 580px){
+  .containerHotel{
+    flex-direction: row;
+  }
+  .sliderContainer{
+    width: 55%;
+    height: auto;
+    margin-top: 20px;
+    margin-bottom: 20px;
+  }
+  img{
+    max-height:300px;
+     border-radius: 5px;
+  }
+  .containerInfos{
+    width: 45%;
+    margin-top: 20px;
+  }
+  .buttonWPP{
+    
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    width: 100%;
+    margin: 0px auto;
+    padding: 0;
+  }
+  .maps{
+    width: 100%;
+    margin-top: 10px;
+  }
+  .ZZZ img{
+    width: 100%;
+    height: auto;
+    max-height: 500px;
+  }
+}
+@media screen and (min-width: 900px){
+  .containerHotel{
+    width: 100%;
+    max-width: 1000px;
+    background-color: #FFFFFF;
+  }
+  .colum{
+    width: 43%;
+  }
+  .containerAntesDetalhes{
+    display: flex;
+    width: 53%;
+    padding: 20px;
+    align-items: start;
+    justify-content: start;
+    flex-direction: column;
+  }
+  
+  .detalhesContainer{
+    width: 100%;
+  }
+  .MILpxEsconde{
+    display: none;
+  }
+  .MILpxMostra{
+    display: block;
+  }
+  .buttonWpp1000px{
+    padding: 18px;
+    margin: 20px;
+    background-color: rgb(3, 67, 116);
+    box-shadow: 1px 1px 1px #afafaf;
+  }
+  .maps{
+    margin: 0 auto;
+    max-width: 100%;
+  }
+  .colum{
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    flex-direction: column;
+  }
 }

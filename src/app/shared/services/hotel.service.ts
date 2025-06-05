@@ -30,12 +30,12 @@ export class HotelService extends ServiceGeneric {
     return this.http.delete<any>(this.urlServiceREST + "/" +id, { headers});
   }
 
-  doPostHotel(hotel: DetalhesModel): Observable<DetalhesModel> {
+  doPostHotel(hotel: DetalhesModel, id?: string): Observable<DetalhesModel> {
     const headers = new HttpHeaders().set('Authorization', 'Bearer ' + this.cookieService.get('access_token'));
-    if (!hotel.id) {
+    if (id == undefined) {
       return this.http.post<DetalhesModel>(this.urlServiceREST, hotel, { headers });
     } else {
-      return this.http.put<DetalhesModel>(this.urlServiceREST + "/" + hotel.id, hotel, { headers });
+      return this.http.put<DetalhesModel>(this.urlServiceREST + "/" + id, hotel, { headers });
     }
   }
 

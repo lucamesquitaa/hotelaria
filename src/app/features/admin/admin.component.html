@@ -26,7 +26,7 @@
   <ng-template #content let-modal>
     <div class="modal-header">
       <h4 class="modal-title pull-left">Cadastro Hotel</h4>
-      <button type="button" class="btn-close pull-right" aria-label="Close" (click)="modal.dismiss()"></button>
+      <button type="button" class="btn-close pull-right" aria-label="Close" (click)="cancelModal()"></button>
     </div>
     <div class="modal-body">
       <form [formGroup]="formGroupAdmin" (ngSubmit)="onCadastraSubmit(formGroupAdmin)">
@@ -42,7 +42,7 @@
         </div>
         <div class="row">
             <div class="col-lg-6 col-md-12">
-              <label for="rede" class="form-label">Rede</label>
+              <label for="rede" class="form-label">Rede (opcional)</label>
               <input type="text" class="form-control" formControlName="rede" required>
             </div>
             <div class="col-lg-6 col-md-12">
@@ -109,11 +109,11 @@
         </div>
          <div class="row">
             <div class="col-lg-6 col-md-12">
-              <label for="lobby" class="form-label">Recepção</label>
+              <label for="lobby" class="form-label">Horário Recepção</label>
               <input type="text" class="form-control" formControlName="lobby" required>
             </div>
             <div class="col-lg-6 col-md-12">
-              <label for="diff" class="form-label">Diferenciais</label>
+              <label for="diff" class="form-label">Diferenciais (destaques)</label>
               <input type="text" formControlName="diff" class="form-control" required>
             </div>
         </div>
@@ -129,7 +129,6 @@
         <button type="button" class="btn bi bi-camera btn-outline-primary" (click)="addFoto()"> Adicionar</button>
       </div>
        <div class="row">
-        
           <div class="col-lg-6 col-md-12">
             <label for="checkCafe" class="form-label">Café da manhã</label>
             <select class="form-select" formControlName="checkCafe" required>
@@ -224,7 +223,7 @@
             
         </div>
       <div class="modal-footer">
-        <button type="button" class="btn btn-secondary" (click)="modal.dismiss('Cross click')">Cancelar</button>
+        <button type="button" class="btn btn-secondary" (click)="cancelModal()">Cancelar</button>
         <button type="submit" class="btn btn-primary">Salvar</button>
       </div>
       </form>
