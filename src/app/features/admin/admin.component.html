@@ -212,7 +212,7 @@
         </div>
         
         <div class="fotosContainer" formArrayName="contatos">
-          <span class="text-center">Contatos (max. 3)</span>
+          <span class="text-center">Contatos (O primeiro é o principal - WPP)</span>
           <div *ngFor="let ctt of contatos.controls; let i = index" [formGroupName]="i" class="col-lg-12 col-md-12 paddingPhoto d-flex align-items-center">
             <input type="text" class="form-control me-1" formControlName="name" placeholder="Nome">
             <input type="text" class="form-control me-1" formControlName="contact" placeholder="Contato">
