@@ -46,8 +46,7 @@ export class HotelComponent extends ComponentBase implements OnInit {
 
         this.hotelService.doGetHotelId(this.id).subscribe((item) => {
           this.hotel = item[0];
-          const cep = item[0].cep.replaceAll('-', '');
-          this.coordenadasService.buscarCoordenadas(cep).subscribe(res => {
+          this.coordenadasService.buscarCoordenadas(`${item[0].address} ${item[0].number}, ${item[0].city} - ${item[0].cep}`).subscribe(res => {
             if (res.status === 'OK') {
               const location = res.results[0].geometry.location;
               this.center = { lat: location.lat, lng: location.lng };
