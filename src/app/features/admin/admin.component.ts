@@ -17,6 +17,8 @@ export class AdminComponent extends ComponentBase implements OnInit {
 
   hotel: any;
 
+  idHotel?: string;
+
   filteredHoteis: any[] = [];
 
   hoteis!: any[];
@@ -54,14 +56,14 @@ doGetAllHoteis(){
     next: (result) => {
       this.hoteis = result;
       this.filteredHoteis = this.hoteis;
+      this.idHotel = undefined;
     },
   });
 }
 
   formGroupAdmin: FormGroup = new FormGroup({
-    id: new FormControl(''),
     name: new FormControl('', [Validators.required]),
-    rede: new FormControl('', [Validators.required]),
+    rede: new FormControl(''),
     city: new FormControl('', [Validators.required]),
     desc: new FormControl('', [Validators.required]),
     category: new FormControl('', [Validators.required]),
@@ -73,8 +75,8 @@ doGetAllHoteis(){
     endereco: new FormControl('', [Validators.required]),
     num: new FormControl('', [Validators.required]),
     comp: new FormControl(''),
-    lobby: new FormControl(''),
-    diff: new FormControl(''),
+    lobby: new FormControl('', [Validators.required]),
+    diff: new FormControl('', [Validators.required]),
     checkPraia: new FormControl(false),
     checkCentro: new FormControl(false),
     checkAeroporto: new FormControl(false),
@@ -93,10 +95,10 @@ doGetAllHoteis(){
   
   openLg(content: TemplateRef<any>, id?: string) {
     if (id) {
+      this.idHotel = id;
       this.hotelService.doGetHotelId(id).subscribe({
         next: (result) => {
           this.formGroupAdmin.patchValue({
-            id: result[0].id,
             name: result[0].name,
             rede: result[0].rede,
             city: result[0].city,
@@ -146,6 +148,7 @@ doGetAllHoteis(){
         }
       });
     }else{
+      this.cancelModal();
       this.modalService.open(content, { size: 'lg' });
     }
   }
@@ -153,9 +156,8 @@ doGetAllHoteis(){
   onCadastraSubmit(formGroup: FormGroup) {
     if(formGroup) {
       this.hotelService.doPostHotel({
-        id: formGroup.value.id,
         name: formGroup.value.name,
-        rede: formGroup.value.rede,
+        rede: formGroup.value.rede ?? '',
         city: formGroup.value.city,
         url: formGroup.value.url,
         description: formGroup.value.desc,
@@ -166,7 +168,7 @@ doGetAllHoteis(){
         cep: formGroup.value.cep,
         address: formGroup.value.endereco,
         number: formGroup.value.num,
-        complement: formGroup.value.comp,
+        complement: formGroup.value.comp ?? '',
         lobby: formGroup.value.lobby,
         diff: formGroup.value.diff,
         beach: formGroup.value.checkPraia,
@@ -188,7 +190,7 @@ doGetAllHoteis(){
           name: ctt?.name ?? '',
           contact: ctt?.contact ?? '',
         })),
-      }).subscribe({
+      }, this.idHotel).subscribe({
         next: (result) => {
           this.toastr.success("Hotel cadastrado com sucesso!");
           this.doGetAllHoteis();
@@ -270,5 +272,12 @@ removeContato(index: number) {
       const stared = fotoControl.get('stared')?.value;
       fotoControl.patchValue({ stared: !stared });
     }
+  }
+  cancelModal(){
+    this.idHotel = undefined;
+    this.modalService.dismissAll();
+    this.formGroupAdmin.reset();
+    this.fotos.clear();
+    this.contatos.clear();
   }
 }

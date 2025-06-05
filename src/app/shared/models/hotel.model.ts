@@ -16,7 +16,6 @@ export interface Photo {
 }
 
 export interface DetalhesModel {
-  id?: string;
   name: string;
   rede: string;
   city: string;

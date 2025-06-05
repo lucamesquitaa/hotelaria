@@ -59,5 +59,19 @@ export class HomeComponent extends ComponentBase {
 		visitarSite(item: any){
 			this.router.navigate(['hotel/' + item.url]);
 		}
+
+		compartilhar() {
+    if (navigator.share) {
+      navigator.share({
+        title: this.hotel.name,
+        text: 'Visite este hotel incrível!',
+        url: window.location.href
+      })
+      .then(() => console.log('Compartilhado com sucesso!'))
+      .catch((error) => console.log('Erro ao compartilhar:', error));
+    } else {
+      alert('O compartilhamento não é suportado neste navegador.');
+    }
+  }
 }
 
