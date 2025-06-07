@@ -1,3 +1,4 @@
+
 <div class="telasContainer">
   <div class="containerHome">
     <div class="headerContainer">
@@ -20,13 +21,13 @@
         />
       </div>
         <div *ngFor="let item of filteredHoteis" class="hotelCard col-lg-6 col-md-12">
-          <img [src]="item.photosStared[0]" alt="imagem principal hotel"/> 
+          <img [src]="item.photosStared[0]" alt="imagem principal hotel"/>
           <h3 class="text-center spanName">{{item.name}}</h3>
-          <span class="text-center spanName">{{item.description}}</span>
-          <button class="btn btn-outline-primary mb-2 me-2 bi bi-arrow-up-right-circle" (click)="visitarSite(item)"> Visitar</button>
+          <span class="text-center spanName">{{item.url}}</span>
+          <button class="btn btn-outline-primary mb-2 me-2 bi bi-arrow-up-right-circle" (click)="visitarSite(item)">   Visitar</button>
         </div>
-      
-    
+
+
   </div>
 </div>
-
+<div class="barColor"></div>
