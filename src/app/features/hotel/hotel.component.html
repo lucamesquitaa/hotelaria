@@ -4,7 +4,14 @@
         <img src="assets/imglogo.png" class="logoCasinha" (click)="router.navigate(['home'])" alt="logo turify casinha"/>
         <p class="bi bi-upload" (click)="compartilhar()"></p>
       </div>
+       <div class="spaceB">
+          <h3 class="MILpxMostra">{{hotel.name}}</h3>
+          <button type="button" class="MILpxMostra buttonTela btn btn-primary" (click)="openWhatsApp()"> Reserve Já</button>
+        </div>
       <div class="sliderContainer">
+       
+        <p class="MILpxMostra subtitleHotel">{{category}} - {{hotel.city}} </p>
+       
         @if (images?.length) {
           <ngb-carousel>
             <ng-template ngbSlide *ngFor="let img of images; let i = index">
@@ -20,21 +27,27 @@
         }
       </div>
       
-      <div class="containerInfos">
-        <h3 class="titleHotel">{{hotel.name}}</h3>
-        <p class="subtitleHotel">{{category}} - {{hotel.city}} </p>
-        <button type="button" class="btn btn-link buttonLink bi bi-image" (click)="openLg(content2)"> Ver + fotos</button>
-        <span style="width: 100%; border: 0.5px solid #7B7B7B; box-shadow:  0.5px  0.5px  0.5px #afafaf;" ></span>
-        <p class="MILpxEsconde">{{hotel.description}}</p>
-        <button type="button" class="btn btn-primary MILpxMostra buttonWpp1000px" (click)="openWhatsApp()"> Reserve Já</button>
+      <div class="containerInfos displayFlexRow">
+        <div class="MILpxMostra fotosSecundarias displayFlexRow" (click)="openLg(content2)">
+          <img *ngFor="let img of todasIMGS.slice(1, 4);" [src]="img" alt="fotos secundárias"/>
+          <p class="bi bi-image" > Ver + fotos</p>
+          
+        </div>
+        
+        <h3 class="MILpxEsconde titleHotel">{{hotel.name}}</h3>
+        <p class="MILpxEsconde subtitleHotel">{{category}} - {{hotel.city}} </p>
+        <button type="button" class="MILpxEsconde btn btn-link buttonLink bi bi-image" (click)="openLg(content2)"> Ver + fotos</button>
+        <span style="width: 100%; border: 0.5px solid #7B7B7B; box-shadow:  0.5px  0.5px  0.5px #afafaf;" class="MILpxEsconde"></span>
+        <p class="MILpxEsconde textBold">Descrição:</p>
+        <p class="MILpxEsconde textApenas">{{hotel.description}}</p>
       </div>
 
       <div class="containerAntesDetalhes">
-            <p class=" MILpxMostra textP textApenas textBold">Descrição:</p>
+            <p class=" MILpxMostra textBold">Descrição:</p>
             <p class=" MILpxMostra textApenas textP">{{hotel.description}}</p>
-            <p class="textP textApenas textBold">Diferenciais:</p>
+            <p class="textBold">Diferenciais:</p>
             <p class="textApenas textP">{{hotel.diff}}</p>
-            <p class="textP textApenas textBold">Funcionamento Lobby:</p>
+            <p class=" textBold">Funcionamento Lobby:</p>
             <p class="textApenas textP">{{hotel.lobby}}</p>
       </div>
 
