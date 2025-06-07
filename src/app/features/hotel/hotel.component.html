@@ -6,12 +6,12 @@
       </div>
        <div class="spaceB">
           <h3 class="MILpxMostra">{{hotel.name}}</h3>
-          <button type="button" class="MILpxMostra buttonTela btn btn-primary" (click)="openWhatsApp()"> Reserve Já</button>
+          <button type="button" class="MILpxMostra buttonTela btn btn-primary" (click)="openWhatsApp()">Reserve Já</button>
         </div>
       <div class="sliderContainer">
-       
+
         <p class="MILpxMostra subtitleHotel">{{category}} - {{hotel.city}} </p>
-       
+
         @if (images?.length) {
           <ngb-carousel>
             <ng-template ngbSlide *ngFor="let img of images; let i = index">
@@ -26,17 +26,17 @@
 
         }
       </div>
-      
+
       <div class="containerInfos displayFlexRow">
         <div class="MILpxMostra fotosSecundarias displayFlexRow" (click)="openLg(content2)">
           <img *ngFor="let img of todasIMGS.slice(1, 4);" [src]="img" alt="fotos secundárias"/>
           <p class="bi bi-image" > Ver + fotos</p>
-          
+
         </div>
-        
+
         <h3 class="MILpxEsconde titleHotel">{{hotel.name}}</h3>
         <p class="MILpxEsconde subtitleHotel">{{category}} - {{hotel.city}} </p>
-        <button type="button" class="MILpxEsconde btn btn-link buttonLink bi bi-image" (click)="openLg(content2)"> Ver + fotos</button>
+        <button type="button" class="MILpxEsconde btn btn-link buttonLink bi bi-image" (click)="openLg(content2)">   Ver + fotos</button>
         <span style="width: 100%; border: 0.5px solid #7B7B7B; box-shadow:  0.5px  0.5px  0.5px #afafaf;" class="MILpxEsconde"></span>
         <p class="MILpxEsconde textBold">Descrição:</p>
         <p class="MILpxEsconde textApenas">{{hotel.description}}</p>
@@ -64,17 +64,17 @@
                   </div>
         </div>
 
-      
-        
-        <div class="maps"> 
+
+
+        <div class="maps">
           <google-map *ngIf="center"
-            height="360px" 
-            width="100%" 
-            [center]="center" 
+            height="360px"
+            width="100%"
+            [center]="center"
             [zoom]="15">
-            
-            <map-marker 
-              [position]="center" 
+
+            <map-marker
+              [position]="center"
               [label]="'Local'">
             </map-marker>
 
@@ -85,11 +85,11 @@
       </div>
 
       <div class="buttonWPP MILpxEsconde">
-        <button type="button" class="btn btn-primary" (click)="openWhatsApp()"> Reserve Já</button>
+        <button type="button" class="btn btn-primary" (click)="openWhatsApp()">Reserve Já</button>
       </div>
   </div>
 </div>
-
+<div class="barColor"></div>
  <ng-template #content2 let-modal>
 
     <div class="modal-header">
@@ -114,5 +114,5 @@
         <button type="button" class="btn btn-secondary" (click)="modal.dismiss('Cross click')">Cancelar</button>
       </div>
 
-   
+
  </ng-template>

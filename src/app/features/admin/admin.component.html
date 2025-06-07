@@ -15,10 +15,10 @@
   <div  *ngFor="let item of filteredHoteis" class="hotelCard col-lg-6 col-md-12">
     <span class="text-center spanName">{{item.name}}</span>
     <span class="text-center spanName">{{item.url}}</span>
-    <button class="btn btn-outline-primary mb-2 me-2 bi bi-pencil" (click)="openLg(content, item.id)">Editar</button>
+    <button class="btn btn-outline-primary mb-2 me-2 bi bi-pencil" (click)="openLg(content, item.id)">   Editar</button>
     <button class="btn btn-outline-danger" (click)="doExcluirHotel(item.id)">Excluir</button>
   </div>
-  <button class="btn btn-primary mb-2 me-2 bi bi-plus-circle buttonFlutua" (click)="openLg(content)"> Adicionar</button>
+  <button class="btn btn-primary mb-2 me-2 bi bi-plus-circle buttonFlutua" (click)="openLg(content)">   Adicionar</button>
 </div>
 
 
@@ -126,7 +126,7 @@
           <input type="text" class="form-control me-2" formControlName="url" placeholder="Endereço da foto">
           <button type="button" class="btn btn-outline-danger btn-sm" (click)="removeFoto(i)">&#10005;</button>
         </div>
-        <button type="button" class="btn bi bi-camera btn-outline-primary" (click)="addFoto()"> Adicionar</button>
+        <button type="button" class="btn bi bi-camera btn-outline-primary" (click)="addFoto()">   Adicionar</button>
       </div>
        <div class="row">
           <div class="col-lg-6 col-md-12">
@@ -174,7 +174,7 @@
             </select>
           </div>
           </div>
-  
+
          <div class="row rowProximidades">
           <div class="col-lg-12 col-md-12">
             <div>
@@ -210,7 +210,7 @@
             </div>
           </div>
         </div>
-        
+
         <div class="fotosContainer" formArrayName="contatos">
           <span class="text-center">Contatos (O primeiro é o principal - WPP)</span>
           <div *ngFor="let ctt of contatos.controls; let i = index" [formGroupName]="i" class="col-lg-12 col-md-12 paddingPhoto d-flex align-items-center">
@@ -220,7 +220,7 @@
           </div>
           <button type="button" class="btn bi bi-phone btn-outline-primary" (click)="addContato()" [disabled]="contatos.length >= 3"> Adicionar</button>
         </div>
-            
+
         </div>
       <div class="modal-footer">
         <button type="button" class="btn btn-secondary" (click)="cancelModal()">Cancelar</button>
@@ -228,5 +228,5 @@
       </div>
       </form>
     </div>
-    
+
   </ng-template>
