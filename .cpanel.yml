@@ -1,5 +1,5 @@
 deployment:
   tasks:
-    - export DEPLOYPATH=/home/viladasb/public_html
+    - export DEPLOYPATH=/home/viladasb/turify.com.br
     - /bin/rm -rf $DEPLOYPATH/*
     - /bin/cp -R dist/hotelaria/* $DEPLOYPATH
