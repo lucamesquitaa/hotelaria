@@ -1,0 +1,21 @@
+            
+
+<div class="managersContainer">
+    <app-menubar></app-menubar>
+  
+  <div class="melhorias">
+    <div class="col-lg-6 col-md-6">
+              <label for="email" class="form-label">Email</label>
+              <input type="text" class="form-control" [(ngModel)]="email" >
+    </div>
+   
+
+    <button class="btn btn-primary btn-md buttonSubmit bi bi-arrow-right-circle" (click)="onSetPermission()"> Setar permissao</button>  
+
+    <div class="managersList">
+        <h4>Permissões</h4>
+        <ul>
+            <li *ngFor="let manager of managers">email: {{ manager.email }} - permissao: {{ manager.role }}</li>
+        </ul>
+  </div>
+</div>

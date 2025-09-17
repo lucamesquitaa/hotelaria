@@ -1,0 +1,23 @@
+.logoCasinha{
+    width: 110px;
+    height: 50px;
+    background-color: white;
+}
+.menuBarIcon{
+    display: flex;
+    justify-content: flex-end;
+    font-size: 40px;
+    cursor: pointer;
+    color: rgb(153, 153, 153);
+}
+.menuBarIcon2{
+    float: left;
+    justify-content: flex-start;
+    font-size: 40px;
+    cursor: pointer;
+    color: rgb(153, 153, 153);
+}
+.contBar{
+    z-index: 999;
+    height: 100vh;
+}

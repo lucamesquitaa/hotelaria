@@ -10,14 +10,9 @@ export class ContextService {
     usuarioAutenticado: false,
     token: "",
     usuario: {
-      id: "",
-      email: "",
-      username: ""
+      token: "",
     },
-    cart: {
-      number: 0,
-      products: []
-    },
+    isLoading: false
   };
 
   static getContext(): ContextModel{

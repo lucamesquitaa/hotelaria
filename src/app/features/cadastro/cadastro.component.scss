@@ -1,0 +1,26 @@
+.cadastroContainer{
+    margin: 0;
+    padding:0;
+}
+.cadastroForm{
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    margin: 0px;
+    padding: 20px;
+}
+.buttonSubmit{
+    margin: 20px;
+}
+.formContainer{
+    height: 70vh;
+    width: 400px;
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    align-items: center;
+}
+.formContainer h3{
+    text-align: center;
+    margin-bottom: 20px;
+}

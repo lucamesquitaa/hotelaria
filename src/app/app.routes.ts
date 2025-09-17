@@ -5,7 +5,7 @@ export const ROUTES: Routes = [
   {
     path: '',
     pathMatch: 'full',
-    redirectTo: 'home',
+    redirectTo: 'login',
   },
   {
     path: 'home',
@@ -26,6 +26,18 @@ export const ROUTES: Routes = [
     path: 'admin',
     loadChildren: () =>
       import('./features/admin/admin.module').then(m => m.AdminModule),
+    canActivate: [AuthenticationGuard],
+  },
+  {
+    path: 'cadastro',
+    loadChildren: () =>
+      import('./features/cadastro/cadastro.module').then(m => m.CadastroModule),
+    canActivate: [AuthenticationGuard],
+  },
+  {
+    path: 'managers',
+    loadChildren: () =>
+      import('./features/managers/managers.module').then(m => m.ManagersModule),
     canActivate: [AuthenticationGuard],
   },
 ];

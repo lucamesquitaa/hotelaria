@@ -6,6 +6,7 @@ import { ComponentBase } from 'src/app/shared/components/component.base';
 import { Contact, DetalhesModel } from 'src/app/shared/models/hotel.model';
 import { CoordenadasService } from 'src/app/shared/services/coordenadas.service';
 import { HotelService } from 'src/app/shared/services/hotel.service';
+import { MapsLoaderService } from 'src/app/shared/services/maps.loader.service';
 import { SharedModule } from 'src/app/shared/shared.module';
 
 @Component({
@@ -28,7 +29,8 @@ export class HotelComponent extends ComponentBase implements OnInit {
   constructor(private route: ActivatedRoute,
               public override injector: Injector,
               private hotelService: HotelService,
-              private coordenadasService: CoordenadasService
+              private coordenadasService: CoordenadasService,
+              private mapsLoader: MapsLoaderService
   ) {
     super(injector);
     this.hotelId = this.route.snapshot.paramMap.get('hotel');
@@ -36,45 +38,71 @@ export class HotelComponent extends ComponentBase implements OnInit {
 
   
   override ngOnInit(): void {
-  this.hotelService.doGetAllHoteis().subscribe({
+  this.showLoading();
+  this.mapsLoader.load().then(() => {
+      this.hotelService.doGetAllHoteis().subscribe({
     next: (result) => {
+      
       const hotel = result.find(item => item.url === this.hotelId);
       if (hotel) {
         this.id = hotel.id;
         console.log(hotel.photosStared);
         this.images = hotel.photosStared;
 
-        this.hotelService.doGetHotelId(this.id).subscribe((item) => {
-          this.hotel = item[0];
-          this.coordenadasService.buscarCoordenadas(`${item[0].address} ${item[0].number}, ${item[0].city} - ${item[0].cep}`).subscribe(res => {
-            if (res.status === 'OK') {
-              const location = res.results[0].geometry.location;
-              this.center = { lat: location.lat, lng: location.lng };
-              console.log('Center carregado:', this.center);
-            } else {
-              console.error('Erro na geocodificação:', res.status);
+        this.hotelService.doGetHotelId(this.id).subscribe({
+          next: (item) => {
+            this.hotel = item[0];
+            this.coordenadasService.buscarCoordenadas(`${item[0].address} ${item[0].number}, ${item[0].city} - ${item[0].cep}`).subscribe({
+              next: (res) => {
+                if (res.status === 'OK') {
+                  const location = res.results[0].geometry.location;
+                  this.center = { lat: location.lat, lng: location.lng };
+                  console.log('Center carregado:', this.center);
+                } else {
+                  console.error('Erro na geocodificação:', res.status);
+                }
+              },
+              error: (err) => {
+                console.error('Erro ao buscar coordenadas:', err);
+              },
+              complete: () => {
+                this.hideLoading();
+              }
+            });
+
+            switch (item[0].category) {
+              case 1: this.category = 'Resort';
+                break;
+              case 2: this.category = 'Hotel';
+                break;
+              case 3: this.category = 'Pousada';
+                break;
+              default: this.category = 'Hotel';
+                break;
             }
-          });
 
-          switch (item[0].category) {
-            case 1: this.category = 'Resort';
-            break;
-            case 2: this.category = 'Hotel';
-            break;
-            case 3: this.category = 'Pousada';
-            break;
-            default: this.category = 'Hotel';
-            break;
+            this.todasIMGS = item[0].photos?.map(x => x.url) ?? [];
+          },
+          error: (err) => {
+            console.error('Erro ao buscar hotel por ID:', err);
+            this.hideLoading();
+          },
+          complete: () => {
+            this.hideLoading();
           }
-
-          this.todasIMGS = item[0].photos?.map(x => x.url) ?? [];
         });
-
       } else {
         console.error('Hotel não encontrado');
+        this.hideLoading();
       }
+    },
+    error: (err) => {
+      console.error('Erro ao buscar todos os hotéis:', err);
+      this.hideLoading();
     }
+    });
   });
+  
     
   }
   openLg(content: TemplateRef<any>) {

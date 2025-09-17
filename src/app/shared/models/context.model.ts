@@ -1,4 +1,4 @@
-import { ResultLoginModel } from "./login.model";
+import { LoginResponseModel, ResultLoginModel } from "./login.model";
 import { Usuario } from "./usuario.model";
 
 /**
@@ -6,6 +6,7 @@ import { Usuario } from "./usuario.model";
  */
 export interface ContextModel {
     usuarioAutenticado: boolean,
-    usuario: ResultLoginModel,
+    usuario: LoginResponseModel,
     token: string,
+    isLoading: boolean
 }
