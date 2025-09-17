@@ -1,11 +1,13 @@
 import { CommonModule } from '@angular/common';
-import { AfterViewInit, Component, Injector } from '@angular/core';
+import { AfterViewInit, Component, effect, Injector, signal } from '@angular/core';
 import { FormControl, FormGroup, Validators } from '@angular/forms';
+import { OAuthService } from 'angular-oauth2-oidc';
 import { ToastrService } from 'ngx-toastr';
 import { ComponentBase } from 'src/app/shared/components/component.base';
-import { LoginModel } from 'src/app/shared/models/login.model';
+import { LoginModel, ResultLoginModel } from 'src/app/shared/models/login.model';
 import { LoginService } from 'src/app/shared/services/login.service';
 import { SharedModule } from 'src/app/shared/shared.module';
+import { authConfig } from 'src/auth.config';
 
 @Component({
   selector: 'app-login',
@@ -13,34 +15,49 @@ import { SharedModule } from 'src/app/shared/shared.module';
   templateUrl: './login.component.html',
   styleUrls: ['./login.component.scss'],
 })
-export class LoginComponent extends ComponentBase implements AfterViewInit {
+export class LoginComponent extends ComponentBase {
 
-  formGroup: FormGroup = new FormGroup({
-    username: new FormControl('', [Validators.required]),
-    password: new FormControl('', [Validators.required, Validators.minLength(6), Validators.maxLength(20)]),
-  });
-
-  constructor(public override injector: Injector,
-    public loginService: LoginService,
-    ){
+isLoggedIn = false;
+  profile: any;
+  constructor(public override injector: Injector, 
+              private loginService: LoginService,
+                private oauthService: OAuthService) {
     super(injector);
-  }
+ this.oauthService.configure(authConfig);
+    this.oauthService.loadDiscoveryDocumentAndTryLogin().then(() => {
+      if (this.oauthService.hasValidIdToken() && this.oauthService.hasValidAccessToken()) {
+        this.isLoggedIn = true;
+        this.profile = this.oauthService.getIdentityClaims();
+        console.log(this.profile);
+        var user: ResultLoginModel = {
+          Id: this.profile.sub,
+          Email: this.profile.email,
+          FirstName: this.profile.given_name,
+          LastName: this.profile.family_name,
+          Photo: this.profile.picture
+        };
 
-  ngAfterViewInit(): void {
-  }
-
-  async onLoginSubmit(formGroup: FormGroup) {
-
-    this.loginService.doLogin(formGroup.value).subscribe({
-      next: (result) => {
-        this.cookieService.set('access_token',  result.token, { expires: 7, path: '/' });
-      },
-      error : (error) => {
-        this.toastr.error("Erro ao realizar autenticação.");
-    },
-      complete: () => {
-        this.router.navigate(['admin']);
+        this.loginService.doLogin(user).subscribe({
+          next: (result) => {
+            console.log(result);
+            this.toastr.success("Login bem-sucedido:");
+            this.cookieService.set("access_token", result.token);
+            this.cookieService.set("user_id", result.userId);
+            this.router.navigate(["/admin"]);
+          },
+          error: (error) => {
+            this.toastr.error("Erro no login.");
+          }
+        });
       }
     });
+
+  }
+ login() {
+    this.oauthService.initLoginFlow();
+  }
+
+  logout() {
+    this.oauthService.logOut();
   }
 }

@@ -43,4 +43,10 @@ export interface DetalhesModel {
   gym: boolean;
   contacts?: Contact[];
   photos?: Photo[];
+  cnpj: string;
+  razao: string;
+  nomeRep: string;
+  telRep: string;
+  cpfRep: string;
+  emailRep: string;
 }
