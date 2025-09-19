@@ -1,25 +1,27 @@
 .adminContainer{
   width: 100%;
-  display: flex;
-  justify-content: space-between;
+  align-items: flex-start;
+  flex-direction: row;
 }
 .melhorias{
   width: 100%;
+  padding-top: 30px;
   display: flex;
   align-items: center;
   justify-content: center;
   flex-direction: column;
   flex-wrap: wrap;
-  padding: 20px;
-  margin: 0px;
 }
-
+.spanName{
+  width: 200px;
+  padding: 20px;
+}
 .hotelCard{
-  width: 650px;
+  width: 550px;
   height: 200px;
   display: flex;
   align-items: center;
-  justify-content: space-between;
+  justify-content: center;
   flex-direction: row;
   flex-wrap: wrap;
   padding: 10px;
@@ -34,12 +36,8 @@
   object-fit: cover;
 }
 .spaceB{
-  gap: 10px;
+  gap: 1px;
 }
-.textBold{
-  font-weight: bold;
-}
-
 .buttonFlutua{
   position: fixed;
   bottom: 20px;
@@ -72,10 +70,8 @@
 @media screen and (max-width: 780px){
   .hotelCard{
     justify-content: center;
-    max-width: 400px;
+    flex-direction: column;
+    max-width: 80%;
     height: auto;
-  }
-  .spanName{
-    width:560px;
   }
 }

@@ -40,4 +40,10 @@ export const ROUTES: Routes = [
       import('./features/managers/managers.module').then(m => m.ManagersModule),
     canActivate: [AuthenticationGuard],
   },
+  {
+    path: 'quartos',
+    loadChildren: () =>
+      import('./features/quartos/quartos.module').then(m => m.QuartosModule),
+    canActivate: [AuthenticationGuard],
+  },
 ];
