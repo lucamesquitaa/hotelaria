@@ -18,11 +18,14 @@ export class AdminComponent extends ComponentBase implements OnInit {
   hotel: any;
 
   filteredHoteis: any[] = [];
+  showConfirmModal = false;
+  itemToDelete: string = '';
 
   hoteis!: any[];
 
   detalhesModelId!: string | undefined;
 
+   private modalService = inject(NgbModal);
 
 /**
  *
@@ -73,5 +76,46 @@ doGetAllHoteis(){
   this.cookieService.set("hotel_id", hotelId);
   this.router.navigate(["/managers"]);
  }
+  onEdit(hotelId: string) {
+    this.cookieService.set("hotel_id", hotelId);
+    this.router.navigate(["/cadastro", hotelId]);
+  }
+  onCallQuartos(hotelId: string) {
+    this.cookieService.set("hotel_id", hotelId);
+    this.router.navigate(["/quartos"]);
+  }
+
+  onCallCadastroNew(){
+    this.router.navigate(["/cadastro"]);
+  }
+
+  onDelete(hotelId: string) {
+    if(hotelId == '') return;
+
+    this.hotelService.doDeleteHotel(hotelId).subscribe({
+      next: (result) => {
+        this.toastr.success('Hotel deletado com sucesso');
+      },
+      error: (err) => {
+        this.toastr.error('Erro ao deletar hotel');
+      },
+      complete: () => {
+        this.modalService.dismissAll();
+        this.doGetAllHoteis();
+      },
+    });
+  }
+
+  openConfirmModal(id: string, content: TemplateRef<any>) {
+    this.itemToDelete = id;
+    this.modalService.open(content, { size: 'lg' });
+  }
+
+  confirmDelete() {
+    this.onDelete(this.itemToDelete);
+    this.itemToDelete = '';
+  }
+
   
 }
+

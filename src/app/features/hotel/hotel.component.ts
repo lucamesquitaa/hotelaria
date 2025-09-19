@@ -51,8 +51,8 @@ export class HotelComponent extends ComponentBase implements OnInit {
 
         this.hotelService.doGetHotelId(this.id).subscribe({
           next: (item) => {
-            this.hotel = item[0];
-            this.coordenadasService.buscarCoordenadas(`${item[0].address} ${item[0].number}, ${item[0].city} - ${item[0].cep}`).subscribe({
+            this.hotel = item;
+            this.coordenadasService.buscarCoordenadas(`${item.address} ${item.number}, ${item.city} - ${item.cep}`).subscribe({
               next: (res) => {
                 if (res.status === 'OK') {
                   const location = res.results[0].geometry.location;
@@ -70,18 +70,7 @@ export class HotelComponent extends ComponentBase implements OnInit {
               }
             });
 
-            switch (item[0].category) {
-              case 1: this.category = 'Resort';
-                break;
-              case 2: this.category = 'Hotel';
-                break;
-              case 3: this.category = 'Pousada';
-                break;
-              default: this.category = 'Hotel';
-                break;
-            }
-
-            this.todasIMGS = item[0].photos?.map(x => x.url) ?? [];
+            this.todasIMGS = item.photos?.map(x => x.url) ?? [];
           },
           error: (err) => {
             console.error('Erro ao buscar hotel por ID:', err);

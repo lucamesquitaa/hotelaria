@@ -1,7 +1,7 @@
 import { Injectable, Injector } from '@angular/core';
 import { Observable } from 'rxjs';
 import { ServiceGeneric } from './generic.service';
-import { DetalhesModel } from '../models/hotel.model';
+import { DetalhesModel, DetalhesModelByManager } from '../models/hotel.model';
 import { HoteisAllModel } from '../models/hoteisAll.model';
 import { HttpHeaders } from '@angular/common/http';
 import { ManagersModel } from '../models/managers.model';
@@ -30,8 +30,12 @@ export class HotelService extends ServiceGeneric {
     );
   }
 
-  doGetHotelId(hotelId: string): Observable<DetalhesModel[]>{
-    return this.http.get<DetalhesModel[]>(this.urlServiceREST +"/" + hotelId);
+  doGetHotelId(hotelId: string): Observable<DetalhesModel>{
+    return this.http.get<DetalhesModel>(this.urlServiceREST +"/" + hotelId);
+  }
+
+  doGetHotelByManager(hotelId: string): Observable<DetalhesModelByManager>{
+    return this.http.get<DetalhesModelByManager>(this.urlServiceREST +"/ByManager/" + hotelId);
   }
 
   doDeleteHotel(id: string): Observable<string>{
@@ -41,9 +45,9 @@ export class HotelService extends ServiceGeneric {
     return this.http.delete<any>(this.urlServiceREST + "/" +id, { headers});
   }
 
-  doPostHotel(hotel: DetalhesModel, id?: string): Observable<DetalhesModel> {
+  doPostHotel(hotel: DetalhesModel, id: string | null): Observable<DetalhesModel> {
     const headers = new HttpHeaders().set('Authorization', 'Bearer ' + this.cookieService.get('access_token'));
-    if (id == undefined) {
+    if (id == null) {
       return this.http.post<DetalhesModel>(this.urlServiceREST, hotel, { headers });
     } else {
       return this.http.put<DetalhesModel>(this.urlServiceREST + "/" + id, hotel, { headers });

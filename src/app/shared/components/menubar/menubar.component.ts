@@ -1,5 +1,5 @@
 import { animate, state, style, transition, trigger } from '@angular/animations';
-import { Component } from '@angular/core';
+import { Component, OnInit } from '@angular/core';
 
 @Component({
   selector: 'app-menubar',
@@ -26,8 +26,14 @@ import { Component } from '@angular/core';
     ])
   ]
 })
-export class MenubarComponent {
+export class MenubarComponent implements OnInit {
   isOpen = true;
+
+  ngOnInit() {
+    if(window.innerWidth < 768) {
+      this.isOpen = false;
+    }
+  }
 
   toggleMenu() {
     this.isOpen = !this.isOpen;

@@ -14,7 +14,6 @@ export interface Photo {
   url: string;
   stared?: boolean;
 }
-
 export interface DetalhesModel {
   name: string;
   rede: string;
@@ -43,6 +42,37 @@ export interface DetalhesModel {
   gym: boolean;
   contacts?: Contact[];
   photos?: Photo[];
+}
+
+export interface DetalhesModelByManager {
+  name: string;
+  rede: string;
+  city: string;
+  url: string;
+  description: string;
+  category: number;
+  child: boolean;
+  pets: boolean;
+  petsTax: number;
+  cep: string;
+  address: string;
+  number: string;
+  complement: string;
+  lobby: string;
+  diff: string;
+  beach: boolean;
+  downtown: boolean;
+  airpot: boolean;
+  highway: boolean;
+  hospital: boolean;
+  coffee: boolean;
+  wifi: boolean;
+  swimming: boolean;
+  cleaning: boolean;
+  gym: boolean;
+  contacts?: Contact[];
+  photos?: Photo[];
+  //infos privadas
   cnpj: string;
   razao: string;
   nomeRep: string;

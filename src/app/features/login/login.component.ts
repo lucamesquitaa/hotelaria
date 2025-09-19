@@ -39,10 +39,7 @@ isLoggedIn = false;
 
         this.loginService.doLogin(user).subscribe({
           next: (result) => {
-            console.log(result);
-            this.toastr.success("Login bem-sucedido:");
             this.cookieService.set("access_token", result.token);
-            this.cookieService.set("user_id", result.userId);
             this.router.navigate(["/admin"]);
           },
           error: (error) => {
