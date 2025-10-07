@@ -1,0 +1,10 @@
+<div class="containerCatalogo">
+  <app-header></app-header>
+  <div class="cafeteria">
+    <h1>Catálogo de Cafeterias</h1>
+    <p>Bem-vindo ao nosso catálogo de cafeterias!</p>
+    <div *ngFor="let cafeteria of cafeterias" >
+      <app-item [cafeteria]="cafeteria" (click)="onCafeteriaClick(cafeteria)"></app-item>
+    </div>
+  </div>
+</div>

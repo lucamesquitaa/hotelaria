@@ -1,0 +1,57 @@
+<app-header></app-header>
+<div class="cafeteriaContainer" *ngIf="itemSelected">
+  
+
+  <div id="carouselExampleDark" class="carousel carousel-dark slide carr1" data-bs-ride="carousel">
+    <div class="carousel-indicators">
+      <button type="button" data-bs-target="#carouselExampleDark" data-bs-slide-to="0" class="active" aria-current="true" aria-label="Slide 1"></button>
+      <button type="button" data-bs-target="#carouselExampleDark" data-bs-slide-to="1" aria-label="Slide 2"></button>
+      <button type="button" data-bs-target="#carouselExampleDark" data-bs-slide-to="2" aria-label="Slide 3"></button>
+    </div>
+    <div class="carousel-inner">
+      <div class="carousel-item active" data-bs-interval="10000">
+        <img src="https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcTjgED9CVV-iuo8z-3RjfuWDO0b9MbvMNoPPg&s"  alt="...">
+      </div>
+      <div class="carousel-item" data-bs-interval="2000">
+        <img src="https://quantocustaviajar.com/blog/wp-content/uploads/2023/01/foto-casa-granu.png"  alt="...">
+        <div class="carousel-caption d-none d-md-block">
+          <h5>Second slide label</h5>
+          <p>Some representative placeholder content for the second slide.</p>
+        </div>
+      </div>
+      <div class="carousel-item">
+        <img src="https://images.squarespace-cdn.com/content/v1/606c6f7eb1c93132f0bed4e6/1645538391593-ZT1K6ZJYJ2UNVNX0TTH0/bonomi.jpeg"  alt="...">
+      </div>
+    </div>
+    <button class="carousel-control-prev" type="button" data-bs-target="#carouselExampleDark" data-bs-slide="prev">
+      <span class="carousel-control-prev-icon" aria-hidden="true"></span>
+      <span class="visually-hidden">Previous</span>
+    </button>
+    <button class="carousel-control-next" type="button" data-bs-target="#carouselExampleDark" data-bs-slide="next">
+      <span class="carousel-control-next-icon" aria-hidden="true"></span>
+      <span class="visually-hidden">Next</span>
+    </button>
+  </div>
+  
+
+  <ul class="nav nav-tabs tab1">
+    <li class="nav-item">
+      <a class="nav-link" routerLink="inicio" routerLinkActive="active">Café</a>
+    </li>
+    <li class="nav-item">
+      <a class="nav-link" routerLink="cardapio" routerLinkActive="active">Cardápio</a>
+    </li>
+    <li class="nav-item">
+      <a class="nav-link" routerLink="missoes" routerLinkActive="active">Missões</a>
+    </li>
+    <li class="nav-item">
+      <a class="nav-link" routerLink="beneficios" routerLinkActive="active">Benefícios</a>
+    </li>
+  </ul>
+
+  <div class="rout1">
+    <router-outlet></router-outlet>
+  </div>
+  
+
+</div>

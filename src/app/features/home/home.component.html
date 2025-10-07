@@ -1,33 +1,12 @@
+<div class="containerHome">
 
-<div class="telasContainer">
-  <div class="containerHome">
-    <div class="headerContainer">
-        <img src="assets/imglogo.png" class="logoCasinha" (click)="router.navigate(['home'])" alt="logo turify casinha"/>
-        <p class="bi bi-upload" (click)="compartilhar()"></p>
-    </div>
-      <div class="propagandaContainer">
+  <app-header></app-header>
 
-        <input
-          id="typeahead-format"
-          type="text"
-          class="form-control"
-          [(ngModel)]="hotel"
-          (ngModelChange)="onHotelSelecionado()"
-          [ngbTypeahead]="search"
-          accentSensitive="false"
-          placeholder="Busque por um Hotel:"
-          [resultFormatter]="formatter"
-          [inputFormatter]="formatter"
-        />
-      </div>
-        <div *ngFor="let item of filteredHoteis" class="hotelCard col-lg-6 col-md-12">
-          <img [src]="item.photosStared[0]" alt="imagem principal hotel"/>
-          <h3 class="text-center spanName">{{item.name}}</h3>
-          <span class="text-center spanName">{{item.url}}</span>
-          <button class="btn btn-outline-primary mb-2 me-2 bi bi-arrow-up-right-circle" (click)="visitarSite(item)">   Visitar</button>
-        </div>
-
-
+  <div class="contentImg">
+    <img src="assets/bannercafe.png" alt="Café" class="img-fluid">
   </div>
+  <div class="content">
+    <button class="btn btn-primary bi bi-cup-hot" (click)="buscar()"> BUSCAR</button>
+    <h1>Conheça os melhores cafés da sua região</h1>
+    <p>Com sistema de fidelidade e recompensas exclusivas.</p>
 </div>
-<div class="barColor"></div>

@@ -18,60 +18,14 @@ export class HomeComponent extends ComponentBase {
 
   hoteis!: any[];
 
-  constructor(public override injector: Injector, private hotelService: HotelService) {
+  constructor(public override injector: Injector) {
     super(injector);
 
   }
   override ngOnInit(): void {
-		this.doGetAllHoteis()
   }
-
-	doGetAllHoteis(){
-		this.hotelService.doGetAllHoteis().subscribe({
-			next: (result) => {
-				this.hoteis = result;
-				this.filteredHoteis = this.hoteis;
-			},
-		});
+	buscar(){
+		this.router.navigate(['catalogo']);
 	}
-
-	formatter = (result: any) => result.name.toUpperCase() + " (" + result.id + ")";
-
-	search: OperatorFunction<string, readonly any[]> = (text$: Observable<any>) =>
-		text$.pipe(
-			debounceTime(200),
-			distinctUntilChanged(),
-			map((term) =>
-				term === ''
-					? []
-					: this.hoteis.filter((v) => v.name.toLowerCase().indexOf(term.toLowerCase()) > -1).slice(0, 10),
-			),
-		);
-
-		onHotelSelecionado() {
-			if(!this.hotel) {
-				this.filteredHoteis = this.hoteis;
-				return;
-				}
-				this.filteredHoteis = this.hoteis.map((v) => this.hotel.name === v.name ? v : null).filter((v) => v !== null);
-	 	}
-
-		visitarSite(item: any){
-			this.router.navigate(['hotel/' + item.url]);
-		}
-
-		compartilhar() {
-    if (navigator.share) {
-      navigator.share({
-        title: this.hotel.name,
-        text: 'Visite este hotel incrível!',
-        url: window.location.href
-      })
-      .then(() => console.log('Compartilhado com sucesso!'))
-      .catch((error) => console.log('Erro ao compartilhar:', error));
-    } else {
-      alert('O compartilhamento não é suportado neste navegador.');
-    }
-  }
 }
 

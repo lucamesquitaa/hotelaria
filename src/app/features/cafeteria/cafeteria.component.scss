@@ -1,0 +1,74 @@
+.cafeteriaContainer{
+    width: 100%;
+    max-width: 600px;
+    margin: 0 auto;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
+}
+.carr1{
+    width: 100%;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    align-self: center;
+    max-width: 600px;
+}
+.carr1 img{
+    width: 100%;
+    height: auto;
+    border-radius: 5px;
+    max-height: 250px;
+}
+.titles{
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
+    margin-top: 10px;
+}
+.linha{
+    display: flex;
+    flex-direction: row;
+    align-items: center;
+    justify-content: space-around;
+}
+.botoes{
+    display: flex;
+    flex-direction: row;
+    align-items: center;
+    justify-content: center;
+    margin-top: 10px;
+    gap: 10px;
+    
+}
+.botoes button{
+    background-color: #6f4e37;
+    color: white;
+    border: none;
+    padding: 30px;
+    border-radius: 5px;
+    cursor: pointer;
+    font-size: 1.3rem;
+}
+.tab1{
+    display: flex;
+    flex-direction: row;
+    align-items: center;
+    justify-content: center;
+    width: 100%;
+    max-width: 600px;
+    padding: 10px;
+    border-radius: 5px;
+    margin-top: 10px;
+    max-height: 250px;
+}
+.rout1{
+        width: 90%;
+        max-width: 600px;
+    }
+
+@media screen and (max-width: 700px) {
+    
+}

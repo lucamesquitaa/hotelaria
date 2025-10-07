@@ -1,5 +1,4 @@
 import { Routes } from '@angular/router';
-import { AuthenticationGuard } from './shared/services/guardinha.guard';
 
 export const ROUTES: Routes = [
   {
@@ -13,19 +12,18 @@ export const ROUTES: Routes = [
       import('./features/home/home.module').then(m => m.HomeModule),
   },
   {
-    path: 'hotel',
+    path: 'catalogo',
     loadChildren: () =>
-      import('./features/hotel/hotel.module').then(m => m.HotelModule),
+      import('./features/catalogo/catalogo.module').then(m => m.CatalogoModule),
+  },
+  {
+    path: 'cafeteria/:id',
+    loadChildren: () =>
+      import('./features/cafeteria/cafeteria.module').then(m => m.CafeteriaModule),
   },
   {
     path: 'login',
     loadChildren: () =>
       import('./features/login/login.module').then(m => m.LoginModule),
-  },
-  {
-    path: 'admin',
-    loadChildren: () =>
-      import('./features/admin/admin.module').then(m => m.AdminModule),
-    canActivate: [AuthenticationGuard],
   },
 ];
