@@ -1,9 +1,30 @@
 @import "../node_modules/bootstrap/scss/bootstrap";
 
+/* Reset global */
+* {
+  box-sizing: border-box;
+}
+
 html,
 body {
   height: 100vh;
   margin: 0;
+  overflow-x: hidden; /* Previne scroll horizontal */
+}
+
+/* Layout global para páginas com menubar */
+.page-with-menubar {
+  width: calc(100% - 280px);
+  margin-left: 280px;
+  min-height: 100vh;
+  box-sizing: border-box;
+}
+
+@media (max-width: 768px) {
+  .page-with-menubar {
+    width: 100%;
+    margin-left: 0;
+  }
 }
 
 h1,h2,h3,h4,h5,h6{

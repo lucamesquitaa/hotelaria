@@ -78,23 +78,14 @@ import { ToastrService } from 'ngx-toastr';
 	 * Exibe a animação de espera
 	 */
 	showLoading() {
-		if (this._loadingCount === 0) {
-			this._loading = true;
-		}
-		this._loadingCount++;
+		this.context.isLoading = true;
 	}
 
 	/**
 	 * Esconde a animação de espera
 	 */
 	hideLoading() {
-		if (this._loadingCount > 0) {
-			this._loadingCount--;
-		}
-
-		if (this._loadingCount === 0) {
-			this._loading = false;
-		}
+		this.context.isLoading = false;
 	}
 
 	/**

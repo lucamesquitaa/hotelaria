@@ -1,0 +1,21 @@
+<header class="app-header">
+  <div class="header-container">
+    <div class="header-center">
+      <h1 class="app-title">{{ appTitle }}</h1>
+    </div>
+    
+    <div class="header-right">
+      <div class="dropdown" ngbDropdown placement="bottom-end">
+        <a class="user-info" id="dropdownUser1" ngbDropdownToggle aria-expanded="false">
+          <i class="bi bi-person-circle"></i>
+          <strong>Usuário</strong>
+        </a>
+        <ul class="dropdown-menu dropdown-menu-dark text-small shadow" ngbDropdownMenu aria-labelledby="dropdownUser1">
+          <li><a class="dropdown-item">{{this.cookieService.get("user_first_name") == 'undefined' ? '' : this.cookieService.get("user_first_name")}} {{this.cookieService.get("user_last_name") == 'undefined' ? '' : this.cookieService.get("user_last_name")}}</a></li>
+          <li><hr class="dropdown-divider"></li>
+          <li><a class="dropdown-item" (click)="logout()">Sair</a></li>
+        </ul>
+      </div>
+    </div>
+  </div>
+</header>

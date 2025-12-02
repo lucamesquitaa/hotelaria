@@ -46,4 +46,16 @@ export const ROUTES: Routes = [
       import('./features/quartos/quartos.module').then(m => m.QuartosModule),
     canActivate: [AuthenticationGuard],
   },
+  {
+    path: 'dashboard',
+    loadChildren: () =>
+      import('./features/dashboard/dashboard.module').then(m => m.DashboardModule),
+    canActivate: [AuthenticationGuard],
+  },
+  {
+    path: 'campos',
+    loadChildren: () =>
+      import('./features/campos/campos.module').then(m => m.CamposModule),
+    canActivate: [AuthenticationGuard],
+  },
 ];

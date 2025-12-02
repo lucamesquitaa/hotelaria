@@ -3,6 +3,7 @@ import { NgbModal } from '@ng-bootstrap/ng-bootstrap';
 import { ComponentBase } from 'src/app/shared/components/component.base';
 import { Contact, DetalhesModel, DetalhesModelByManager, Photo } from 'src/app/shared/models/hotel.model';
 import { HotelService } from 'src/app/shared/services/hotel.service';
+import { MenubarService } from 'src/app/shared/services/menubar.service';
 
 @Component({
   selector: 'app-cadastro',
@@ -24,7 +25,21 @@ export class CadastroComponent extends ComponentBase implements OnInit {
 
   imagens: File[] = [];
 
-  constructor(public override injector: Injector, private hotelService: HotelService) {
+  steps = [
+    { number: 1, title: 'Informações Básicas', description: 'Dados básicos do hotel' },
+    { number: 2, title: 'Representante Legal', description: 'Dados do responsável' },
+    { number: 3, title: 'Endereço', description: 'Localização do hotel' },
+    { number: 4, title: 'Informações Complementares', description: 'Detalhes adicionais' },
+    { number: 5, title: 'Serviços', description: 'Comodidades oferecidas' },
+    { number: 6, title: 'Imagens', description: 'Fotos do hotel' },
+    { number: 7, title: 'Conclusão', description: 'Finalizar cadastro' }
+  ];
+
+  constructor(
+    public override injector: Injector, 
+    private hotelService: HotelService,
+    public menubarService: MenubarService
+  ) {
     super(injector);
     
 
@@ -36,14 +51,20 @@ export class CadastroComponent extends ComponentBase implements OnInit {
     // ou, para escutar mudanças:
     this.activatedRoute.paramMap.subscribe(params => {
       this.hotelId = params.get('hotelId');
+    
       if (this.hotelId) {
+        this.showLoading();
         this.hotelService.doGetHotelByManager(this.hotelId).subscribe({
           next: (item) => {
-                this.itemCadastro = item;
-                console.log(this.itemCadastro);
+                if (item.data) {
+                  this.itemCadastro = item.data;
+                }
+                console.log("item cadastro:");
+                console.log(item);
               },
               error: (err) => {
                 console.error('Erro ao buscar coordenadas:', err);
+                this.hideLoading();
               },
               complete: () => {
                 this.hideLoading();
@@ -54,64 +75,80 @@ export class CadastroComponent extends ComponentBase implements OnInit {
   }
 
 
-  onNextCadastro(atual: number){
-    if(atual === 1){
+  onValidaCadastro(atual: number): boolean{
+    if(atual == 1){
        if (
-            !this.itemCadastro.name ||
+            !this.itemCadastro?.name ||
             !this.itemCadastro.cnpj ||
             !this.itemCadastro.url ||
             !this.itemCadastro.razao ||
-            this.itemCadastro.category == 0
+            this.itemCadastro?.category == 0
           ) {
-            console.log(this.itemCadastro.category);
-            alert('Preencha todos os campos');
-            return;
+            return false;
+          }else{
+            return true;
           }
-    }else if(atual === 2){
+    }else if(atual == 2){
         if (
-            !this.itemCadastro.nomeRep ||
+            !this.itemCadastro?.nomeRep ||
             !this.itemCadastro.cpfRep ||
             !this.itemCadastro.telRep ||
             !this.itemCadastro.emailRep
           ) {
-            alert('Preencha todos os campos');
-            return;
+            return false;
+          }else{
+            return true;
           }
-    }else if(atual === 3){
+    }else if(atual == 3){
         if (
-            !this.itemCadastro.address ||
+            !this.itemCadastro?.address ||
             !this.itemCadastro.number ||
             !this.itemCadastro.city ||
             !this.itemCadastro.cep
           ) {
-            alert('Preencha todos os campos');
-            return;
+            return false;
+          }else{
+            return true;
           }
-    }else if(atual === 4){
+    }else if(atual == 4){
         if (
-            !this.itemCadastro.description ||
+            !this.itemCadastro?.description ||
             !this.itemCadastro.lobby ||
             !this.itemCadastro.diff ||
-            !this.itemCadastro.child ||
-            !this.itemCadastro.pets
+            this.itemCadastro.child == undefined ||
+            this.itemCadastro.pets == undefined
           ) {
-            alert('Preencha todos os campos');
-            return;
+            return false;
+          }else{
+            return true;
           }
-    }else if(atual === 6){
-        if (this.imagens.length === 0) {
-            alert('Selecione ao menos uma imagem!');
-            return;
+    }else if(atual == 5){
+        if (  
+            this.itemCadastro.coffee == undefined ||
+            this.itemCadastro.wifi == undefined  ||
+            this.itemCadastro.swimming == undefined  ||
+            this.itemCadastro.cleaning == undefined  ||
+            this.itemCadastro.gym == undefined 
+        ) {
+            return false;
+          }else{
+            return true;
           }
+    }else if(atual == 6){
+       
+            return true;
+          
+    }else{
+      return false;
     }
-
-    this.currentStep++;
-    this.itemCadastro = { ...this.itemCadastro };
   }
-  onPreviousCadastro(){
 
-    this.currentStep--;
-    this.itemCadastro = { ...this.itemCadastro };
+  goToStep(step: number) {
+      this.currentStep = step;
+  }
+
+  isStepCompleted(step: number): boolean {
+    return this.onValidaCadastro(step);
   }
 
   onFileSelected(event: any) {
@@ -122,11 +159,15 @@ export class CadastroComponent extends ComponentBase implements OnInit {
       this.imagens = files;
     }
   }
-  onConcluirCadastro(){
+  concluirCadastro(){
     if (!this.acceptTerms1 || !this.acceptTerms2 ) {
             alert('Você deve aceitar os termos para continuar!');
             return;
-          }
+    }
+    if (!this.itemCadastro) {
+      alert('Dados do cadastro estão incompletos.');
+      return;
+    }
           
     this.showLoading();
     this.hotelService.doPostHotel(this.itemCadastro, this.hotelId).subscribe({
@@ -134,7 +175,7 @@ export class CadastroComponent extends ComponentBase implements OnInit {
         this.toastr.success('Cadastro atualizado com sucesso.');
       },
       error: (error) => {
-        this.toastr.error('Erro ao concluir cadastro.');
+        this.toastr.error(error.error.mensagem || error.error.excecaoMensagem || "Erro no servidor.");
         this.hideLoading();
       },
       complete: () => {

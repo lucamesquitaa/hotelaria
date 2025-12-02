@@ -5,12 +5,12 @@
         <p class="bi bi-upload" (click)="compartilhar()"></p>
       </div>
        <div class="spaceB">
-          <h3 class="MILpxMostra">{{hotel.name}}</h3>
+          <h3 class="MILpxMostra">{{hotel?.name}}</h3>
           <button type="button" class="MILpxMostra buttonTela btn btn-primary" (click)="openWhatsApp()">Reserve Já</button>
         </div>
       <div class="sliderContainer">
 
-        <p class="MILpxMostra subtitleHotel">{{category}} - {{hotel.city}} </p>
+        <p class="MILpxMostra subtitleHotel">{{category}} - {{hotel?.city}} </p>
 
         @if (images?.length) {
           <ngb-carousel>
@@ -34,21 +34,21 @@
 
         </div>
 
-        <h3 class="MILpxEsconde titleHotel">{{hotel.name}}</h3>
-        <p class="MILpxEsconde subtitleHotel">{{category}} - {{hotel.city}} </p>
+        <h3 class="MILpxEsconde titleHotel">{{hotel?.name}}</h3>
+        <p class="MILpxEsconde subtitleHotel">{{category}} - {{hotel?.city}} </p>
         <button type="button" class="MILpxEsconde btn btn-link buttonLink bi bi-image" (click)="openLg(content2)">   Ver + fotos</button>
         <span style="width: 100%; border: 0.5px solid #7B7B7B; box-shadow:  0.5px  0.5px  0.5px #afafaf;" class="MILpxEsconde"></span>
         <p class="MILpxEsconde textBold">Descrição:</p>
-        <p class="MILpxEsconde textApenas">{{hotel.description}}</p>
+        <p class="MILpxEsconde textApenas">{{hotel?.description}}</p>
       </div>
 
       <div class="containerAntesDetalhes">
             <p class=" MILpxMostra textBold">Descrição:</p>
-            <p class=" MILpxMostra textApenas textP">{{hotel.description}}</p>
+            <p class=" MILpxMostra textApenas textP">{{hotel?.description}}</p>
             <p class="textBold">Diferenciais:</p>
-            <p class="textApenas textP">{{hotel.diff}}</p>
+            <p class="textApenas textP">{{hotel?.diff}}</p>
             <p class=" textBold">Funcionamento Lobby:</p>
-            <p class="textApenas textP">{{hotel.lobby}}</p>
+            <p class="textApenas textP">{{hotel?.lobby}}</p>
       </div>
 
       <div class="colum">
@@ -56,11 +56,11 @@
                   <p class="textApenas textBold">Comodidades Inclusas:</p>
                   <div class="icones">
                       <span class="bi bi-cup-hot"> Café da manhã</span>
-                            <span *ngIf="hotel.wifi" class="bi bi-wifi"> Wifi</span>
-                            <span *ngIf="hotel.swimming" class="bi bi-water"> Piscina</span>
-                            <span  *ngIf="hotel.cleaning"class="bi bi-minecart"> Serviço de limpeza</span>
-                            <span *ngIf="hotel.gym" class="bi bi-heart-pulse"> Academia</span>
-                            <span *ngIf="hotel.pets" class="bi bi-emoji-smile"> Pets</span>
+                            <span *ngIf="hotel?.wifi" class="bi bi-wifi"> Wifi</span>
+                            <span *ngIf="hotel?.swimming" class="bi bi-water"> Piscina</span>
+                            <span  *ngIf="hotel?.cleaning"class="bi bi-minecart"> Serviço de limpeza</span>
+                            <span *ngIf="hotel?.gym" class="bi bi-heart-pulse"> Academia</span>
+                            <span *ngIf="hotel?.pets" class="bi bi-emoji-smile"> Pets</span>
                   </div>
         </div>
 
@@ -80,7 +80,7 @@
 
           </google-map>
 
-          <p>{{hotel.address}} {{hotel.number}}, {{hotel.complement}} <br/> {{hotel.city}} ({{hotel.cep}})</p>
+          <p>{{hotel?.address}} {{hotel?.number}}, {{hotel?.complement}} <br/> {{hotel?.city}} ({{hotel?.cep}})</p>
         </div>
       </div>
 

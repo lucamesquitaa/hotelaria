@@ -7,6 +7,7 @@ import { Usuario } from "./usuario.model";
 export interface ContextModel {
     usuarioAutenticado: boolean,
     usuario: LoginResponseModel,
+    perfil?: ResultLoginModel,
     token: string,
     isLoading: boolean
 }

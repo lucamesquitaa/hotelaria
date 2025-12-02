@@ -12,7 +12,7 @@ import { CookieService } from 'ngx-cookie-service';
 @Injectable({
   providedIn: 'root'
 })
-export abstract class ServiceGeneric {
+export abstract class ServiceGeneric<T> {
 
 	/**
 	 * URL do serviço REST (CRUD)
@@ -39,7 +39,7 @@ export abstract class ServiceGeneric {
 	constructor(
 		public injector: Injector) {
         this.http = this.injector.get(HttpClient);
-				this.cookieService = injector.get(CookieService);
+		this.cookieService = injector.get(CookieService);
 		this.context = this.objContext;
 	}
 

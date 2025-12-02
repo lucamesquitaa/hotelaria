@@ -1,5 +1,8 @@
 import { animate, state, style, transition, trigger } from '@angular/animations';
-import { Component, OnInit } from '@angular/core';
+import { Component, Injector, Input, OnInit } from '@angular/core';
+import { OAuthService } from 'angular-oauth2-oidc';
+import { ComponentBase } from '../component.base';
+import { MenubarService } from '../../services/menubar.service';
 
 @Component({
   selector: 'app-menubar',
@@ -9,16 +12,10 @@ import { Component, OnInit } from '@angular/core';
   animations: [
     trigger('collapseExpand', [
       state('expanded', style({
-        height: '*',
-        width: '280px',
-        opacity: 1,
-        visibility: 'visible'
+        width: '280px'
       })),
       state('collapsed', style({
-        height: '0px',
-        width: '0px',
-        opacity: 0,
-        visibility: 'hidden'
+        width: '60px'
       })),
       transition('expanded <=> collapsed', [
         animate('300ms ease-in-out')
@@ -26,16 +23,40 @@ import { Component, OnInit } from '@angular/core';
     ])
   ]
 })
-export class MenubarComponent implements OnInit {
-  isOpen = true;
+export class MenubarComponent extends ComponentBase implements OnInit {
+  @Input() selected: string = '';
 
-  ngOnInit() {
-    if(window.innerWidth < 768) {
-      this.isOpen = false;
-    }
+  isOpen = true;
+  isHoteisMenuOpen = true; // Nova propriedade para controlar o submenu
+  window = window; // Adicionando propriedade window
+
+  constructor(
+    public override injector: Injector, 
+    private menubarService: MenubarService
+  ) {
+    super(injector);
+  }
+
+  override ngOnInit() {
+    super.ngOnInit();
+    // Se inscreve no estado do menu
+    this.menubarService.isOpen$.subscribe(isOpen => {
+      this.isOpen = isOpen;
+    });
   }
 
   toggleMenu() {
-    this.isOpen = !this.isOpen;
+    this.menubarService.toggle();
   }
+
+  // Novo método para controlar o submenu de hotéis
+  toggleHoteisMenu() {
+    this.isHoteisMenuOpen = !this.isHoteisMenuOpen;
+  }
+
+  // Método para verificar se é mobile
+  isMobile(): boolean {
+    return window.innerWidth < 768;
+  }
+
 }

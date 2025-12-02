@@ -1,6 +1,47 @@
-<div class="cadastroContainer">
-  <app-menubar></app-menubar>
+<div class="cadastroContainer page-with-menubar" [class.menu-collapsed]="!(menubarService.isOpen$ | async)">
+  <app-menubar [selected]="'cadastro'"></app-menubar>
+  <app-header></app-header>
   <div class="cadastroForm">
+    <div class="content-wrapper">
+    
+    <!-- Stepper Compacto Universal Melhorado -->
+    <div class="stepper-enhanced">
+      <div class="stepper-header">
+        <h3 class="stepper-title">Cadastro do Hotel</h3>
+        <div class="step-counter">
+          <span class="current">{{ currentStep }}</span>
+          <span class="separator">/</span>
+          <span class="total">{{ steps.length }}</span>
+        </div>
+      </div>
+      
+      <div class="progress-container">
+        <div class="progress-bar">
+          <div class="progress-fill" [style.width.%]="(currentStep / steps.length) * 100"></div>
+        </div>
+        <div class="steps-list">
+          <div 
+            *ngFor="let step of steps" 
+            class="step-item"
+            [class.active]="step.number === currentStep"
+            [class.completed]="isStepCompleted(step.number)"
+            [class.accessible]="true"
+            [title]="step.description"
+            (click)="goToStep(step.number)"
+          >
+            <div class="step-circle">
+              <i *ngIf="isStepCompleted(step.number)" class="bi bi-check-lg"></i>
+              <span *ngIf="!isStepCompleted(step.number)">{{ step.number }}</span>
+            </div>
+            <div class="step-content">
+              <div class="step-title">{{ step.title }}</div>
+              <div class="step-description">{{ step.description }}</div>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+    
     <div *ngIf="currentStep === 1" class="formContainer 1">
         <h3>Informações Básicas do Hotel </h3>
 
@@ -36,7 +77,7 @@
 
          </div>
 
-      <button class="btn btn-primary btn-md buttonSubmit" (click)="onNextCadastro(1)">Continuar <i class="bi bi-arrow-right-circle"></i></button>  
+      <button class="btn btn-primary btn-md buttonSubmit" (click)="goToStep(2)">Continuar <i class="bi bi-arrow-right-circle"></i></button>  
     </div>
 
     <div *ngIf="currentStep === 2" class="formContainer 2">
@@ -60,8 +101,8 @@
             </div>
             
       <div class="d-flex justify-content-between">
-        <button class="btn btn-secondary btn-md buttonSubmit" (click)="onPreviousCadastro()"><i class="bi bi-arrow-left-circle"></i> Voltar</button>
-        <button class="btn btn-primary btn-md buttonSubmit" (click)="onNextCadastro(2)">Continuar <i class="bi bi-arrow-right-circle"></i></button>  
+        <button class="btn btn-secondary btn-md buttonSubmit" (click)="goToStep(1)"><i class="bi bi-arrow-left-circle"></i> Voltar</button>
+        <button class="btn btn-primary btn-md buttonSubmit" (click)="goToStep(3)">Continuar <i class="bi bi-arrow-right-circle"></i></button>  
       </div>
     </div>
 
@@ -92,8 +133,8 @@
             </div>
 
       <div class="d-flex justify-content-between">
-        <button class="btn btn-secondary btn-md buttonSubmit" (click)="onPreviousCadastro()"><i class="bi bi-arrow-left-circle"></i> Voltar</button>
-        <button class="btn btn-primary btn-md buttonSubmit" (click)="onNextCadastro(3)">Continuar <i class="bi bi-arrow-right-circle"></i></button>  
+        <button class="btn btn-secondary btn-md buttonSubmit" (click)="goToStep(2)"><i class="bi bi-arrow-left-circle"></i> Voltar</button>
+        <button class="btn btn-primary btn-md buttonSubmit" (click)="goToStep(4)">Continuar <i class="bi bi-arrow-right-circle"></i></button>  
       </div>
     </div>
 
@@ -119,7 +160,7 @@
             <div class="col-lg-12 col-md-12">
             <label for="child" class="form-label">Crianças</label>
             <select class="form-select" [(ngModel)]="itemCadastro.child" >
-              <option value="" disabled selected>Selecione:</option>
+              <option value="undefined" selected>Selecione:</option>
               <option value="true">Adequado para Crianças</option>
               <option value="false">Não Adequado para Crianças</option>
             </select>
@@ -128,7 +169,7 @@
           <div class="col-lg-12 col-md-12">
             <label for="pet" class="form-label">Animais</label>
             <select class="form-select" [(ngModel)]="itemCadastro.pets" >
-              <option value="" disabled selected>Selecione:</option>
+              <option value="undefined" selected>Selecione:</option>
               <option value="true">Adequado para Animais</option>
               <option value="false">Não Adequado para Animais</option>
             </select>
@@ -140,8 +181,8 @@
           
             
       <div class="d-flex justify-content-between">
-        <button class="btn btn-secondary btn-md buttonSubmit" (click)="onPreviousCadastro()"><i class="bi bi-arrow-left-circle"></i> Voltar</button>
-        <button class="btn btn-primary btn-md buttonSubmit" (click)="onNextCadastro(4)">Continuar <i class="bi bi-arrow-right-circle"></i></button>  
+        <button class="btn btn-secondary btn-md buttonSubmit" (click)="goToStep(3)"><i class="bi bi-arrow-left-circle"></i> Voltar</button>
+        <button class="btn btn-primary btn-md buttonSubmit" (click)="goToStep(5)">Continuar <i class="bi bi-arrow-right-circle"></i></button>  
       </div>
     </div>
 
@@ -153,7 +194,7 @@
           <div class="col-lg-12 col-md-12">
             <label for="checkCafe" class="form-label">Café da manhã</label>
             <select class="form-select" [(ngModel)]="itemCadastro.coffee" >
-              <option value="" disabled selected>Selecione:</option>
+              <option value="undefined" selected>Selecione:</option>
               <option value="true">Incluso</option>
               <option value="false">Não incluso</option>
             </select>
@@ -161,7 +202,7 @@
           <div class="col-lg-12 col-md-12">
             <label for="checkWifi" class="form-label">Wifi</label>
             <select class="form-select" [(ngModel)]="itemCadastro.wifi" >
-              <option value="" disabled selected>Selecione:</option>
+              <option value="undefined" selected>Selecione:</option>
               <option value="true">Incluso</option>
               <option value="false">Não incluso</option>
             </select>
@@ -170,7 +211,7 @@
           <div class="col-lg-12 col-md-12">
             <label for="checkPiscina" class="form-label">Piscina</label>
             <select class="form-select" [(ngModel)]="itemCadastro.swimming" >
-              <option value="" disabled selected>Selecione:</option>
+              <option value="undefined" selected>Selecione:</option>
                <option value="true">Incluso</option>
               <option value="false">Não incluso</option>
             </select>
@@ -178,7 +219,7 @@
           <div class="col-lg-12 col-md-12">
             <label for="checkLimpeza" class="form-label">Serviço de limpeza</label>
             <select class="form-select" [(ngModel)]="itemCadastro.cleaning" >
-              <option value="" disabled selected>Selecione:</option>
+              <option value="undefined" selected>Selecione:</option>
                <option value="true">Incluso</option>
               <option value="false">Não incluso</option>
             </select>
@@ -187,7 +228,7 @@
           <div class="col-lg-12 col-md-12">
             <label for="checkAcademia" class="form-label">Academia no local</label>
             <select class="form-select" [(ngModel)]="itemCadastro.gym" >
-              <option value="" disabled selected>Selecione:</option>
+              <option value="undefined" selected>Selecione:</option>
                <option value="true">Incluso</option>
               <option value="false">Não incluso</option>
             </select>
@@ -229,8 +270,8 @@
           
             
       <div class="d-flex justify-content-between">
-        <button class="btn btn-secondary btn-md buttonSubmit" (click)="onPreviousCadastro()"><i class="bi bi-arrow-left-circle"></i> Voltar</button>
-        <button class="btn btn-primary btn-md buttonSubmit " (click)="onNextCadastro(5)">Continuar <i class="bi bi-arrow-right-circle"></i></button>  
+        <button class="btn btn-secondary btn-md buttonSubmit" (click)="goToStep(4)"><i class="bi bi-arrow-left-circle"></i> Voltar</button>
+        <button class="btn btn-primary btn-md buttonSubmit " (click)="goToStep(6)">Continuar <i class="bi bi-arrow-right-circle"></i></button>  
       </div>
     </div>
    </div>
@@ -249,8 +290,8 @@
       </div>
 
       <div class="d-flex justify-content-between">
-        <button class="btn btn-secondary btn-md buttonSubmit" (click)="onPreviousCadastro()"><i class="bi bi-arrow-left-circle"></i> Voltar</button>
-        <button class="btn btn-primary btn-md buttonSubmit" (click)="onNextCadastro(6)">Continuar <i class="bi bi-arrow-right-circle"></i></button>  
+        <button class="btn btn-secondary btn-md buttonSubmit" (click)="goToStep(5)"><i class="bi bi-arrow-left-circle"></i> Voltar</button>
+        <button class="btn btn-primary btn-md buttonSubmit" (click)="goToStep(7)">Continuar <i class="bi bi-arrow-right-circle"></i></button>  
       </div>
     </div>
 
@@ -271,10 +312,10 @@
             </div>
 
       <div class="d-flex justify-content-between">
-        <button class="btn btn-secondary btn-md buttonSubmit" (click)="onPreviousCadastro()"><i class="bi bi-arrow-left-circle"></i> Voltar</button>
-        <button class="btn btn-success btn-md buttonSubmit" (click)="onConcluirCadastro()">Concluir <i class="bi bi-arrow-right-circle"></i></button>  
+        <button class="btn btn-secondary btn-md buttonSubmit" (click)="goToStep(6)"><i class="bi bi-arrow-left-circle"></i> Voltar</button>
+        <button class="btn btn-success btn-md buttonSubmit" (click)="concluirCadastro()">Concluir <i class="bi bi-arrow-right-circle"></i></button>  
       </div>
     </div>
-   
+  </div>
 </div>
 

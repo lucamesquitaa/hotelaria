@@ -2,7 +2,7 @@
 <div class="telas">
 
     <router-outlet></router-outlet>
-    <div *ngIf="context.isLoading" class="overlay-spinner">
+    <div *ngIf="this.context.isLoading" class="overlay-spinner">
         <div class="overlay"></div>
         <div class="d-flex justify-content-center spinner-container">
             <div class="spinner-border" role="status">
