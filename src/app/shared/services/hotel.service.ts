@@ -5,11 +5,12 @@ import { DetalhesModel, DetalhesModelByManager } from '../models/hotel.model';
 import { HoteisAllModel } from '../models/hoteisAll.model';
 import { HttpHeaders } from '@angular/common/http';
 import { ManagersModel } from '../models/managers.model';
+import { ResponseApi } from '../models/response.api';
 
 @Injectable({
   providedIn: 'root'
 })
-export class HotelService extends ServiceGeneric {
+export class HotelService extends ServiceGeneric<ResponseApi<any>> {
   //override urlServiceREST: string = "https://hotelaria-vstudio2022-54700728866.us-central1.run.app/api/Hotel";
   override urlServiceREST: string = "http://localhost:8080/api/Hotel";
 
@@ -17,40 +18,40 @@ export class HotelService extends ServiceGeneric {
     super(injector);
   }
 
-  doGetAllHoteis(): Observable<HoteisAllModel[]>{
-    return this.http.get<HoteisAllModel[]>(this.urlServiceREST);
+  doGetAllHoteis(): Observable<ResponseApi<HoteisAllModel[]>>{
+    return this.http.get<ResponseApi<HoteisAllModel[]>>(this.urlServiceREST);
   }
 
-  doGetUserIdHoteis(): Observable<HoteisAllModel[]>{
+  doGetUserIdHoteis(): Observable<ResponseApi<HoteisAllModel[]>>{
     const headers = new HttpHeaders().set('Authorization', 'Bearer ' + this.cookieService.get('access_token'));
     console.log(headers);
-    return this.http.get<HoteisAllModel[]>(
+    return this.http.get<ResponseApi<HoteisAllModel[]>>(
       this.urlServiceREST + "/ByUserId",
       { headers }
     );
   }
 
-  doGetHotelId(hotelId: string): Observable<DetalhesModel>{
-    return this.http.get<DetalhesModel>(this.urlServiceREST +"/" + hotelId);
+  doGetHotelId(hotelId: string): Observable<ResponseApi<DetalhesModel>>{
+    return this.http.get<ResponseApi<DetalhesModel>>(this.urlServiceREST +"/" + hotelId);
   }
 
-  doGetHotelByManager(hotelId: string): Observable<DetalhesModelByManager>{
-    return this.http.get<DetalhesModelByManager>(this.urlServiceREST +"/ByManager/" + hotelId);
+  doGetHotelByManager(hotelId: string): Observable<ResponseApi<DetalhesModelByManager>>{
+    return this.http.get<ResponseApi<DetalhesModelByManager>>(this.urlServiceREST +"/ByManager/" + hotelId);
   }
 
-  doDeleteHotel(id: string): Observable<string>{
+  doDeleteHotel(id: string): Observable<ResponseApi>{
     //setar token Authorization
     const headers = new HttpHeaders().set('Authorization', 'Bearer ' + this.cookieService.get('access_token'));
     
-    return this.http.delete<any>(this.urlServiceREST + "/" +id, { headers});
+    return this.http.delete<ResponseApi>(this.urlServiceREST + "/" +id, { headers});
   }
 
-  doPostHotel(hotel: DetalhesModel, id: string | null): Observable<DetalhesModel> {
+  doPostHotel(hotel: DetalhesModel, id: string | null): Observable<ResponseApi> {
     const headers = new HttpHeaders().set('Authorization', 'Bearer ' + this.cookieService.get('access_token'));
     if (id == null) {
-      return this.http.post<DetalhesModel>(this.urlServiceREST, hotel, { headers });
+      return this.http.post<ResponseApi>(this.urlServiceREST, hotel, { headers });
     } else {
-      return this.http.put<DetalhesModel>(this.urlServiceREST + "/" + id, hotel, { headers });
+      return this.http.put<ResponseApi>(this.urlServiceREST + "/" + id, hotel, { headers });
     }
   }
 

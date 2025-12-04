@@ -5,7 +5,7 @@ import { ServiceGeneric } from './generic.service'; // Adjust the path if needed
 @Injectable({
   providedIn: 'root'
 })
-export class MapsLoaderService extends ServiceGeneric {
+export class MapsLoaderService extends ServiceGeneric<any>{
   override urlServiceREST: string = "";
   private loaded = false;
 

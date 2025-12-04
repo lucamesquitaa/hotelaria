@@ -17,7 +17,7 @@ import { SharedModule } from 'src/app/shared/shared.module';
 })
 export class HotelComponent extends ComponentBase implements OnInit {
    hotelId!: string | null;
-   hotel!: DetalhesModel;
+   hotel!: DetalhesModel | undefined;
    id!: string;
    center!: any;
    images!: string[];
@@ -43,7 +43,7 @@ export class HotelComponent extends ComponentBase implements OnInit {
       this.hotelService.doGetAllHoteis().subscribe({
     next: (result) => {
       
-      const hotel = result.find(item => item.url === this.hotelId);
+      const hotel = result.data?.find(item => item.url === this.hotelId);
       if (hotel) {
         this.id = hotel.id;
         console.log(hotel.photosStared);
@@ -51,8 +51,8 @@ export class HotelComponent extends ComponentBase implements OnInit {
 
         this.hotelService.doGetHotelId(this.id).subscribe({
           next: (item) => {
-            this.hotel = item;
-            this.coordenadasService.buscarCoordenadas(`${item.address} ${item.number}, ${item.city} - ${item.cep}`).subscribe({
+            this.hotel = item.data;
+            this.coordenadasService.buscarCoordenadas(`${this.hotel?.address} ${this.hotel?.number}, ${this.hotel?.city} - ${this.hotel?.cep}`).subscribe({
               next: (res) => {
                 if (res.status === 'OK') {
                   const location = res.results[0].geometry.location;
@@ -70,7 +70,7 @@ export class HotelComponent extends ComponentBase implements OnInit {
               }
             });
 
-            this.todasIMGS = item.photos?.map(x => x.url) ?? [];
+            this.todasIMGS = this.hotel?.photos?.map(x => x.url) ?? [];
           },
           error: (err) => {
             console.error('Erro ao buscar hotel por ID:', err);
@@ -99,8 +99,8 @@ export class HotelComponent extends ComponentBase implements OnInit {
   }
 
   openWhatsApp(){
-    const phoneNumber = this.hotel.contacts?.at(0)?.contact; // Número com DDI e DDD (ex.: 55 + 11 + número)
-    const message = encodeURIComponent(`Olá ${this.hotel.contacts?.at(0)?.name}! Gostaria de mais informações.`);
+    const phoneNumber = this.hotel?.contacts?.at(0)?.contact; // Número com DDI e DDD (ex.: 55 + 11 + número)
+    const message = encodeURIComponent(`Olá ${this.hotel?.contacts?.at(0)?.name}! Gostaria de mais informações.`);
     const url = `https://wa.me/${phoneNumber}?text=${message}`;
     window.open(url, '_blank');
   }
@@ -108,7 +108,7 @@ export class HotelComponent extends ComponentBase implements OnInit {
   compartilhar() {
     if (navigator.share) {
       navigator.share({
-        title: this.hotel.name,
+        title: this.hotel?.name,
         text: 'Visite este hotel incrível!',
         url: window.location.href
       })

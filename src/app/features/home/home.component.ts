@@ -2,6 +2,7 @@ import { Component, Injector } from '@angular/core';
 import { Observable, OperatorFunction } from 'rxjs';
 import { debounceTime, distinctUntilChanged, map  } from 'rxjs/operators';
 import { ComponentBase } from 'src/app/shared/components/component.base';
+import { HoteisAllModel } from 'src/app/shared/models/hoteisAll.model';
 import { HotelService } from 'src/app/shared/services/hotel.service';
 
 @Component({
@@ -14,9 +15,9 @@ export class HomeComponent extends ComponentBase {
 
   hotel: any;
 
-	filteredHoteis: any[] = [];
+  filteredHoteis: HoteisAllModel[] | undefined = [];
 
-  hoteis!: any[];
+  hoteis!: HoteisAllModel[] | undefined;
 
   constructor(public override injector: Injector, private hotelService: HotelService) {
     super(injector);
@@ -29,7 +30,7 @@ export class HomeComponent extends ComponentBase {
 	doGetAllHoteis(){
 		this.hotelService.doGetAllHoteis().subscribe({
 			next: (result) => {
-				this.hoteis = result;
+				this.hoteis = result.data;
 				this.filteredHoteis = this.hoteis;
 			},
 		});
@@ -44,7 +45,7 @@ export class HomeComponent extends ComponentBase {
 			map((term) =>
 				term === ''
 					? []
-					: this.hoteis.filter((v) => v.name.toLowerCase().indexOf(term.toLowerCase()) > -1).slice(0, 10),
+					: this.hoteis?.filter((v) => v.name.toLowerCase().indexOf(term.toLowerCase()) > -1).slice(0, 10) || [],
 			),
 		);
 
@@ -53,7 +54,7 @@ export class HomeComponent extends ComponentBase {
 				this.filteredHoteis = this.hoteis;
 				return;
 				}
-				this.filteredHoteis = this.hoteis.map((v) => this.hotel.name === v.name ? v : null).filter((v) => v !== null);
+				this.filteredHoteis = this.hoteis?.map((v) => this.hotel.name === v.name ? v : null).filter((v) => v !== null);
 	 	}
 
 		visitarSite(item: any){

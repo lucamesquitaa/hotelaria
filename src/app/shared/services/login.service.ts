@@ -4,11 +4,12 @@ import { ServiceGeneric } from './generic.service';
 import { Observable } from 'rxjs';
 import { LoginModel, LoginResponseModel, ResultLoginModel } from '../models/login.model';
 import { ManagersModel } from '../models/managers.model';
+import { ResponseApi } from '../models/response.api';
 
 @Injectable({
   providedIn: 'root'
 })
-export class LoginService extends ServiceGeneric {
+export class LoginService extends ServiceGeneric<LoginResponseModel> {
   //override urlServiceREST: string = "https://hotelaria-vstudio2022-54700728866.us-central1.run.app/api/Login";
    override urlServiceREST: string = "http://localhost:8080/api/User";
 
@@ -17,19 +18,48 @@ export class LoginService extends ServiceGeneric {
   }
 
   doLogin(user: ResultLoginModel): Observable<LoginResponseModel>{
-    console.log("Fazendo login para o usuário:", user);
-    return this.http.post<LoginResponseModel>(this.urlServiceREST + "/Login", user);
+    console.log("=== LOGIN SERVICE ===");
+    console.log("User object:", user);
+    console.log("User JSON:", JSON.stringify(user, null, 2));
+    console.log("URL:", this.urlServiceREST + "/Login");
+    
+    const headers = new HttpHeaders({
+      'Content-Type': 'application/json',
+      'Accept': 'application/json'
+    });
+    
+    return this.http.post<LoginResponseModel>(
+      this.urlServiceREST + "/Login", 
+      user,
+      { headers }
+    );
   }
 
-  updateManager(email: string, hotelId: string): Observable<any> {
+  updateManager(email: string, hotelId: string | null, role: string = 'user'): Observable<ResponseApi> {
+    if(hotelId === null) {
+      throw new Error("hotelId não pode ser nulo");
+    }
+
     const url = this.urlServiceREST + '/UpdateManager';
-    const body = { email, hotelId };
+    const body = { email, hotelId, role };
     const headers = new HttpHeaders().set('Authorization', 'Bearer ' + this.cookieService.get('access_token'));
   
-    return this.http.post<any>(url, body, { headers });
+    return this.http.post<ResponseApi>(url, body, { headers });
   }
 
-   GetAllPermissionUsers(hotelId: string): Observable<ManagersModel[]> {
-    return this.http.post<ManagersModel[]>(this.urlServiceREST + "/GetAllPermissionUsers", {hotelId});
+  removeManager(email: string, hotelId: string | null, role: string = 'user'): Observable<ResponseApi> {
+    if(hotelId === null) {
+      throw new Error("hotelId não pode ser nulo");
+    }
+
+    const url = this.urlServiceREST + '/RemovePermissionUsers';
+    const body = { email, hotelId, role };
+    const headers = new HttpHeaders().set('Authorization', 'Bearer ' + this.cookieService.get('access_token'));
+  
+    return this.http.delete<ResponseApi>(url, { headers, body });
+  }
+
+   GetAllPermissionUsers(hotelId: string): Observable<ResponseApi<ManagersModel[]>> {
+    return this.http.post<ResponseApi<ManagersModel[]>>(this.urlServiceREST + "/GetAllPermissionUsers", {hotelId});
   }
 }

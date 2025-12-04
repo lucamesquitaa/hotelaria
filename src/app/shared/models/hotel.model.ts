@@ -12,7 +12,7 @@ export interface Photo {
   detalhesModelId?: string;
   alt: string;
   url: string;
-  stared?: boolean;
+  stared?: boolean | string;
 }
 export interface DetalhesModel {
   name: string;
@@ -21,8 +21,8 @@ export interface DetalhesModel {
   url: string;
   description: string;
   category: number;
-  child: boolean;
-  pets: boolean;
+  child: boolean | string;
+  pets: boolean | string;
   petsTax: number;
   cep: string;
   address: string;
@@ -30,16 +30,16 @@ export interface DetalhesModel {
   complement: string;
   lobby: string;
   diff: string;
-  beach: boolean;
-  downtown: boolean;
-  airpot: boolean;
-  highway: boolean;
-  hospital: boolean;
-  coffee: boolean;
-  wifi: boolean;
-  swimming: boolean;
-  cleaning: boolean;
-  gym: boolean;
+  beach: boolean | string;
+  downtown: boolean | string;
+  airpot: boolean | string;
+  highway: boolean | string;
+  hospital: boolean | string;
+  coffee: boolean | string;
+  wifi: boolean | string;
+  swimming: boolean | string;
+  cleaning: boolean | string;
+  gym: boolean | string;
   contacts?: Contact[];
   photos?: Photo[];
 }
@@ -51,8 +51,8 @@ export interface DetalhesModelByManager {
   url: string;
   description: string;
   category: number;
-  child: boolean;
-  pets: boolean;
+  child: boolean | string;
+  pets: boolean | string;
   petsTax: number;
   cep: string;
   address: string;
@@ -60,16 +60,16 @@ export interface DetalhesModelByManager {
   complement: string;
   lobby: string;
   diff: string;
-  beach: boolean;
-  downtown: boolean;
-  airpot: boolean;
-  highway: boolean;
-  hospital: boolean;
-  coffee: boolean;
-  wifi: boolean;
-  swimming: boolean;
-  cleaning: boolean;
-  gym: boolean;
+  beach: boolean | string;
+  downtown: boolean | string;
+  airpot: boolean | string;
+  highway: boolean | string;
+  hospital: boolean | string;
+  coffee: boolean | string;
+  wifi: boolean | string;
+  swimming: boolean | string;
+  cleaning: boolean | string;
+  gym: boolean | string;
   contacts?: Contact[];
   photos?: Photo[];
   //infos privadas

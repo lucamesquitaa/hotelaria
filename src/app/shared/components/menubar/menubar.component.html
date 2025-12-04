@@ -1,30 +1,75 @@
-<div [@collapseExpand]="isOpen ? 'expanded' : 'collapsed'" class="d-flex flex-column flex-shrink-0 p-3 text-white bg-dark contBar"  style="width: 280px; height: 100vh; position: fixed;">
-    <a href="/" class="d-flex align-items-center mb-3 mb-md-0 me-md-auto text-white text-decoration-none">
-      <svg class="bi me-2" width="40" height="32"><use xlink:href="#bootstrap"/></svg>
-      <img src="assets/logosfundo2.png" class="logoCasinha" alt="logo turify casinha"/>
-    </a>
-    <hr>
-    <ul class="nav nav-pills flex-column mb-auto">
-      <li class="nav-item">
-        <a href="#" class="nav-link text-white" aria-current="page">
-          <svg class="bi me-2" width="16" height="16"><use xlink:href="#home"/></svg>
-          Hoteis
-        </a>
-      </li>
-      <li>
-        <a href="" class="nav-link text-white">
-          <svg class="bi me-2" width="16" height="16"><use xlink:href="#speedometer2"/></svg>
-          Dashboard
-        </a>
-      </li>
-      <li>
-        <a href="cadastro" class="nav-link text-white">
-          <svg class="bi me-2" width="16" height="16"><use xlink:href="#table"/></svg>
-          Cadastro
-        </a>
-      </li>
-    </ul>
-    <i class="bi bi-list menuBarIcon" (click)="toggleMenu()"></i>
-  </div>
 
-<i *ngIf="!isOpen" class="bi bi-list menuBarIcon2"  style="margin: 10px " (click)="toggleMenu()"></i>
+<!-- Sidebar Menu -->
+<div [@collapseExpand]="isOpen ? 'expanded' : 'collapsed'" 
+     [class.menu-open]="isOpen"
+     [class.menu-collapsed]="!isOpen"
+     [class.menu-expanded]="isOpen"
+     class="d-flex flex-column flex-shrink-0 p-3 text-white contBar" 
+     [style.width]="isOpen ? '280px' : '60px'">
+    
+    <!-- Brand/Logo -->
+    <div class="d-flex justify-content-center align-items-center" [ngClass]="isOpen ? 'justify-content-between' : 'justify-content-center'">
+        <a href="/" class="menu-brand" [class.d-none]="!isOpen">
+            <img src="assets/logosfundo2.png" class="logoCasinha" alt="logo turify casinha"/>
+        </a>
+        <!-- Botão de collapse/expand -->
+        <button class="btn btn-link text-white p-0" (click)="toggleMenu()" type="button">
+           <i class="bi bi-list" style="font-size: 1.5rem;"></i>
+        </button>
+    </div>
+    
+    <!-- Conteúdo do menu - visível apenas quando expandido -->
+    <div [class.d-none]="!isOpen" class="conteudoMeniu">
+        <hr>
+        
+        <!-- Navigation Menu -->
+        <ul class="nav nav-pills flex-column mb-auto">
+            <li class="nav-item">
+                <a href="/dashboard" class="nav-link text-white" 
+                   [class.active]="selected === 'dashboard'" 
+                   routerLinkActive="active">
+                    <i class="bi bi-speedometer2"></i>
+                    Dashboard
+                </a>
+            </li>
+            <li class="nav-item">
+                <a href="/admin" class="nav-link text-white d-flex justify-content-between align-items-center" [class.active]="selected === 'admin'" routerLinkActive="active">
+                    <span>
+                        <i class="bi bi-building"></i>
+                        Hotéis
+                    </span>
+                    <!-- <i class="bi" [class.bi-chevron-down]="!isHoteisMenuOpen" [class.bi-chevron-up]="isHoteisMenuOpen"></i> -->
+                </a>
+                <!-- <div [ngbCollapse]="!isHoteisMenuOpen" id="hoteisSubmenu">
+                    <ul class="nav nav-pills flex-column ms-3">
+                        <li class="nav-item">
+                            <a href="/cadastro" class="nav-link text-white" routerLinkActive="active">
+                                <i class="bi bi-pencil"></i>
+                                Cadastro
+                            </a>
+                        </li>
+                        <li class="nav-item">
+                            <a href="/quartos" class="nav-link text-white" routerLinkActive="active">
+                                <i class="bi bi-door-open"></i>
+                                Quartos
+                            </a>
+                        </li>
+                        <li class="nav-item">
+                            <a href="/managers" class="nav-link text-white" routerLinkActive="active">
+                                <i class="bi bi-people"></i>
+                                Gerentes
+                            </a>
+                        </li>
+                    </ul>
+                </div> -->
+            </li>
+            <li class="nav-item">
+                <a href="/campos" class="nav-link text-white" routerLinkActive="active" [class.active]="selected === 'campos'">
+                                <i class="bi bi-pencil"></i>
+                                Campos
+                </a>
+            </li>
+        </ul>
+        
+    </div>
+</div>

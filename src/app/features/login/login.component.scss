@@ -1,10 +1,31 @@
 
-.btGoogl{
+.tela1{
   display: flex;
   align-items: center;
   justify-content: center;
   flex-direction: column;
-  gap: 15px;
   width: 100%;
+  padding: 20px;
   margin-top: 100px;
+  height: 500px;
+}
+
+.btGoogl{
+  gap: 20px;
+  display: flex;
+  border: 3px solid #34495e;
+}
+
+.buttonSubmit{
+  background-color: #34495e;
+  border: none;
+  color: white;
+  padding: 10px 20px;
+  text-align: center;
+  text-decoration: none;
+  display: inline-block;
+  font-size: 16px;
+  margin: 4px 2px;
+  cursor: pointer;
+  border-radius: 8px;
 }

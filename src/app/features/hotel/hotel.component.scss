@@ -12,25 +12,37 @@
   display: flex;
   align-items: start;
   justify-content: center;
-  min-height: 100vh; // ocupa toda a altura da tela
-  background-color: #FFFFFF;
+  min-height: 100vh;
+  background: linear-gradient(135deg, #f8f9fa 0%, #e9ecef 100%);
+  padding: 40px 20px;
 }
+
 .containerHotel{
   width: 100%;
+  max-width: 900px;
+  margin: 0 auto;
+  padding: 0;
   display: flex;
   align-items: center;
   justify-content: center;
   flex-direction: column;
   flex-wrap: wrap;
   align-self: center;
+  background: white;
+  border-radius: 20px;
+  box-shadow: 0 8px 32px rgba(0, 0, 0, 0.1);
+  overflow: hidden;
+  position: relative;
 }
 .headerContainer {
   width: 100%;
   display: flex;
   align-items: center;
   justify-content: space-between;
-  padding: 0 16px;
+  padding: 20px 24px;
   z-index: 1;
+  background: white;
+  border-bottom: 1px solid #e2e8f0;
 }
 
 .logoCasinha {
@@ -87,10 +99,10 @@ img{
 .containerInfos{
   width: 100%;
   z-index: 3;
-  padding: 10px;
-  background-color: #FFFFFF;;
-  border-radius: 25px;
-  margin-top: -20px;
+  padding: 30px 24px;
+  background-color: #FFFFFF;
+  border-radius: 0;
+  margin-top: 0;
   display: flex;
   align-items: center;
   justify-self: center;
@@ -100,19 +112,30 @@ img{
   width: 100%;
   display: flex;
   justify-content: center;
-  padding: 15px;
-  font-weight: 600;
+  padding: 15px 0;
+  font-weight: 700;
+  font-size: 2rem;
+  color: #2c3e50;
+  text-align: center;
 }
 .subtitleHotel{
   margin-top: -25px;
 }
 .detalhesContainer{
-  width: 90%;
-  padding: 10px;
-  margin: 0 auto;
-  border-radius: 5px;
-  border: 0.5px solid #5A5A5A80;
-  box-shadow: 1px 1px 1px #afafaf;
+  width: 100%;
+  padding: 20px;
+  margin: 20px 0;
+  border-radius: 15px;
+  border: 2px solid #e2e8f0;
+  box-shadow: 0 4px 16px rgba(0, 0, 0, 0.08);
+  background: #fafbfc;
+  transition: all 0.3s ease;
+}
+
+.detalhesContainer:hover {
+  transform: translateY(-2px);
+  box-shadow: 0 8px 24px rgba(0, 0, 0, 0.12);
+  border-color: #007bff;
 }
 .icones{
   display: flex;
@@ -221,11 +244,20 @@ img{
   }
 }
 @media screen and (min-width: 900px){
+  .telasContainer {
+    padding: 60px 40px;
+  }
+  
   .containerHotel{
     width: 100%;
-    max-width: 1000px;
+    max-width: 900px;
     background-color: #FFFFFF;
   }
+  
+  .containerInfos{
+    padding: 40px 30px;
+  }
+  
   .colum{
     width: 45%;
   }
@@ -280,5 +312,57 @@ img{
   }
   .subtitleHotel{
     margin-top: -20px;
+  }
+}
+
+@media screen and (max-width: 768px) {
+  .telasContainer {
+    padding: 20px 15px;
+  }
+  
+  .containerHotel{
+    max-width: 100%;
+    margin: 0;
+    border-radius: 15px;
+  }
+  
+  .headerContainer {
+    padding: 15px 20px;
+  }
+  
+  .containerInfos{
+    padding: 25px 20px;
+  }
+  
+  .titleHotel{
+    font-size: 1.8rem;
+    padding: 10px 0;
+  }
+  
+  .detalhesContainer{
+    padding: 15px;
+    margin: 15px 0;
+  }
+}
+
+@media screen and (max-width: 480px) {
+  .telasContainer {
+    padding: 15px 10px;
+  }
+  
+  .headerContainer {
+    padding: 12px 15px;
+  }
+  
+  .containerInfos{
+    padding: 20px 15px;
+  }
+  
+  .titleHotel{
+    font-size: 1.5rem;
+  }
+  
+  .detalhesContainer{
+    padding: 12px;
   }
 }

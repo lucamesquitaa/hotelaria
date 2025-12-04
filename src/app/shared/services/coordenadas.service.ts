@@ -4,7 +4,7 @@ import { ServiceGeneric } from './generic.service';
 @Injectable({
   providedIn: 'root'
 })
-export class CoordenadasService extends ServiceGeneric {
+export class CoordenadasService extends ServiceGeneric<any> {
   override urlServiceREST: string = '';
 
   buscarCoordenadas(address: string) {

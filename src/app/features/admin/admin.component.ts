@@ -3,8 +3,10 @@ import { FormArray, FormControl, FormGroup, Validators } from '@angular/forms';
 import { NgbModal } from '@ng-bootstrap/ng-bootstrap';
 import { OperatorFunction, Observable, debounceTime, distinctUntilChanged, map } from 'rxjs';
 import { ComponentBase } from 'src/app/shared/components/component.base';
+import { HoteisAllModel } from 'src/app/shared/models/hoteisAll.model';
 import { Contact, Photo } from 'src/app/shared/models/hotel.model';
 import { HotelService } from 'src/app/shared/services/hotel.service';
+import { MenubarService } from 'src/app/shared/services/menubar.service';
 
 
 @Component({
@@ -15,13 +17,13 @@ import { HotelService } from 'src/app/shared/services/hotel.service';
 })
 export class AdminComponent extends ComponentBase implements OnInit {
 
-  hotel: any;
+  hotel: HoteisAllModel | undefined;
 
-  filteredHoteis: any[] = [];
+  filteredHoteis: HoteisAllModel[] | undefined = [];
   showConfirmModal = false;
   itemToDelete: string = '';
 
-  hoteis!: any[];
+  hoteis!: HoteisAllModel[] | undefined;
 
   detalhesModelId!: string | undefined;
 
@@ -30,9 +32,12 @@ export class AdminComponent extends ComponentBase implements OnInit {
 /**
  *
  */
-constructor(public override injector: Injector, private hotelService: HotelService) {
+constructor(
+  public override injector: Injector, 
+  private hotelService: HotelService,
+  public menubarService: MenubarService
+) {
   super(injector);
-  
 }
 
 override ngOnInit(): void {
@@ -44,7 +49,7 @@ doGetAllHoteis(){
   this.hotelService.doGetUserIdHoteis().subscribe({
     next: (result) => {
       console.log(result);
-      this.hoteis = result;
+      this.hoteis = result.data;
       this.filteredHoteis = this.hoteis;
     },
   });
@@ -60,7 +65,7 @@ doGetAllHoteis(){
         map((term) =>
           term === ''
             ? []
-            : this.hoteis.filter((v) => v.name.toLowerCase().indexOf(term.toLowerCase()) > -1).slice(0, 10),
+            : this.hoteis?.filter((v) => v.name.toLowerCase().indexOf(term.toLowerCase()) > -1).slice(0, 10) ?? [],
         ),
       );
 
@@ -69,12 +74,12 @@ doGetAllHoteis(){
       this.filteredHoteis = this.hoteis;
       return;
     }
-    this.filteredHoteis = this.hoteis.map((v) => this.hotel.name === v.name ? v : null).filter((v) => v !== null);
+    this.filteredHoteis = this.hoteis?.map((v) => this.hotel?.name === v.name ? v : null).filter((v) => v !== null);
   }
 
  onCallPermission(hotelId: string) {
   this.cookieService.set("hotel_id", hotelId);
-  this.router.navigate(["/managers"]);
+  this.router.navigate(["/managers", hotelId]);
  }
   onEdit(hotelId: string) {
     this.cookieService.set("hotel_id", hotelId);
@@ -82,7 +87,7 @@ doGetAllHoteis(){
   }
   onCallQuartos(hotelId: string) {
     this.cookieService.set("hotel_id", hotelId);
-    this.router.navigate(["/quartos"]);
+    this.router.navigate(["/quartos", hotelId]);
   }
 
   onCallCadastroNew(){
@@ -97,7 +102,7 @@ doGetAllHoteis(){
         this.toastr.success('Hotel deletado com sucesso');
       },
       error: (err) => {
-        this.toastr.error('Erro ao deletar hotel');
+        this.toastr.error(err.error.mensagem || err.error.excecaoMensagem || "Erro no servidor.");
       },
       complete: () => {
         this.modalService.dismissAll();
