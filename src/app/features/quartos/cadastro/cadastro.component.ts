@@ -95,7 +95,7 @@ export class CadastroQuartoComponent extends ComponentBase implements OnInit {
     if(atual == 1){
        if (
             !this.itemCadastro?.name ||
-            !this.itemCadastro.category ||
+            !this.categorys || this.categorys.length === 0 ||
             !this.itemCadastro.description ||
             !this.itemCadastro.maxOcupation ||
             !this.itemCadastro.areaSize
@@ -105,7 +105,15 @@ export class CadastroQuartoComponent extends ComponentBase implements OnInit {
             return true;
           }
     }else if(atual == 2){
-        // Validação para comodidades - pelo menos uma deve estar definida
+        if(
+          !this.itemCadastro.beds || this.itemCadastro.beds.length === 0 ||
+          !this.itemCadastro.diff ||
+          !this.itemCadastro.bathProducts ||
+          !this.itemCadastro.typeTv
+        ){
+          return false;
+        }
+
         return true; // Comodidades são opcionais
     }else if(atual == 3){
         // Validação para banheiro e TV - opcionais
@@ -123,7 +131,7 @@ export class CadastroQuartoComponent extends ComponentBase implements OnInit {
   }
 
   isStepCompleted(step: number): boolean {
-    return step < this.currentStep || (step === this.currentStep && this.onValidaCadastro(step));
+    return this.onValidaCadastro(step);
   }
 
   onFileSelected(event: any) {
@@ -141,6 +149,7 @@ export class CadastroQuartoComponent extends ComponentBase implements OnInit {
     this.showLoading();
     this.categoryQuartosService.doPostCategoryQuarto(event, this.hotelId).subscribe({
       error: (error: any) => {
+        console.log(error);
         this.toastr.error(error.error?.mensagem || error.error?.excecaoMensagem || "Erro no servidor.");
         this.categorys = [];
         this.hideLoading();

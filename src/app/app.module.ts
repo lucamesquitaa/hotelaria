@@ -27,6 +27,7 @@ import { AuthInterceptor } from './shared/services/interceptor';
     FormsModule,
     NgbDropdownModule,
     BrowserModule,
+    SharedModule,
     BrowserAnimationsModule,
     ToastrModule.forRoot(),
     OAuthModule.forRoot({

@@ -10,7 +10,7 @@ import { MenubarService } from '../../services/menubar.service';
   styleUrls: ['./header.component.scss']
 })
 export class HeaderComponent extends ComponentBase{
-  public appTitle: string = 'Hotelaria';
+  public appTitle: string = 'Painel da Administração';
   public currentDate: Date = new Date();
     constructor(
         public override injector: Injector, 

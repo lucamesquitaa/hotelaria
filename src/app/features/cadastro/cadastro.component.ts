@@ -168,13 +168,23 @@ export class CadastroComponent extends ComponentBase implements OnInit {
       alert('Dados do cadastro estão incompletos.');
       return;
     }
-          
+    
+    //os itens booleanos devem ser convertidos de string para boolean
+    this.itemCadastro.child = this.itemCadastro.child == "true";
+    this.itemCadastro.pets = this.itemCadastro.pets == "true";
+    this.itemCadastro.coffee = this.itemCadastro.coffee == "true" ;
+    this.itemCadastro.wifi = this.itemCadastro.wifi == "true" ;
+    this.itemCadastro.swimming = this.itemCadastro.swimming == "true" ;
+    this.itemCadastro.cleaning = this.itemCadastro.cleaning == "true" ;
+    this.itemCadastro.gym = this.itemCadastro.gym == "true" ;
+
     this.showLoading();
     this.hotelService.doPostHotel(this.itemCadastro, this.hotelId).subscribe({
       next: (response) => {
         this.toastr.success('Cadastro atualizado com sucesso.');
       },
       error: (error) => {
+        console.log(error);
         this.toastr.error(error.error.mensagem || error.error.excecaoMensagem || "Erro no servidor.");
         this.hideLoading();
       },

@@ -1,5 +1,4 @@
 <div class="camposContainer page-with-menubar" [class.menu-collapsed]="!(menubarService.isOpen$ | async)">
-    <app-header></app-header>
     <!-- Stepper Compacto Universal Melhorado -->
     <div class="stepper-enhanced">
       <div class="stepper-header">
@@ -39,7 +38,6 @@
     </div>
 
     <div *ngIf="currentStep === 1">
-        <app-menubar></app-menubar>
         <div class="section-block">
             <h3>Selecionar Hotel</h3>
             <div *ngFor="let item of filteredHoteis()" class="simple-card" (click)="onHotelSelecionado(item.id)">
@@ -50,7 +48,6 @@
     </div>   
 
     <div *ngIf="currentStep === 2">
-        <app-menubar></app-menubar>
         <div class="section-block">
             <h3>Selecionar Campo</h3>
             <div class="simple-card" (click)="campoNumberChange(1)">
@@ -62,7 +59,6 @@
    
 
     <div *ngIf="currentStep === 3" class="content-wrapper">
-        <app-menubar></app-menubar>
         
         <div class="page-content" *ngIf="campoNumber() == 1">
             <app-category-campo [hotelId]="hotelId()"></app-category-campo>

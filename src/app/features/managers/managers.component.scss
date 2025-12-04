@@ -50,7 +50,7 @@
   max-width: 650px;
   background: white;
   padding: 40px 30px;
-  border-radius: 20px;
+  border-radius:  8px;
   box-shadow: 0 8px 32px rgba(0, 0, 0, 0.1);
   margin: 15px auto;
   position: relative;
@@ -88,7 +88,7 @@
   width: 100%;
   max-width: 650px;
   background: white;
-  border-radius: 20px;
+  border-radius: 8px;
   padding: 25px;
   margin: 15px auto;
   box-shadow: 0 8px 32px rgba(0, 0, 0, 0.1);
@@ -105,7 +105,6 @@
   left: 0;
   right: 0;
   height: 4px;
-  background: linear-gradient(90deg, #28a745, #20c997);
 }
 
 .add-manager-section:hover {
@@ -129,7 +128,7 @@
 
 .form-control {
   border: 2px solid #e2e8f0;
-  border-radius: 10px;
+  border-radius:  8px;
   font-size: 0.9rem;
   background: white;
   transition: all 0.3s ease;
@@ -173,7 +172,7 @@
   width: 100%;
   max-width: 650px;
   background: white;
-  border-radius: 20px;
+  border-radius: 8px;
   padding: 25px;
   margin: 15px auto;
   box-shadow: 0 8px 32px rgba(0, 0, 0, 0.1);

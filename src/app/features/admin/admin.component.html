@@ -1,22 +1,7 @@
 
 
 <div class="adminContainer page-with-menubar" [class.menu-collapsed]="!(menubarService.isOpen$ | async)">
-  <app-menubar [selected]="'admin'"></app-menubar>
-  
   <div class="melhorias">
-    <h4>Buscar:</h4>
-      <input
-        id="typeahead-format"
-        type="text"
-        class="form-control col-lg-6 col-md-6"
-        [(ngModel)]="hotel"
-        (ngModelChange)="onHotelSelecionado()"
-        [ngbTypeahead]="search"
-        accentSensitive="false"
-        [resultFormatter]="formatter"
-        [inputFormatter]="formatter"
-      />
-      <hr/>
     <div  *ngFor="let item of filteredHoteis" class="hotelCard col-lg-6 col-md-6">
       <img src="assets/hotel-free.jpg" alt="imagem principal hotel"/>
       <div class="hotelCard-content">
