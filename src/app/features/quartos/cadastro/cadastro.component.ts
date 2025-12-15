@@ -29,6 +29,11 @@ export class CadastroQuartoComponent extends ComponentBase implements OnInit {
   hotelId!: string ;
   imagens: File[] = [];
 
+  errorList: string[] = [];
+  
+  // Armazena o estado de conclusão de cada step
+  completedSteps: Set<number> = new Set<number>();
+
   steps = [
     { number: 1, title: 'Informações Básicas', description: 'Dados básicos do quarto' },
     { number: 2, title: 'Comodidades', description: 'Comodidades e serviços' },
@@ -93,30 +98,76 @@ export class CadastroQuartoComponent extends ComponentBase implements OnInit {
 
   onValidaCadastro(atual: number): boolean{
     if(atual == 1){
-       if (
-            !this.itemCadastro?.name ||
-            !this.categorys || this.categorys.length === 0 ||
-            !this.itemCadastro.description ||
-            !this.itemCadastro.maxOcupation ||
-            !this.itemCadastro.areaSize
-          ) {
-            return false;
-          }else{
-            return true;
-          }
+       // Limpa erros anteriores para validar novamente
+        this.errorList = [];
+        
+        // Valida Nome Fantasia
+        if(!this.itemCadastro?.name || this.itemCadastro.name.trim() === ''){
+            this.errorList.push('O campo Nome do quarto é obrigatório.');
+        }
+        
+        // Valida description 
+        if (!this.itemCadastro?.description || this.itemCadastro.description.trim() === '') { 
+            this.errorList.push('O campo descrição é obrigatório.');
+        }
+        
+        // Valida maxOcupation
+        if (!this.itemCadastro?.maxOcupation || this.itemCadastro.maxOcupation == 0) { 
+            this.errorList.push('O campo ocupação máxima é obrigatório.');
+        }
+        
+        // Valida área
+        if (!this.itemCadastro?.areaSize || this.itemCadastro.description.trim() === '' || this.itemCadastro.areaSize == '0') { 
+            this.errorList.push('O campo área é obrigatório.');
+        }
+        
+        // Valida Categoria
+        if (!this.categorys || this.categorys.length === 0) { 
+            this.errorList.push('O campo Categoria é obrigatório.');
+        }
+        
+        // Retorna true se não houver erros
+        if(this.errorList.length === 0)
+         return true;
+        else
+         return false;
     }else if(atual == 2){
         if(
           !this.itemCadastro.beds || this.itemCadastro.beds.length === 0 ||
           !this.itemCadastro.diff ||
           !this.itemCadastro.bathProducts ||
           !this.itemCadastro.typeTv
-        ){
-          return false;
+        ) // Limpa erros anteriores para validar novamente
+        this.errorList = [];
+        
+        // Valida Camas
+        if(!this.itemCadastro?.beds || this.itemCadastro.beds.length === 0){
+            this.errorList.push('O campo Tipos de Cama é obrigatório.');
         }
-
-        return true; // Comodidades são opcionais
+        
+        // Valida diff 
+        if (!this.itemCadastro?.diff || this.itemCadastro.diff.trim() === '') { 
+            this.errorList.push('O campo Diferenciais é obrigatório.');
+        }
+        
+        
+        // Valida Produtos de Banheiro
+        if (!this.itemCadastro?.bathProducts || this.itemCadastro.bathProducts.trim() === '') { 
+            this.errorList.push('O campo Produtos de Banheiro é obrigatório.');
+        }
+        
+        // Tipo da Tv
+        if (this.itemCadastro.typeTv == undefined) { 
+            this.errorList.push('O campo Tipo da Tv é obrigatório.');
+        }
+        
+        // Retorna true se não houver erros
+        if(this.errorList.length === 0)
+         return true;
+        else
+         return false;
     }else if(atual == 3){
-        // Validação para banheiro e TV - opcionais
+        // images
         return true;
     }else if(atual == 4){
         // Validação final - termos aceitos
@@ -127,12 +178,20 @@ export class CadastroQuartoComponent extends ComponentBase implements OnInit {
   }
 
   goToStep(step: number) {
+    if(this.onValidaCadastro(this.currentStep)) {
+      // Marca o step atual como completo antes de avançar
+      this.completedSteps.add(this.currentStep);
       this.currentStep = step;
+    }else if(this.completedSteps.has(this.currentStep)){
+      this.completedSteps.delete(this.currentStep);
+    }
   }
 
   isStepCompleted(step: number): boolean {
-    return this.onValidaCadastro(step);
+    // Verifica apenas se o step está no Set de steps completos
+    return this.completedSteps.has(step);
   }
+
 
   onFileSelected(event: any) {
     const files = Array.from(event.target.files) as File[];

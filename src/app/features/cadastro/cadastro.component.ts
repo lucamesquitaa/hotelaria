@@ -25,6 +25,11 @@ export class CadastroComponent extends ComponentBase implements OnInit {
 
   imagens: File[] = [];
 
+  errorList: string[] = [];
+  
+  // Armazena o estado de conclusão de cada step
+  completedSteps: Set<number> = new Set<number>();
+
   steps = [
     { number: 1, title: 'Informações Básicas', description: 'Dados básicos do hotel' },
     { number: 2, title: 'Representante Legal', description: 'Dados do responsável' },
@@ -74,81 +79,192 @@ export class CadastroComponent extends ComponentBase implements OnInit {
     });
   }
 
+  onchangeURL()
+  {
+    if(this.itemCadastro.name){
+      let url = this.itemCadastro.name.toLowerCase();
+      url = url.replace(/ /g, '-');
+      this.itemCadastro.url = url;
+    }
+  }
 
   onValidaCadastro(atual: number): boolean{
-    if(atual == 1){
-       if (
-            !this.itemCadastro?.name ||
-            !this.itemCadastro.cnpj ||
-            !this.itemCadastro.url ||
-            !this.itemCadastro.razao ||
-            this.itemCadastro?.category == 0
-          ) {
-            return false;
-          }else{
-            return true;
-          }
-    }else if(atual == 2){
-        if (
-            !this.itemCadastro?.nomeRep ||
-            !this.itemCadastro.cpfRep ||
-            !this.itemCadastro.telRep ||
-            !this.itemCadastro.emailRep
-          ) {
-            return false;
-          }else{
-            return true;
-          }
-    }else if(atual == 3){
-        if (
-            !this.itemCadastro?.address ||
-            !this.itemCadastro.number ||
-            !this.itemCadastro.city ||
-            !this.itemCadastro.cep
-          ) {
-            return false;
-          }else{
-            return true;
-          }
-    }else if(atual == 4){
-        if (
-            !this.itemCadastro?.description ||
-            !this.itemCadastro.lobby ||
-            !this.itemCadastro.diff ||
-            this.itemCadastro.child == undefined ||
-            this.itemCadastro.pets == undefined
-          ) {
-            return false;
-          }else{
-            return true;
-          }
-    }else if(atual == 5){
-        if (  
-            this.itemCadastro.coffee == undefined ||
-            this.itemCadastro.wifi == undefined  ||
-            this.itemCadastro.swimming == undefined  ||
-            this.itemCadastro.cleaning == undefined  ||
-            this.itemCadastro.gym == undefined 
-        ) {
-            return false;
-          }else{
-            return true;
-          }
-    }else if(atual == 6){
+  
+    if(atual === 1){
+        // Limpa erros anteriores para validar novamente
+        this.errorList = [];
+        
+        // Valida Nome Fantasia
+        if(!this.itemCadastro?.name || this.itemCadastro.name.trim() === ''){
+            this.errorList.push('O campo Nome Fantasia é obrigatório.');
+        }
+        
+        // Valida CNPJ 
+        if (!this.itemCadastro?.cnpj || this.itemCadastro.cnpj.trim() === '') { 
+            this.errorList.push('O campo CNPJ é obrigatório.');
+        }else if(this.itemCadastro.cnpj.length != 14){
+            this.errorList.push('O campo CNPJ deve conter 14 dígitos.');
+        }
+        
+        // Valida URL
+        if (!this.itemCadastro?.url || this.itemCadastro.url.trim() === '') { 
+            this.errorList.push('O campo URL é obrigatório.');
+        }
+        
+        // Valida Razão Social
+        if (!this.itemCadastro?.razao || this.itemCadastro.razao.trim() === '') { 
+            this.errorList.push('O campo Razão Social é obrigatório.');
+        }
+        
+        // Valida Categoria
+        if (this.itemCadastro.category == undefined) { 
+            this.errorList.push('O campo Categoria é obrigatório.');
+        }
+        
+        // Retorna true se não houver erros
+        if(this.errorList.length === 0)
+         return true;
+        else
+         return false;
+
+    }else if(atual === 2){
+        // Valida Nome Representante
+        this.errorList = [];
+        if(!this.itemCadastro?.nomeRep || this.itemCadastro.nomeRep.trim() === ''){
+            this.errorList.push('O campo Nome do Representante é obrigatório.');
+        }
+        // Valida CPF Representante
+        if(!this.itemCadastro?.cpfRep || this.itemCadastro.cpfRep.trim() === ''){
+            this.errorList.push('O campo CPF do Representante é obrigatório.');
+        }else if(this.itemCadastro.cpfRep.length != 11){
+            this.errorList.push('O campo CPF deve conter 11 dígitos.');
+        }
+
+        // Valida Telefone Representante
+        if(!this.itemCadastro?.telRep || this.itemCadastro.telRep.trim() === ''){
+            this.errorList.push('O campo Telefone do Representante é obrigatório.');
+        }else if(this.itemCadastro.telRep.length != 12){
+            this.errorList.push('O campo Telefone deve conter 12 dígitos.');
+        }
+
+        // Valida Email Representante
+        if(!this.itemCadastro?.emailRep || this.itemCadastro.emailRep.trim() === ''){
+            this.errorList.push('O campo Email do Representante é obrigatório.');
+        }
+
+
+       // Retorna true se não houver erros
+         if(this.errorList.length === 0)
+         return true;
+        else
+         return false;
+
+    }else if(atual === 3){
        
-            return true;
+        this.errorList = [];
+
+        // Valida endereço
+        if(!this.itemCadastro?.address || this.itemCadastro.address.trim() === ''){
+            this.errorList.push('O campo Endereço é obrigatório.');
+        }
+        // Valida número
+        if(!this.itemCadastro?.number || this.itemCadastro.number.trim() === ''){
+            this.errorList.push('O campo Número é obrigatório.');
+        }
+        // Valida cidade
+        if(!this.itemCadastro?.city || this.itemCadastro.city.trim() === ''){
+            this.errorList.push('O campo Cidade é obrigatório.');
+        }
+        // Valida CEP
+        if(!this.itemCadastro?.cep || this.itemCadastro.cep.trim() === ''){
+            this.errorList.push('O campo CEP é obrigatório.');
+        }else if(this.itemCadastro.cep.length != 8){
+            this.errorList.push('O campo CEP deve conter 8 dígitos.');
+        }
+        
+        // Retorna true se não houver erros
+        if(this.errorList.length === 0)
+         return true;
+        else
+         return false;
           
+    }else if(atual === 4){
+      // Valida Descrição e outros campos
+        this.errorList = [];
+
+        if(!this.itemCadastro?.description || this.itemCadastro.description.trim() === ''){
+            this.errorList.push('O campo Descrição é obrigatório.');
+        } 
+        // Valida Lobby
+        if(!this.itemCadastro?.lobby || this.itemCadastro.lobby.trim() === ''){
+            this.errorList.push('O campo Lobby é obrigatório.');
+        }
+        // Valida Diferenciais
+        if(!this.itemCadastro?.diff || this.itemCadastro.diff.trim() === ''){
+            this.errorList.push('O campo Diferenciais é obrigatório.');
+        }
+        // Valida Child
+        if(this.itemCadastro.child == undefined){
+            this.errorList.push('O campo Aceita Crianças é obrigatório.');
+        }
+        // Valida Pets
+        if(this.itemCadastro.pets == undefined){
+            this.errorList.push('O campo Aceita Pets é obrigatório.');
+        }
+        // Retorna true se não houver erros
+         if(this.errorList.length === 0)
+         return true;
+        else
+         return false;
+          
+    }else if(atual === 5){
+        // Valida Coffee 
+        this.errorList = [];
+        if(this.itemCadastro.coffee == undefined){
+            this.errorList.push('O campo Café da manhã é obrigatório.');
+        }
+        // Valida Wifi
+        if(this.itemCadastro.wifi == undefined){
+            this.errorList.push('O campo Wifi é obrigatório.');
+        }
+        // Valida Swimming
+        if(this.itemCadastro.swimming == undefined){
+            this.errorList.push('O campo Piscina é obrigatório.');
+        }
+        // Valida Cleaning
+        if(this.itemCadastro.cleaning == undefined){
+            this.errorList.push('O campo Serviço de limpeza é obrigatório.');
+        }
+        // Valida Gym
+        if(this.itemCadastro.gym == undefined){
+            this.errorList.push('O campo Academia é obrigatório.');
+        }
+        // Retorna true se não houver erros
+        if(this.errorList.length === 0)
+         return true;
+        else
+         return false;
+     
+    }else if(atual === 6){
+      return true;
     }else{
       return false;
     }
   }
 
   goToStep(step: number) {
+    if(this.onValidaCadastro(this.currentStep)) {
+      // Marca o step atual como completo antes de avançar
+      this.completedSteps.add(this.currentStep);
       this.currentStep = step;
+    }else if(this.completedSteps.has(this.currentStep)){
+      this.completedSteps.delete(this.currentStep);
+    }
   }
 
   isStepCompleted(step: number): boolean {
-    return this.onValidaCadastro(step);
+    // Verifica apenas se o step está no Set de steps completos
+    return this.completedSteps.has(step);
   }
 
   onFileSelected(event: any) {

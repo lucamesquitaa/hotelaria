@@ -45,7 +45,7 @@
 
             <div class="col-lg-12 col-md-12">
               <label for="name" class="form-label">Nome do hotel</label>
-              <input type="text" class="form-control" [(ngModel)]="itemCadastro.name" >
+              <input type="text" class="form-control" [(ngModel)]="itemCadastro.name" (ngModelChange)="onchangeURL()" required="true" >
             </div>
             <div class="col-lg-12 col-md-12">
               <label for="rede" class="form-label">Rede (opcional)</label>
@@ -53,27 +53,33 @@
             </div>
             <div class="col-lg-12 col-md-12">
               <label for="url" class="form-label">Url</label>
-              <input type="text" class="form-control" [(ngModel)]="itemCadastro.url" >
+              <input type="text" class="form-control" [(ngModel)]="itemCadastro.url" required="true">
             </div>
             <div class="col-lg-12 col-md-12">
-              <label for="cnpj" class="form-label">CNPJ</label>
-              <input type="text" class="form-control" [(ngModel)]="itemCadastro.cnpj" >
+              <label for="cnpj" class="form-label">CNPJ (apenas números)</label>
+              <input type="text" class="form-control" [(ngModel)]="itemCadastro.cnpj" required="true">
             </div>
             <div class="col-lg-12 col-md-12">
               <label for="razao" class="form-label">Razão social</label>
-              <input type="text" class="form-control" [(ngModel)]="itemCadastro.razao" >
+              <input type="text" class="form-control" [(ngModel)]="itemCadastro.razao" required="true">
             </div>
             
           <div class="col-lg-12 col-md-12">
             <label for="category" class="form-label">Categoria</label>
-            <select class="form-select" [(ngModel)]="itemCadastro.category">
-              <option value="" disabled selected>Selecione:</option>
+            <select class="form-select" [(ngModel)]="itemCadastro.category" required="true">
+              <option value="undefined" selected>Selecione:</option>
               <option value="1">Resort</option>
               <option value="2">Hotel</option>
               <option value="3">Pousada</option>
             </select>
-
+            
          </div>
+        <div class="col-lg-12 col-md-12 redBox" *ngIf="errorList.length > 0">
+          <div class="flexRow" *ngFor="let error of errorList">
+            <i class="bi bi-x-circle" style="color:red;"></i>
+            <p>{{error}}</p>
+          </div>
+        </div>         
 
       <button class="btn btn-primary btn-md buttonSubmit" (click)="goToStep(2)">Continuar <i class="bi bi-arrow-right-circle"></i></button>  
     </div>
@@ -83,20 +89,27 @@
 
             <div class="col-lg-12 col-md-12">
               <label for="nomeRep" class="form-label">Nome</label>
-              <input type="text" class="form-control" [(ngModel)]="itemCadastro.nomeRep" >
+              <input type="text" class="form-control" [(ngModel)]="itemCadastro.nomeRep" required="true">
             </div>
             <div class="col-lg-12 col-md-12">
-              <label for="telRep" class="form-label">Telefone</label>
-              <input type="text" class="form-control" [(ngModel)]="itemCadastro.telRep" >
+              <label for="telRep" class="form-label">Telefone (apenas números)</label>
+              <input type="text" class="form-control" [(ngModel)]="itemCadastro.telRep" required="true">
             </div>
             <div class="col-lg-12 col-md-12">
-              <label for="cpfRep" class="form-label">CPF</label>
-              <input type="text" class="form-control" [(ngModel)]="itemCadastro.cpfRep" >
+              <label for="cpfRep" class="form-label">CPF (apenas números)</label>
+              <input type="text" class="form-control" [(ngModel)]="itemCadastro.cpfRep" required="true">
             </div>
             <div class="col-lg-12 col-md-12">
               <label for="emailRep" class="form-label">E-mail</label>
-              <input type="text" class="form-control" [(ngModel)]="itemCadastro.emailRep" >
+              <input type="text" class="form-control" [(ngModel)]="itemCadastro.emailRep" required="true">
             </div>
+            
+        <div class="col-lg-12 col-md-12 redBox" *ngIf="errorList.length > 0">
+          <div class="flexRow" *ngFor="let error of errorList">
+            <i class="bi bi-x-circle" style="color:red;"></i>
+            <p>{{error}}</p>
+          </div>
+        </div>  
             
       <div class="d-flex justify-content-between">
         <button class="btn btn-secondary btn-md buttonSubmit" (click)="goToStep(1)"><i class="bi bi-arrow-left-circle"></i> Voltar</button>
@@ -109,27 +122,32 @@
           
             
             <div class="col-lg-12 col-md-12">
-              <label for="cep" class="form-label">CEP</label>
-              <input type="text" class="form-control" [(ngModel)]="itemCadastro.cep" >
+              <label for="cep" class="form-label">CEP (apenas números)</label>
+              <input type="text" class="form-control" [(ngModel)]="itemCadastro.cep" required="true">
             </div>
      
             <div class="col-lg-12 col-md-12">
               <label for="city" class="form-label">Cidade</label>
-              <input type="text" class="form-control" [(ngModel)]="itemCadastro.city" >
+              <input type="text" class="form-control" [(ngModel)]="itemCadastro.city" required="true">
             </div>
             <div class="col-lg-12 col-md-12">
               <label for="address" class="form-label">Endereço</label>
-              <input type="text" class="form-control" [(ngModel)]="itemCadastro.address" >
+              <input type="text" class="form-control" [(ngModel)]="itemCadastro.address" required="true">
             </div>
             <div class="col-lg-12 col-md-12">
               <label for="num" class="form-label">Número</label>
-              <input type="text" class="form-control" [(ngModel)]="itemCadastro.number" >
+              <input type="text" class="form-control" [(ngModel)]="itemCadastro.number" required="true">
             </div>
             <div class="col-lg-12 col-md-12">
               <label for="comp" class="form-label">Complemento (opcional)</label>
               <input type="text" class="form-control" [(ngModel)]="itemCadastro.complement" >
             </div>
-
+       <div class="col-lg-12 col-md-12 redBox" *ngIf="errorList.length > 0">
+          <div class="flexRow" *ngFor="let error of errorList">
+            <i class="bi bi-x-circle" style="color:red;"></i>
+            <p>{{error}}</p>
+          </div>
+        </div>
       <div class="d-flex justify-content-between">
         <button class="btn btn-secondary btn-md buttonSubmit" (click)="goToStep(2)"><i class="bi bi-arrow-left-circle"></i> Voltar</button>
         <button class="btn btn-primary btn-md buttonSubmit" (click)="goToStep(4)">Continuar <i class="bi bi-arrow-right-circle"></i></button>  
@@ -141,23 +159,23 @@
 
         <div class="col-lg-12 col-md-12">
               <label for="desc" class="form-label">Descrição do Hotel</label>
-              <textarea [(ngModel)]="itemCadastro.description" class="form-control" ></textarea>
+              <textarea [(ngModel)]="itemCadastro.description" class="form-control" required="true"></textarea>
           </div>
 
           <div class="col-lg-12 col-md-12">
                 <label for="lobby" class="form-label">Horário Recepção ou Lobby</label>
-                <input type="text" class="form-control" [(ngModel)]="itemCadastro.lobby" >
+                <input type="text" class="form-control" [(ngModel)]="itemCadastro.lobby" required="true">
               </div>
               <div class="col-lg-12 col-md-12">
                 <label for="diff" class="form-label">Descreva os principais diferenciais do hotel </label>
-                <textarea [(ngModel)]="itemCadastro.diff" class="form-control" ></textarea>
+                <textarea [(ngModel)]="itemCadastro.diff" class="form-control" required="true"></textarea>
               </div>
             
             
 
             <div class="col-lg-12 col-md-12">
             <label for="child" class="form-label">Crianças</label>
-            <select class="form-select" [(ngModel)]="itemCadastro.child" >
+            <select class="form-select" [(ngModel)]="itemCadastro.child" required="true">
               <option value="undefined" selected>Selecione:</option>
               <option value="true">Adequado para Crianças</option>
               <option value="false">Não Adequado para Crianças</option>
@@ -166,7 +184,7 @@
             
           <div class="col-lg-12 col-md-12">
             <label for="pet" class="form-label">Animais</label>
-            <select class="form-select" [(ngModel)]="itemCadastro.pets" >
+            <select class="form-select" [(ngModel)]="itemCadastro.pets" required="true" >
               <option value="undefined" selected>Selecione:</option>
               <option value="true">Adequado para Animais</option>
               <option value="false">Não Adequado para Animais</option>
@@ -174,9 +192,14 @@
           </div>
           <div class="col-lg-12 col-md-12">
               <label for="tax" class="form-label">Taxa animal (opcional)</label>
-              <input type="text" class="form-control" [(ngModel)]="itemCadastro.petsTax" placeholder="R$">
+              <input type="text" class="form-control" [(ngModel)]="itemCadastro.petsTax" placeholder="R$" > 
           </div>
-          
+      <div class="col-lg-12 col-md-12 redBox" *ngIf="errorList.length > 0">
+          <div class="flexRow" *ngFor="let error of errorList">
+            <i class="bi bi-x-circle" style="color:red;"></i>
+            <p>{{error}}</p>
+          </div>
+        </div>
             
       <div class="d-flex justify-content-between">
         <button class="btn btn-secondary btn-md buttonSubmit" (click)="goToStep(3)"><i class="bi bi-arrow-left-circle"></i> Voltar</button>
@@ -191,7 +214,7 @@
        
           <div class="col-lg-12 col-md-12">
             <label for="checkCafe" class="form-label">Café da manhã</label>
-            <select class="form-select" [(ngModel)]="itemCadastro.coffee" >
+            <select class="form-select" [(ngModel)]="itemCadastro.coffee" required="true">
               <option value="undefined" selected>Selecione:</option>
               <option value="true">Incluso</option>
               <option value="false">Não incluso</option>
@@ -199,7 +222,7 @@
           </div>
           <div class="col-lg-12 col-md-12">
             <label for="checkWifi" class="form-label">Wifi</label>
-            <select class="form-select" [(ngModel)]="itemCadastro.wifi" >
+            <select class="form-select" [(ngModel)]="itemCadastro.wifi" required="true">
               <option value="undefined" selected>Selecione:</option>
               <option value="true">Incluso</option>
               <option value="false">Não incluso</option>
@@ -208,7 +231,7 @@
     
           <div class="col-lg-12 col-md-12">
             <label for="checkPiscina" class="form-label">Piscina</label>
-            <select class="form-select" [(ngModel)]="itemCadastro.swimming" >
+            <select class="form-select" [(ngModel)]="itemCadastro.swimming" required="true">
               <option value="undefined" selected>Selecione:</option>
                <option value="true">Incluso</option>
               <option value="false">Não incluso</option>
@@ -216,7 +239,7 @@
           </div>
           <div class="col-lg-12 col-md-12">
             <label for="checkLimpeza" class="form-label">Serviço de limpeza</label>
-            <select class="form-select" [(ngModel)]="itemCadastro.cleaning" >
+            <select class="form-select" [(ngModel)]="itemCadastro.cleaning" required="true">
               <option value="undefined" selected>Selecione:</option>
                <option value="true">Incluso</option>
               <option value="false">Não incluso</option>
@@ -225,7 +248,7 @@
 
           <div class="col-lg-12 col-md-12">
             <label for="checkAcademia" class="form-label">Academia no local</label>
-            <select class="form-select" [(ngModel)]="itemCadastro.gym" >
+            <select class="form-select" [(ngModel)]="itemCadastro.gym" required="true">
               <option value="undefined" selected>Selecione:</option>
                <option value="true">Incluso</option>
               <option value="false">Não incluso</option>
@@ -265,7 +288,12 @@
               </label>
             </div>
           </div>
-          
+      <div class="col-lg-12 col-md-12 redBox" *ngIf="errorList.length > 0">
+          <div class="flexRow" *ngFor="let error of errorList">
+            <i class="bi bi-x-circle" style="color:red;"></i>
+            <p>{{error}}</p>
+          </div>
+        </div>
             
       <div class="d-flex justify-content-between">
         <button class="btn btn-secondary btn-md buttonSubmit" (click)="goToStep(4)"><i class="bi bi-arrow-left-circle"></i> Voltar</button>
@@ -297,18 +325,23 @@
         <h3>Conclusão de cadastro</h3> 
 
             <div class="form-check margin10">
-              <input class="form-check-input" type="checkbox" value="" [(ngModel)]="acceptTerms1" required>
+              <input class="form-check-input" type="checkbox" value="" [(ngModel)]="acceptTerms1" required="true">
               <label class="form-check-label" for="checkRodoviria">
                 Ao utilizar este site, você concorda com a coleta e o tratamento de dados pessoais e informações relacionadas a hotéis, para fins de disponibilização e melhoria de nossos serviços.
               </label>
             </div>
             <div class="form-check margin10">
-              <input class="form-check-input" type="checkbox" value="" [(ngModel)]="acceptTerms2" required>
+              <input class="form-check-input" type="checkbox" value="" [(ngModel)]="acceptTerms2" required="true">
               <label class="form-check-label" for="checkRodoviria">
                 Autorizo o uso das imagens e informações para divulgação no site Turify e sites parceiros.
               </label>
             </div>
-
+       <div class="col-lg-12 col-md-12 redBox" *ngIf="errorList.length > 0">
+          <div class="flexRow" *ngFor="let error of errorList">
+            <i class="bi bi-x-circle" style="color:red;"></i>
+            <p>{{error}}</p>
+          </div>
+        </div>
       <div class="d-flex justify-content-between">
         <button class="btn btn-secondary btn-md buttonSubmit" (click)="goToStep(6)"><i class="bi bi-arrow-left-circle"></i> Voltar</button>
         <button class="btn btn-success btn-md buttonSubmit" (click)="concluirCadastro()">Concluir <i class="bi bi-arrow-right-circle"></i></button>  

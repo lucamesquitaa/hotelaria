@@ -22,7 +22,7 @@ export class MapsLoaderService extends ServiceGeneric<any>{
       }
 
       const script = document.createElement('script');
-      script.src = 'https://maps.googleapis.com/maps/api/js?key=AIzaSyA9Cr3hsX48VZFQAsmzHSlscuki9Cu_9Xg';
+      script.src = 'https://maps.googleapis.com/maps/api/js?key=AIzaSyBQgsLpPJN-4KdUElU4HCE5jZ9zv1pSyJk';
       script.async = true;
       script.defer = true;
       script.onload = () => {

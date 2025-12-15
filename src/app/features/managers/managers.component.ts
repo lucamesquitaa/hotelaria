@@ -56,7 +56,7 @@ export class ManagersComponent extends ComponentBase implements OnInit {
       },
       complete: () => {
         this.isLoading = false;
-        this.ngOnInit();
+        this.getAllManagers(this.hotelId!);
       }
     });
   }
@@ -77,6 +77,7 @@ export class ManagersComponent extends ComponentBase implements OnInit {
         },
         complete: () => {
           this.isLoading = false; 
+          this.getAllManagers(this.hotelId!);
         }
       });
     }
@@ -120,7 +121,7 @@ export class ManagersComponent extends ComponentBase implements OnInit {
       },
       error: (error) => {
         console.log(error);
-        this.toastr.error(error.error);
+        this.toastr.error(error.error.mensagem);
       }
     });
   }

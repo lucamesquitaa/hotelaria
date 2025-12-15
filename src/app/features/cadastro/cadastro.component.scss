@@ -79,7 +79,18 @@
 .page-title i {
     color: #007bff;
 }
-
+.redBox{
+    border: 2px solid red;
+    border-radius: 8px;
+    height: auto;
+    padding: 10px;
+}
+.flexRow{
+    display: flex;
+    justify-content: center;
+    flex-direction: row;
+    height: 100%;
+}
 // Stepper Component - Versão Melhorada
 .stepper-enhanced {
     margin-bottom: 30px;
