@@ -40,7 +40,7 @@
 
 .content-wrapper {
   max-width: none;
-  width: auto;
+  width: 600px;
   margin: 0;
   padding: 0;
 }
@@ -121,7 +121,7 @@
 
 .form-row {
   display: grid;
-  grid-template-columns: 2fr 1.5fr auto;
+  grid-template-columns: 2fr auto;
   gap: 15px;
   align-items: stretch;
 }
@@ -345,11 +345,7 @@
     width: 100%;
   }
   
-  .content-wrapper {
-    max-width: 100%;
-    padding: 0;
-  }
-  
+
   .page-header {
     padding: 30px 20px;
     max-width: 100%;

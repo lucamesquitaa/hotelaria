@@ -1,7 +1,7 @@
 import { Component, Inject, inject, Injector, OnInit} from '@angular/core';
 import { NgbModal } from '@ng-bootstrap/ng-bootstrap';
 import { ComponentBase } from 'src/app/shared/components/component.base';
-import { QuartosModel } from 'src/app/shared/models/quartos.model';
+import { QuartosModel, RoomBedDTO } from 'src/app/shared/models/quartos.model';
 import { QuartosService } from 'src/app/shared/services/quartos.service';
 import { MenubarService } from 'src/app/shared/services/menubar.service';
 import { ResponseApi } from 'src/app/shared/models/response.api';
@@ -21,6 +21,9 @@ export class CadastroQuartoComponent extends ComponentBase implements OnInit {
   acceptTerms2: boolean = false;
 
   categorys: any[] = [];
+  beds: RoomBedDTO[] = [];
+  
+  
   apiUrlCategoryQuartos!: string;
   currentStep: number = 1;
 
@@ -28,6 +31,11 @@ export class CadastroQuartoComponent extends ComponentBase implements OnInit {
 
   hotelId!: string ;
   imagens: File[] = [];
+
+  errorList: string[] = [];
+  
+  // Armazena o estado de conclusão de cada step
+  completedSteps: Set<number> = new Set<number>();
 
   steps = [
     { number: 1, title: 'Informações Básicas', description: 'Dados básicos do quarto' },
@@ -67,11 +75,9 @@ export class CadastroQuartoComponent extends ComponentBase implements OnInit {
           next: (response: ResponseApi<QuartosModel>) => {
                 if (response.data) {
                   this.itemCadastro = response.data;
+                  console.log("Quarto carregado para edição:", this.itemCadastro);
                   
-                  // Garantir que beds seja um array válido, mesmo vazio
-                  if (!this.itemCadastro.beds || !Array.isArray(this.itemCadastro.beds)) {
-                    this.itemCadastro.beds = [];
-                  }
+                  this.beds = this.itemCadastro.beds || [];
                   
                   this.categorys = this.itemCadastro.category.map((cat: CategoryQuartosModel) => ({
                     label: cat.name,
@@ -93,46 +99,104 @@ export class CadastroQuartoComponent extends ComponentBase implements OnInit {
 
   onValidaCadastro(atual: number): boolean{
     if(atual == 1){
-       if (
-            !this.itemCadastro?.name ||
-            !this.categorys || this.categorys.length === 0 ||
-            !this.itemCadastro.description ||
-            !this.itemCadastro.maxOcupation ||
-            !this.itemCadastro.areaSize
-          ) {
-            return false;
-          }else{
-            return true;
-          }
+       // Limpa erros anteriores para validar novamente
+        this.errorList = [];
+        
+        // Valida Nome Fantasia
+        if(!this.itemCadastro?.name || this.itemCadastro.name.trim() === ''){
+            this.errorList.push('O campo Nome do quarto é obrigatório.');
+        }
+        
+        // Valida description 
+        if (!this.itemCadastro?.description || this.itemCadastro.description.trim() === '') { 
+            this.errorList.push('O campo descrição é obrigatório.');
+        }
+        
+        // Valida maxOcupation
+        if (!this.itemCadastro?.maxOcupation || this.itemCadastro.maxOcupation == 0) { 
+            this.errorList.push('O campo ocupação máxima é obrigatório.');
+        }
+        
+        // Valida área
+        if (!this.itemCadastro?.areaSize || this.itemCadastro.description.trim() === '' || this.itemCadastro.areaSize == '0') { 
+            this.errorList.push('O campo área é obrigatório.');
+        }else if(isNaN(Number(this.itemCadastro.areaSize))){
+            this.errorList.push('O campo área deve ser um número válido.');
+        }
+        
+        // Valida Categoria
+        if (!this.categorys || this.categorys.length === 0) { 
+            this.errorList.push('O campo Categoria é obrigatório.');
+        }
+        
+        // Retorna true se não houver erros
+        if(this.errorList.length === 0)
+         return true;
+        else
+         return false;
     }else if(atual == 2){
         if(
-          !this.itemCadastro.beds || this.itemCadastro.beds.length === 0 ||
+          !this.beds || this.beds.length === 0 ||
           !this.itemCadastro.diff ||
           !this.itemCadastro.bathProducts ||
           !this.itemCadastro.typeTv
-        ){
-          return false;
+        ) // Limpa erros anteriores para validar novamente
+        this.errorList = [];
+        
+        // Valida Camas
+        if(!this.beds || this.beds?.length === 0){
+            this.errorList.push('O campo Tipos de Cama é obrigatório.');
         }
-
-        return true; // Comodidades são opcionais
+        
+        // Valida diff 
+        if (!this.itemCadastro?.diff || this.itemCadastro.diff.trim() === '') { 
+            this.errorList.push('O campo Diferenciais é obrigatório.');
+        }
+      
+        
+        // Retorna true se não houver erros
+        if(this.errorList.length === 0)
+         return true;
+        else
+         return false;
     }else if(atual == 3){
-        // Validação para banheiro e TV - opcionais
+        // images
         return true;
     }else if(atual == 4){
         // Validação final - termos aceitos
-        return this.acceptTerms1 && this.acceptTerms2;
+        if (this.acceptTerms1 == undefined || this.acceptTerms1 == false) { 
+            this.errorList.push('O campo termos de cadastro é obrigatório.');
+        }
+
+        if( this.acceptTerms2 == undefined || this.acceptTerms2 == false) {
+            this.errorList.push('O campo política de privacidade é obrigatório.');
+        }
+        
+        // Retorna true se não houver erros
+        if(this.errorList.length === 0)
+         return true;
+        else
+         return false;
     }else{
       return false;
     }
   }
 
   goToStep(step: number) {
+    if(this.onValidaCadastro(this.currentStep)) {
+      // Marca o step atual como completo antes de avançar
+      this.completedSteps.add(this.currentStep);
       this.currentStep = step;
+    }else if(this.completedSteps.has(this.currentStep)){
+      this.completedSteps.delete(this.currentStep);
+    }
   }
 
   isStepCompleted(step: number): boolean {
-    return this.onValidaCadastro(step);
+    // Verifica apenas se o step está no Set de steps completos
+    return this.completedSteps.has(step);
   }
+
 
   onFileSelected(event: any) {
     const files = Array.from(event.target.files) as File[];
@@ -172,30 +236,38 @@ export class CadastroQuartoComponent extends ComponentBase implements OnInit {
   }
 
   onConcluirCadastro(){
-    if (!this.acceptTerms1 || !this.acceptTerms2 ) {
-            alert('Você deve aceitar os termos para continuar!');
-            return;
-    }
-    if (!this.itemCadastro) {
-      alert('Dados do cadastro estão incompletos.');
-      return;
-    }
-    
     const hotelId = this.cookieService.get('hotel_id');
     if (!hotelId) {
       alert('Hotel ID não encontrado.');
       return;
     }
-    console.log("Categorias selecionadas:");
-    console.log(this.categorys);
     this.itemCadastro.category = this.categorys.map((cat: any) => ({
       id: cat.value,
       name: cat.label
     }));
+    
+    // Converte bedType para enum numérico
+    this.itemCadastro.beds = this.beds.map((bed) => ( {
+      quantity: bed.quantity,
+      bedType: Number(bed.bedType)
+    }));
 
-    console.log("Item cadastro final:");
-    console.log(this.itemCadastro);
-
+    console.log('Camas convertidas:', this.itemCadastro.beds);
+    
+    // Converte strings para booleans
+    this.itemCadastro.refund = this.itemCadastro.refund == "true" || this.itemCadastro.refund === true;
+    this.itemCadastro.freeze = this.itemCadastro.freeze == "true" || this.itemCadastro.freeze === true;
+    this.itemCadastro.vault = this.itemCadastro.vault == "true" || this.itemCadastro.vault === true;
+    this.itemCadastro.telephone = this.itemCadastro.telephone == "true" || this.itemCadastro.telephone === true;
+    this.itemCadastro.coffee = this.itemCadastro.coffee == "true" || this.itemCadastro.coffee === true;
+    this.itemCadastro.wifi = this.itemCadastro.wifi == "true" || this.itemCadastro.wifi === true;
+    this.itemCadastro.fridge = this.itemCadastro.fridge == "true" || this.itemCadastro.fridge === true;
+    this.itemCadastro.cleaning = this.itemCadastro.cleaning == "true" || this.itemCadastro.cleaning === true;
+    this.itemCadastro.varanda = this.itemCadastro.varanda == "true" || this.itemCadastro.varanda === true;
+    this.itemCadastro.bathroom = this.itemCadastro.bathroom == "true" || this.itemCadastro.bathroom === true;
+    this.itemCadastro.tv = this.itemCadastro.tv == "true" || this.itemCadastro.tv === true;
+    
+  
     this.showLoading();
     this.quartosService.doPostPutQuarto(this.itemCadastro, hotelId).subscribe({
       next: (response: ResponseApi) => {
@@ -213,15 +285,16 @@ export class CadastroQuartoComponent extends ComponentBase implements OnInit {
   }
 
   addBed() {
-    if (!this.itemCadastro.beds) {
-      this.itemCadastro.beds = [];
+    if (!this.beds) {
+      this.beds = [];
     }
-    this.itemCadastro.beds.push({ type: '', quantity: 1 });
+    this.beds.push({ bedType: 0, quantity: 1 });
   }
 
   removeBed(index: number) {
-    if (this.itemCadastro.beds && this.itemCadastro.beds.length > 0) {
-      this.itemCadastro.beds.splice(index, 1);
+    if (this.beds && this.beds.length > 0) {
+      this.beds.splice(index, 1);
     }
   }
+
 }

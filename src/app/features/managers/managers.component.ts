@@ -34,17 +34,10 @@ export class ManagersComponent extends ComponentBase implements OnInit {
       return;
     }
 
-    if(!this.selectedRole) {
-      this.toastr.error("Por favor, selecione o tipo de usuário.");
-      return;
-    }
-
     this.isLoading = true;
 
-    // Aqui você pode passar a role selecionada para o backend
-    console.log('Email:', this.email, 'Role:', this.selectedRole);
 
-    this.loginService.updateManager(this.email, this.hotelId, this.selectedRole).subscribe({
+    this.loginService.updateManager(this.email, this.hotelId).subscribe({
       next: (result) => {
         console.log(result);
         this.toastr.success(`${this.getRoleDisplayName(this.selectedRole)} adicionado com sucesso!`);
@@ -56,7 +49,7 @@ export class ManagersComponent extends ComponentBase implements OnInit {
       },
       complete: () => {
         this.isLoading = false;
-        this.ngOnInit();
+        this.getAllManagers(this.hotelId!);
       }
     });
   }
@@ -65,7 +58,7 @@ export class ManagersComponent extends ComponentBase implements OnInit {
     if (confirm(`Tem certeza que deseja remover a permissão do usuário ${email}?`)) {
       this.email = email;
       this.selectedRole = 'user';
-      this.loginService.removeManager(this.email, this.hotelId, this.selectedRole).subscribe({
+      this.loginService.removeManager(this.email, this.hotelId).subscribe({
         next: (result) => {
           console.log(result);
           this.toastr.success(`Permissão removida com sucesso!`);
@@ -77,6 +70,7 @@ export class ManagersComponent extends ComponentBase implements OnInit {
         },
         complete: () => {
           this.isLoading = false; 
+          this.getAllManagers(this.hotelId!);
         }
       });
     }
@@ -120,7 +114,7 @@ export class ManagersComponent extends ComponentBase implements OnInit {
       },
       error: (error) => {
         console.log(error);
-        this.toastr.error(error.error);
+        this.toastr.error(error.error.mensagem);
       }
     });
   }

@@ -32,7 +32,9 @@ export class QuartosService extends ServiceGeneric<ResponseApi<any>> {
     return this.http.post<ResponseApi>(this.urlServiceREST +"/PostPutQuartos/" + hotelId , quarto, { headers });
     
   }
+  doDeleteQuarto(quartoId: string, hotelId: string): Observable<ResponseApi> {
+    const headers = new HttpHeaders().set('Authorization', 'Bearer ' + this.cookieService.get('access_token'));
 
- 
-  
+    return this.http.delete<ResponseApi>(`${this.urlServiceREST}/DeleteQuarto/${hotelId}/${quartoId}`, { headers });
+  }
 }

@@ -22,15 +22,15 @@
                         placeholder="Digite o email do usuário..."
                         required
                     />
-                    <select class="form-control" [(ngModel)]="selectedRole" name="role" required>
+                    <!-- <select class="form-control" [(ngModel)]="selectedRole" name="role" required>
                         <option value="" disabled selected>Selecione a permissão</option>
                         <option value="admin">Administrador</option>
                         <option value="manager">Gerente</option>
-                    </select>
+                    </select> -->
                     <button 
                         type="submit" 
                         class="btn btn-primary"
-                        [disabled]="!email || email.trim() === '' || !selectedRole"
+                        [disabled]="!email || email.trim() === '' "
                         [class.loading]="isLoading"
                     >
                         <span *ngIf="!isLoading">Adicionar</span>

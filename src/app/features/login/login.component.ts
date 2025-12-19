@@ -28,12 +28,37 @@ isLoggedIn = false;
 
   override ngOnInit() {
     console.log('=== LOGIN COMPONENT INIT ===');
-    // Carrega o documento de descoberta e tenta processar a resposta do OAuth
-    this.oauthService.loadDiscoveryDocumentAndTryLogin().then(() => {
+    
+    // Verifica se está retornando de um fluxo de login OAuth (callback)
+    const hasAuthCode = window.location.href.includes('code=') || window.location.href.includes('id_token=');
+    
+    if (!hasAuthCode) {
+      // Se não está retornando de callback, limpa qualquer sessão existente
+      console.log('No OAuth callback detected, clearing any existing sessions...');
+      this.oauthService.logOut(true); // true = não redireciona
+      sessionStorage.clear();
+      localStorage.removeItem('access_token');
+      localStorage.removeItem('id_token');
+      localStorage.removeItem('refresh_token');
+      localStorage.removeItem('nonce');
+      localStorage.removeItem('PKCE_verifier');
+    }
+    
+    // Carrega apenas o documento de descoberta
+    this.oauthService.loadDiscoveryDocument().then(() => {
       console.log('Discovery document loaded');
-      console.log('Has valid ID token:', this.oauthService.hasValidIdToken());
-      console.log('Has valid access token:', this.oauthService.hasValidAccessToken());
-      this.processOAuthResponse();
+      
+      if (hasAuthCode) {
+        console.log('Detected OAuth callback, processing tokens...');
+        // Se está retornando do OAuth, processa os tokens
+        this.oauthService.tryLogin().then(() => {
+          if (this.oauthService.hasValidIdToken() && this.oauthService.hasValidAccessToken()) {
+            this.processOAuthResponse();
+          }
+        });
+      } else {
+        console.log('Waiting for user to click login button');
+      }
     }).catch(error => {
       console.error('Error loading discovery document:', error);
     });
@@ -41,7 +66,6 @@ isLoggedIn = false;
 
   private processOAuthResponse() {
     console.log('=== PROCESSING OAUTH RESPONSE ===');
-    console.log('Is logged in:', this.isLoggedIn);
     
     if (this.oauthService.hasValidIdToken() && this.oauthService.hasValidAccessToken()) {
       console.log('✓ Valid tokens found');
@@ -89,30 +113,22 @@ isLoggedIn = false;
       console.log('Access Token valid:', this.oauthService.hasValidAccessToken());
     }
   }
- login() {
-    console.log('=== LOGIN BUTTON CLICKED ===');
-    console.log('Currently logged in:', this.isLoggedIn);
-    
-    // Se já está logado, vai direto para admin
-    if (this.isLoggedIn) {
-      console.log('Already logged in, navigating to admin');
-      this.router.navigate(["/admin"]);
-    } else {
-      // Inicia o fluxo de login
-      console.log('Starting OAuth login flow...');
-      this.oauthService.initLoginFlow();
-    }
-  }
 
-  forceLogin() {
-    console.log('=== FORCE LOGIN CLICKED ===');
-    // Limpa os tokens existentes e força um novo login
-    this.oauthService.logOut();
-    console.log('Logged out, initiating new login flow...');
-    this.oauthService.initLoginFlow();
+  login() {
+    console.log('=== LOGIN BUTTON CLICKED ===');
+    console.log('Initiating login flow...');
+    // Força a escolha de conta no Google (prompt=select_account)
+    this.oauthService.initLoginFlow('', { prompt: 'select_account' });
   }
 
   logout() {
     this.oauthService.logOut();
+    sessionStorage.clear();
+      localStorage.removeItem('access_token');
+      localStorage.removeItem('id_token');
+      localStorage.removeItem('refresh_token');
+      localStorage.removeItem('nonce');
+      localStorage.removeItem('PKCE_verifier');
+      this.cookieService.deleteAll();
   }
 }
