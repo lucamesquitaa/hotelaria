@@ -72,6 +72,33 @@ export class QuartosComponent extends ComponentBase implements OnInit {
     }
   }
 
+  onDeleteQuarto(quartoId: string) {
+    if (!this.hotelId) {
+      console.error('ID do hotel não encontrado');
+      this.toastr.error('Erro: ID do hotel não encontrado');
+      return;
+    }
+
+    this.showLoading();
+    this.quartosService.doDeleteQuarto(this.hotelId, quartoId).subscribe({
+      next: (response: ResponseApi) => {
+        if (response.sucesso || response.success) {
+          this.toastr.success('Quarto excluído com sucesso.');
+          this.getAllQuartos(this.hotelId!);
+        }
+      },
+      error: (error) => {
+        const errorMessage = error.message || 'Erro ao excluir o quarto';
+        console.error('Erro na exclusão:', errorMessage);
+        this.toastr.error(errorMessage);
+        this.hideLoading();
+      },
+      complete: () => {
+        this.hideLoading();
+      }
+    });
+  }
+
   onAddQuarto() {
     if (this.hotelId) {
       this.router.navigate(['/quartos/cadastro'], {

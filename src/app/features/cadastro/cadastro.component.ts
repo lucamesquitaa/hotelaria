@@ -143,8 +143,8 @@ export class CadastroComponent extends ComponentBase implements OnInit {
         // Valida Telefone Representante
         if(!this.itemCadastro?.telRep || this.itemCadastro.telRep.trim() === ''){
             this.errorList.push('O campo Telefone do Representante é obrigatório.');
-        }else if(this.itemCadastro.telRep.length != 12){
-            this.errorList.push('O campo Telefone deve conter 12 dígitos.');
+        }else if(this.itemCadastro.telRep.length != 11){
+            this.errorList.push('O campo Telefone deve conter 11 dígitos.');
         }
 
         // Valida Email Representante
@@ -247,6 +247,21 @@ export class CadastroComponent extends ComponentBase implements OnInit {
      
     }else if(atual === 6){
       return true;
+    }else if(atual === 7){
+      // Valida checkboxes
+        if(this.acceptTerms1 == undefined || this.acceptTerms1 == false){
+            this.errorList.push('O campo Termos de Serviço é obrigatório.');
+        }
+        // Valida Gym
+        if(this.acceptTerms2 == undefined || this.acceptTerms2 == false){
+            this.errorList.push('O campo Política de Privacidade é obrigatório.');
+        }
+
+        // Retorna true se não houver erros
+        if(this.errorList.length === 0)
+         return true;
+        else
+         return false;
     }else{
       return false;
     }

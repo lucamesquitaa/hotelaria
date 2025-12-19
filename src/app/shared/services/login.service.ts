@@ -35,25 +35,25 @@ export class LoginService extends ServiceGeneric<LoginResponseModel> {
     );
   }
 
-  updateManager(email: string, hotelId: string | null, role: string = 'user'): Observable<ResponseApi> {
+  updateManager(email: string, hotelId: string | null): Observable<ResponseApi> {
     if(hotelId === null) {
       throw new Error("hotelId não pode ser nulo");
     }
 
     const url = this.urlServiceREST + '/UpdateManager';
-    const body = { email, hotelId, role };
+    const body = { email, hotelId };
     const headers = new HttpHeaders().set('Authorization', 'Bearer ' + this.cookieService.get('access_token'));
   
     return this.http.post<ResponseApi>(url, body, { headers });
   }
 
-  removeManager(email: string, hotelId: string | null, role: string = 'user'): Observable<ResponseApi> {
+  removeManager(email: string, hotelId: string | null): Observable<ResponseApi> {
     if(hotelId === null) {
       throw new Error("hotelId não pode ser nulo");
     }
 
     const url = this.urlServiceREST + '/RemovePermissionUsers';
-    const body = { email, hotelId, role };
+    const body = { email, hotelId };
     const headers = new HttpHeaders().set('Authorization', 'Bearer ' + this.cookieService.get('access_token'));
   
     return this.http.delete<ResponseApi>(url, { headers, body });

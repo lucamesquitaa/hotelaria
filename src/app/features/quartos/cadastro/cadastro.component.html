@@ -76,15 +76,9 @@
               <label for="areaSize" class="form-label">Tamanho da área (m²)</label>
               <input type="text" class="form-control" [(ngModel)]="itemCadastro.areaSize" >
             </div>
-          
-          <div class="col-lg-12 col-md-12">
-            <div class="form-check">
-              <input class="form-check-input" type="checkbox" [(ngModel)]="itemCadastro.refund">
-              <label class="form-check-label">Reembolsável</label>
-            </div>
-          </div>
+        
 
-          <div class="col-lg-12 col-md-12 redBox" *ngIf="errorList.length > 0">
+        <div class="col-lg-12 col-md-12 redBox" *ngIf="errorList.length > 0">
           <div class="flexRow" *ngFor="let error of errorList">
             <i class="bi bi-x-circle" style="color:red;"></i>
             <p>{{error}}</p>
@@ -104,16 +98,17 @@
             <div class="col-lg-12 col-md-12">
               <label for="beds" class="form-label">Tipos de cama</label>
               <div class="bed-list">
-                <div *ngFor="let bed of itemCadastro.beds; let i = index" class="bed-item">
-                  <select class="form-select" [(ngModel)]="bed.type" name="bedType{{i}}">
-                    <option value="">Selecione o tipo:</option>
-                    <option value="solteiro">Solteiro</option>
-                    <option value="casal">Casal</option>
-                    <option value="queen">Queen</option>
-                    <option value="king">King</option>
-                    <option value="beliche">Beliche</option>
+                <div *ngFor="let bed of beds; let i = index" class="bed-item">
+                  <select class="form-select" [(ngModel)]="beds[i].bedType">
+                    <option value="undefined">Selecione o tipo:</option>
+                    <option value="1">Solteiro</option>
+                    <option value="2">Beliche</option>
+                    <option value="3">Casal</option>
+                    <option value="4">Queen</option>
+                    <option value="5">King</option>
+                    <option value="6">Berço</option>
                   </select>
-                  <input type="number" class="form-control" [(ngModel)]="bed.quantity" name="bedQuantity{{i}}" min="1" placeholder="Qtd">
+                  <input type="number" class="form-control" [(ngModel)]="beds[i].quantity" min="1" placeholder="Qtd">
                   <button type="button" class="btn btn-outline-danger btn-sm" (click)="removeBed(i)">
                     <i class="bi bi-trash"></i>
                   </button>
@@ -203,14 +198,14 @@
           
             
             <div class="col-lg-12 col-md-12">
-              <label for="bathProducts" class="form-label">Produtos de banho</label>
+              <label for="bathProducts" class="form-label">Produtos de banho (opcional)</label>
               <input type="text" class="form-control" [(ngModel)]="itemCadastro.bathProducts" placeholder="Ex: Shampoo, sabonete, toalhas">
             </div>
             
             <div class="col-lg-12 col-md-12">
-              <label for="typeTv" class="form-label">Tipo da TV</label>
+              <label for="typeTv" class="form-label">Tipo da TV (opcional)</label>
               <select class="form-select" [(ngModel)]="itemCadastro.typeTv">
-                <option value="" disabled selected>Selecione:</option>
+                <option value="undefined" selected>Selecione:</option>
                 <option value="LCD">LCD</option>
                 <option value="LED">LED</option>
                 <option value="Smart TV">Smart TV</option>

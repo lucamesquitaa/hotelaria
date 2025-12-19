@@ -8,26 +8,27 @@ export interface QuartosModel {
     tags: string[];
     description: string;
     maxOcupation: number;
-    refund: boolean;
+    refund: boolean | string;
     areaSize: string;
-    beds: bedsModel[];
+    beds: RoomBedDTO[];
     diff: string;
-    freeze: boolean;
-    vault: boolean;
-    telephone: boolean;
-    coffee: boolean;
-    wifi: boolean;
-    fridge: boolean;
-    cleaning: boolean;
-    varanda: boolean;
-    bathroom: boolean;
+    freeze: boolean | string;
+    vault: boolean | string;
+    telephone: boolean | string;
+    coffee: boolean | string;
+    wifi: boolean | string;
+    fridge: boolean | string;
+    cleaning: boolean | string;
+    varanda: boolean | string;
+    bathroom: boolean | string;
     bathProducts: string;
-    tv: boolean;
+    tv: boolean | string;
     typeTv: string;
     photos: string[];
 }
 
-export interface bedsModel {
-    type: string;
-    quantity: number;
+export interface RoomBedDTO {
+  id?: string; 
+  quantity: number;
+  bedType : number; 
 }
