@@ -310,9 +310,18 @@
       </div>
 
       <div>
+        <h5>Imagens Do Hotel: {{imagensNew.length + imagens.length}} </h5>
+        
         <ul>
-          <li *ngFor="let img of imagens" style="color:darkgreen; padding:3px;">{{ img.name }}</li>
+          <li *ngFor="let imgNew of imagensNew" style="color:darkgreen; padding:3px;">{{ imgNew.name }}</li>
+          <li *ngFor="let img of imagens" style="color:rgb(0, 0, 0); padding:3px;">Imagem de Id: {{ img }}</li>
         </ul>
+
+        <button class="btn btn-sm btn-outline-danger abutonFlutua2" 
+                          (click)="openConfirmModal(content4)" 
+                            title="Limpar">
+                        <i class="bi bi-trash">Limpar Imagens</i>
+                    </button>
       </div>
 
       <div class="d-flex justify-content-between">
@@ -324,18 +333,13 @@
       <div *ngIf="currentStep === 7" class="formContainer 7">
         <h3>Conclusão de cadastro</h3> 
 
-            <div class="form-check margin10">
-              <input class="form-check-input" type="checkbox" value="" [(ngModel)]="acceptTerms1" required="true">
-              <label class="form-check-label" for="checkRodoviria">
+           <p>
                 Ao utilizar este site, você concorda com a coleta e o tratamento de dados pessoais e informações relacionadas a hotéis, para fins de disponibilização e melhoria de nossos serviços.
-              </label>
-            </div>
-            <div class="form-check margin10">
-              <input class="form-check-input" type="checkbox" value="" [(ngModel)]="acceptTerms2" required="true">
-              <label class="form-check-label" for="checkRodoviria">
-                Autorizo o uso das imagens e informações para divulgação no site Turify e sites parceiros.
-              </label>
-            </div>
+           </p>
+            <p>
+                Ao clicar em confirmar, autorizo o uso das imagens e informações para divulgação no site Turify e sites parceiros.
+          </p>
+            
        <div class="col-lg-12 col-md-12 redBox" *ngIf="errorList.length > 0">
           <div class="flexRow" *ngFor="let error of errorList">
             <i class="bi bi-x-circle" style="color:red;"></i>
@@ -350,3 +354,21 @@
   </div>
 </div>
 
+<!-- Modal de confirmação -->
+
+  <ng-template #content4 let-modal>
+
+    <div class="modal-header">
+      <h4 class="modal-title pull-left">Confirmar exclusão</h4>
+      <button type="button" class="btn-close pull-right" aria-label="Close" (click)="modal.dismiss()"></button>
+    </div>
+  <div class="modal-body ZZZ">
+      <p>Tem certeza que deseja excluir estas imagens?</p>
+    </div>
+    <div class="modal-footer">
+      
+        <button type="button" class="btn btn-secondary" (click)="modal.dismiss('Cross click')">Cancelar</button>
+        <button class="btn btn-primary" (click)="onDeleteImgs()">Confirmar</button>
+
+      </div>
+  </ng-template>

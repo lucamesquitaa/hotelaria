@@ -46,12 +46,12 @@ export class HotelService extends ServiceGeneric<ResponseApi<any>> {
     return this.http.delete<ResponseApi>(this.urlServiceREST + "/" +id, { headers});
   }
 
-  doPostHotel(hotel: DetalhesModel, id: string | null): Observable<ResponseApi> {
+  doPostHotel(hotel: DetalhesModel, id: string | null): Observable<ResponseApi<DetalhesModel>> {
     const headers = new HttpHeaders().set('Authorization', 'Bearer ' + this.cookieService.get('access_token'));
     if (id == null) {
-      return this.http.post<ResponseApi>(this.urlServiceREST, hotel, { headers });
+      return this.http.post<ResponseApi<DetalhesModel>>(this.urlServiceREST, hotel, { headers });
     } else {
-      return this.http.put<ResponseApi>(this.urlServiceREST + "/" + id, hotel, { headers });
+      return this.http.put<ResponseApi<DetalhesModel>>(this.urlServiceREST + "/" + id, hotel, { headers });
     }
   }
 

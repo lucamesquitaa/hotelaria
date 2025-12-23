@@ -1,9 +1,10 @@
-import { Component, Inject, inject, Injector, OnInit} from '@angular/core';
+import { Component, Inject, inject, Injector, OnInit, TemplateRef} from '@angular/core';
 import { NgbModal } from '@ng-bootstrap/ng-bootstrap';
 import { ComponentBase } from 'src/app/shared/components/component.base';
 import { Contact, DetalhesModel, DetalhesModelByManager, Photo } from 'src/app/shared/models/hotel.model';
 import { HotelService } from 'src/app/shared/services/hotel.service';
 import { MenubarService } from 'src/app/shared/services/menubar.service';
+import { PhotosService } from 'src/app/shared/services/photos.service';
 
 @Component({
   selector: 'app-cadastro',
@@ -23,8 +24,9 @@ export class CadastroComponent extends ComponentBase implements OnInit {
 
   hotelId!: string | null;
 
-  imagens: File[] = [];
-
+  imagens: string[] = [];
+  imagensNew: File[] = [];
+ private modalService = inject(NgbModal);
   errorList: string[] = [];
   
   // Armazena o estado de conclusão de cada step
@@ -43,7 +45,8 @@ export class CadastroComponent extends ComponentBase implements OnInit {
   constructor(
     public override injector: Injector, 
     private hotelService: HotelService,
-    public menubarService: MenubarService
+    public menubarService: MenubarService,
+    private photosService: PhotosService,
   ) {
     super(injector);
     
@@ -59,6 +62,8 @@ export class CadastroComponent extends ComponentBase implements OnInit {
     
       if (this.hotelId) {
         this.showLoading();
+        this.imagens = [];
+        this.getAllPhotos(this.hotelId);
         this.hotelService.doGetHotelByManager(this.hotelId).subscribe({
           next: (item) => {
                 if (item.data) {
@@ -246,22 +251,32 @@ export class CadastroComponent extends ComponentBase implements OnInit {
          return false;
      
     }else if(atual === 6){
-      return true;
-    }else if(atual === 7){
-      // Valida checkboxes
-        if(this.acceptTerms1 == undefined || this.acceptTerms1 == false){
-            this.errorList.push('O campo Termos de Serviço é obrigatório.');
+       this.errorList = [];
+       if(this.imagensNew.length + this.imagens.length > 10){
+            this.errorList.push('O máximo de 10 imagens por hotel.');
         }
-        // Valida Gym
-        if(this.acceptTerms2 == undefined || this.acceptTerms2 == false){
-            this.errorList.push('O campo Política de Privacidade é obrigatório.');
-        }
-
-        // Retorna true se não houver erros
-        if(this.errorList.length === 0)
+      if(this.errorList.length === 0)
          return true;
         else
          return false;
+    }else if(atual === 7){
+       this.errorList = [];
+      // Valida checkboxes
+        // if(this.acceptTerms1 == undefined || this.acceptTerms1 == false){
+        //     this.errorList.push('O campo Termos de Serviço é obrigatório.');
+        // }
+        // // Valida Gym
+        // if(this.acceptTerms2 == undefined || this.acceptTerms2 == false){
+        //     this.errorList.push('O campo Política de Privacidade é obrigatório.');
+        // }
+
+        // // Retorna true se não houver erros
+        // if(this.errorList.length === 0)
+        //  return true;
+        // else
+        //  return false;
+
+        return true;
     }else{
       return false;
     }
@@ -284,17 +299,13 @@ export class CadastroComponent extends ComponentBase implements OnInit {
 
   onFileSelected(event: any) {
     const files = Array.from(event.target.files) as File[];
-    if (files.length > 10) {
-      alert('Você pode selecionar no máximo 10 imagens!');
+    if (files.length + this.imagens.length > 10) {
+      alert('Você pode selecionar no máximo 10 imagens (no total).');
     } else {
-      this.imagens = files;
+      this.imagensNew = files;
     }
   }
   concluirCadastro(){
-    if (!this.acceptTerms1 || !this.acceptTerms2 ) {
-            alert('Você deve aceitar os termos para continuar!');
-            return;
-    }
     if (!this.itemCadastro) {
       alert('Dados do cadastro estão incompletos.');
       return;
@@ -311,8 +322,24 @@ export class CadastroComponent extends ComponentBase implements OnInit {
 
     this.showLoading();
     this.hotelService.doPostHotel(this.itemCadastro, this.hotelId).subscribe({
-      next: (response) => {
+      next: (response: any) => {
         this.toastr.success('Cadastro atualizado com sucesso.');
+         // Tenta com 'Id' maiúsculo ou 'id' minúsculo
+        
+
+        console.log('Resposta do servidor:', response);
+        console.log('response.data:', response?.data);
+        console.log('ID do quarto:', response?.data?.Id || response?.data?.id);
+
+        const hotelId = response?.data?.Id || response?.data?.id;
+        
+        if (hotelId) {
+          this.uploadFotos(hotelId);
+        } else {
+          console.error('ID do quarto não encontrado na resposta:', response);
+          this.toastr.error('Erro: ID do quarto não foi retornado pelo servidor.');
+  
+        }
       },
       error: (error) => {
         console.log(error);
@@ -323,5 +350,66 @@ export class CadastroComponent extends ComponentBase implements OnInit {
         this.hideLoading();
       }
     });
+  }
+
+  uploadFotos(hotelId: string) {
+    const formData = new FormData();
+
+    this.imagensNew.forEach(file => {
+      formData.append('files', file);
+    });
+    this.showLoading();
+    if (hotelId) {
+      this.photosService.postPhotos(formData, hotelId).subscribe({
+        next: (response) => {
+          if(response.data && response.data.length > 0){
+            this.toastr.success('Fotos enviadas com sucesso.');
+          }
+          this.hideLoading();
+          this.router.navigate(['/admin']);
+        },
+        error: (error) => {
+          console.log(error);
+          this.hideLoading();
+          this.toastr.error(error.error.mensagem || error.error.excecaoMensagem || "Erro ao enviar fotos.");
+        }
+      });
+    }
+  }
+
+  getAllPhotos(hotelId: string) {
+    this.photosService.getPhotos(hotelId).subscribe({
+      next: (response) => {
+        this.imagens = response.data.map((photo: Photo) => photo.id);
+      },
+      error: (error) => {
+        console.log('Erro ao buscar fotos:', error);
+      }
+    });
+  }
+
+  onDeleteImgs() {
+    this.showLoading();
+      this.photosService.deletePhotosEmLote(this.imagens).subscribe({
+        next: (response) => {
+          this.toastr.success('Fotos deletadas com sucesso.');
+          this.imagens = [];
+          this.imagensNew = [];
+        },
+        error: (error) => {
+          console.log(error);
+          this.toastr.error(error.error.mensagem || error.error.excecaoMensagem || "Erro ao deletar fotos.");
+          this.hideLoading();
+          this.modalService.dismissAll();
+        },
+        complete: () => {
+          this.hideLoading();
+          this.modalService.dismissAll();
+        }
+      });
+
+  }
+  openConfirmModal(content: TemplateRef<any>) {
+    this.modalService.open(content, { size: 'lg' });
   }
 }
