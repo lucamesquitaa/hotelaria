@@ -1,4 +1,4 @@
-import { Component, Inject, inject, Injector, OnInit} from '@angular/core';
+import { Component, Inject, inject, Injector, OnInit, TemplateRef} from '@angular/core';
 import { NgbModal } from '@ng-bootstrap/ng-bootstrap';
 import { ComponentBase } from 'src/app/shared/components/component.base';
 import { QuartosModel, RoomBedDTO } from 'src/app/shared/models/quartos.model';
@@ -7,6 +7,8 @@ import { MenubarService } from 'src/app/shared/services/menubar.service';
 import { ResponseApi } from 'src/app/shared/models/response.api';
 import { CategoryQuartosService } from 'src/app/shared/services/category.quartos.service';
 import { CategoryQuartosModel } from 'src/app/shared/models/categoryQuartos.model';
+import { PhotosService } from 'src/app/shared/services/photos.service';
+import { Photo } from 'src/app/shared/models/hotel.model';
 
 @Component({
   selector: 'app-cadastro',
@@ -22,15 +24,15 @@ export class CadastroQuartoComponent extends ComponentBase implements OnInit {
 
   categorys: any[] = [];
   beds: RoomBedDTO[] = [];
-  
-  
+  private modalService = inject(NgbModal);
   apiUrlCategoryQuartos!: string;
   currentStep: number = 1;
 
   quartoId!: string | null;
 
   hotelId!: string ;
-  imagens: File[] = [];
+  imagensNew: File[] = [];
+  imagens: string[] = [];
 
   errorList: string[] = [];
   
@@ -49,6 +51,7 @@ export class CadastroQuartoComponent extends ComponentBase implements OnInit {
     private quartosService: QuartosService,
     public menubarService: MenubarService,
     public categoryQuartosService: CategoryQuartosService,
+    private photosService: PhotosService,
   ) {
     super(injector);
     
@@ -71,6 +74,7 @@ export class CadastroQuartoComponent extends ComponentBase implements OnInit {
       this.apiUrlCategoryQuartos = "http://localhost:8080/api/CategoryQuarto/" + this.hotelId;
       if (this.quartoId && this.hotelId) {
         this.showLoading();
+        this.getAllPhotos(this.quartoId);
         this.quartosService.GetQuartoById(this.quartoId).subscribe({
           next: (response: ResponseApi<QuartosModel>) => {
                 if (response.data) {
@@ -83,6 +87,8 @@ export class CadastroQuartoComponent extends ComponentBase implements OnInit {
                     label: cat.name,
                     value: cat.id
                   }));
+
+
                 }
               },
               error: (err: any) => {
@@ -135,12 +141,6 @@ export class CadastroQuartoComponent extends ComponentBase implements OnInit {
         else
          return false;
     }else if(atual == 2){
-        if(
-          !this.beds || this.beds.length === 0 ||
-          !this.itemCadastro.diff ||
-          !this.itemCadastro.bathProducts ||
-          !this.itemCadastro.typeTv
-        ) // Limpa erros anteriores para validar novamente
         this.errorList = [];
         
         // Valida Camas
@@ -160,16 +160,10 @@ export class CadastroQuartoComponent extends ComponentBase implements OnInit {
         else
          return false;
     }else if(atual == 3){
+      this.errorList = [];
         // images
-        return true;
-    }else if(atual == 4){
-        // Validação final - termos aceitos
-        if (this.acceptTerms1 == undefined || this.acceptTerms1 == false) { 
-            this.errorList.push('O campo termos de cadastro é obrigatório.');
-        }
-
-        if( this.acceptTerms2 == undefined || this.acceptTerms2 == false) {
-            this.errorList.push('O campo política de privacidade é obrigatório.');
+         if( this.imagensNew.length + this.imagens.length > 5) {
+            this.errorList.push('O campo Imagens aceita no máximo 5 fotos (no total).');
         }
         
         // Retorna true se não houver erros
@@ -177,6 +171,24 @@ export class CadastroQuartoComponent extends ComponentBase implements OnInit {
          return true;
         else
          return false;
+    }else if(atual == 4){
+      this.errorList = [];
+        // Validação final - termos aceitos
+        // if (this.acceptTerms1 == undefined || this.acceptTerms1 == false) { 
+        //     this.errorList.push('O campo termos de cadastro é obrigatório.');
+        // }
+
+        // if( this.acceptTerms2 == undefined || this.acceptTerms2 == false) {
+        //     this.errorList.push('O campo política de privacidade é obrigatório.');
+        // }
+        
+        // // Retorna true se não houver erros
+        // if(this.errorList.length === 0)
+        //  return true;
+        // else
+        //  return false;
+
+        return true;
     }else{
       return false;
     }
@@ -203,7 +215,7 @@ export class CadastroQuartoComponent extends ComponentBase implements OnInit {
     if (files.length > 10) {
       alert('Você pode selecionar no máximo 10 imagens!');
     } else {
-      this.imagens = files;
+      this.imagensNew = files;
       // Converter arquivos para URLs ou base64 se necessário
       // Por enquanto mantendo como está para compatibilidade
     }
@@ -270,9 +282,22 @@ export class CadastroQuartoComponent extends ComponentBase implements OnInit {
   
     this.showLoading();
     this.quartosService.doPostPutQuarto(this.itemCadastro, hotelId).subscribe({
-      next: (response: ResponseApi) => {
+      next: (response: any) => {
         this.toastr.success('Quarto cadastrado com sucesso.');
-        this.router.navigate(['/admin']);
+        console.log('Resposta do servidor:', response);
+        console.log('response.data:', response?.data);
+        console.log('ID do quarto:', response?.data?.Id || response?.data?.id);
+        
+        // Tenta com 'Id' maiúsculo ou 'id' minúsculo
+        const quartoId = response?.data?.Id || response?.data?.id;
+        
+        if (quartoId) {
+          this.uploadFotos(this.hotelId!, quartoId);
+        } else {
+          console.error('ID do quarto não encontrado na resposta:', response);
+          this.toastr.error('Erro: ID do quarto não foi retornado pelo servidor.');
+  
+        }
       },
       error: (error: any) => {
         this.toastr.error(error.error?.mensagem || error.error?.excecaoMensagem || "Erro no servidor.");
@@ -296,5 +321,77 @@ export class CadastroQuartoComponent extends ComponentBase implements OnInit {
       this.beds.splice(index, 1);
     }
   }
+  uploadFotos(hotelId: string, quartoId: string) {
+      console.log('=== UPLOAD FOTOS ===');
+      console.log('hotelId recebido:', hotelId);
+      console.log('quartoId recebido:', quartoId);
+      console.log('Quantidade de imagens:', this.imagensNew.length);
+      
+      const formData = new FormData();
 
+      this.imagensNew.forEach((file, index) => {
+        console.log(`Adicionando arquivo ${index + 1}:`, file.name);
+        formData.append('files', file);
+      });
+      
+      this.showLoading();
+      if (hotelId && quartoId) {
+        console.log('Enviando fotos para:', { hotelId, quartoId });
+        this.photosService.postPhotos(formData, hotelId, quartoId).subscribe({
+          next: (response) => {
+            console.log('Resposta upload fotos:', response);
+            if(response.data && response.data.length > 0){
+              this.toastr.success('Fotos enviadas com sucesso.');
+            }
+            this.hideLoading();
+            this.router.navigate(['/admin']);
+          },
+          error: (error) => {
+            console.error('Erro ao enviar fotos:', error);
+            this.hideLoading();
+            this.toastr.error(error.error?.mensagem || error.error?.excecaoMensagem || "Erro ao enviar fotos.");
+          }
+        });
+      } else {
+        console.error('hotelId ou quartoId não fornecido');
+        this.toastr.error('Erro: IDs não fornecidos para upload de fotos.');
+        this.hideLoading();
+      }
+    }
+
+  getAllPhotos(quartoId: string) {
+    this.photosService.getPhotosQuarto(quartoId).subscribe({
+      next: (response) => {
+        this.imagens = response.data.map((photo: Photo) => photo.id);
+      },
+      error: (error) => {
+        console.log('Erro ao buscar fotos:', error);
+      }
+    });
+  }
+
+  onDeleteImgs() {
+    this.showLoading();
+      this.photosService.deletePhotosEmLote(this.imagens).subscribe({
+        next: (response) => {
+          this.toastr.success('Fotos deletadas com sucesso.');
+          this.imagens = [];
+          this.imagensNew = [];
+        },
+        error: (error) => {
+          console.log(error);
+          this.toastr.error(error.error.mensagem || error.error.excecaoMensagem || "Erro ao deletar fotos.");
+          this.hideLoading();
+          this.modalService.dismissAll();
+        },
+        complete: () => {
+          this.hideLoading();
+          this.modalService.dismissAll();
+        }
+      });
+
+  }
+  openConfirmModal(content: TemplateRef<any>) {
+    this.modalService.open(content, { size: 'lg' });
+  }  
 }
