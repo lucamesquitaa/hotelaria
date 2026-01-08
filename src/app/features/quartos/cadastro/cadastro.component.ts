@@ -18,6 +18,7 @@ import { Photo } from 'src/app/shared/models/hotel.model';
 })
 export class CadastroQuartoComponent extends ComponentBase implements OnInit {
   itemCadastro: QuartosModel = {} as QuartosModel;
+  originalItemCadastro: QuartosModel = {} as QuartosModel; // Backup dos valores originais
 
   acceptTerms1: boolean = false;
   acceptTerms2: boolean = false;
@@ -79,6 +80,8 @@ export class CadastroQuartoComponent extends ComponentBase implements OnInit {
           next: (response: ResponseApi<QuartosModel>) => {
                 if (response.data) {
                   this.itemCadastro = response.data;
+                  // Fazer backup dos valores originais
+                  this.originalItemCadastro = JSON.parse(JSON.stringify(response.data));
                   console.log("Quarto carregado para edição:", this.itemCadastro);
                   
                   this.beds = this.itemCadastro.beds || [];
@@ -108,6 +111,9 @@ export class CadastroQuartoComponent extends ComponentBase implements OnInit {
        // Limpa erros anteriores para validar novamente
         this.errorList = [];
         
+      if(!this.itemCadastro?.numero || this.itemCadastro.numero.toString().trim() === ''){
+            this.errorList.push('O campo Número do quarto é obrigatório.');
+        }
         // Valida Nome Fantasia
         if(!this.itemCadastro?.name || this.itemCadastro.name.trim() === ''){
             this.errorList.push('O campo Nome do quarto é obrigatório.');
@@ -247,6 +253,40 @@ export class CadastroQuartoComponent extends ComponentBase implements OnInit {
     // this.openModalCadastroComodidade();
   }
 
+  private convertToBoolean(value: any, originalValue: any): boolean {
+    // Se o valor atual for undefined/null, usa o valor original
+    if (value === undefined || value === null) {
+      if (originalValue === undefined || originalValue === null) {
+        return false;
+      }
+      // Converte o valor original
+      if (typeof originalValue === 'boolean') {
+        return originalValue;
+      }
+      if (typeof originalValue === 'string') {
+        return originalValue.toLowerCase() === 'true' || originalValue === '1';
+      }
+      if (typeof originalValue === 'number') {
+        return originalValue === 1;
+      }
+      return false;
+    }
+    // Se já for boolean, retorna o valor
+    if (typeof value === 'boolean') {
+      return value;
+    }
+    // Se for string, converte
+    if (typeof value === 'string') {
+      return value.toLowerCase() === 'true' || value === '1';
+    }
+    // Se for número, converte (1 = true, 0 = false)
+    if (typeof value === 'number') {
+      return value === 1;
+    }
+    // Qualquer outro caso retorna false
+    return false;
+  }
+
   onConcluirCadastro(){
     const hotelId = this.cookieService.get('hotel_id');
     if (!hotelId) {
@@ -266,18 +306,48 @@ export class CadastroQuartoComponent extends ComponentBase implements OnInit {
 
     console.log('Camas convertidas:', this.itemCadastro.beds);
     
-    // Converte strings para booleans
-    this.itemCadastro.refund = this.itemCadastro.refund == "true" || this.itemCadastro.refund === true;
-    this.itemCadastro.freeze = this.itemCadastro.freeze == "true" || this.itemCadastro.freeze === true;
-    this.itemCadastro.vault = this.itemCadastro.vault == "true" || this.itemCadastro.vault === true;
-    this.itemCadastro.telephone = this.itemCadastro.telephone == "true" || this.itemCadastro.telephone === true;
-    this.itemCadastro.coffee = this.itemCadastro.coffee == "true" || this.itemCadastro.coffee === true;
-    this.itemCadastro.wifi = this.itemCadastro.wifi == "true" || this.itemCadastro.wifi === true;
-    this.itemCadastro.fridge = this.itemCadastro.fridge == "true" || this.itemCadastro.fridge === true;
-    this.itemCadastro.cleaning = this.itemCadastro.cleaning == "true" || this.itemCadastro.cleaning === true;
-    this.itemCadastro.varanda = this.itemCadastro.varanda == "true" || this.itemCadastro.varanda === true;
-    this.itemCadastro.bathroom = this.itemCadastro.bathroom == "true" || this.itemCadastro.bathroom === true;
-    this.itemCadastro.tv = this.itemCadastro.tv == "true" || this.itemCadastro.tv === true;
+    // Debug: log dos valores antes da conversão
+    console.log('Valores ANTES da conversão:', {
+      refund: this.itemCadastro.refund,
+      freeze: this.itemCadastro.freeze,
+      vault: this.itemCadastro.vault,
+      telephone: this.itemCadastro.telephone,
+      coffee: this.itemCadastro.coffee,
+      wifi: this.itemCadastro.wifi,
+      fridge: this.itemCadastro.fridge,
+      cleaning: this.itemCadastro.cleaning,
+      varanda: this.itemCadastro.varanda,
+      bathroom: this.itemCadastro.bathroom,
+      tv: this.itemCadastro.tv
+    });
+    
+    // Converte strings para booleans, preservando valores originais
+    this.itemCadastro.refund = this.convertToBoolean(this.itemCadastro.refund, this.originalItemCadastro.refund);
+    this.itemCadastro.freeze = this.convertToBoolean(this.itemCadastro.freeze, this.originalItemCadastro.freeze);
+    this.itemCadastro.vault = this.convertToBoolean(this.itemCadastro.vault, this.originalItemCadastro.vault);
+    this.itemCadastro.telephone = this.convertToBoolean(this.itemCadastro.telephone, this.originalItemCadastro.telephone);
+    this.itemCadastro.coffee = this.convertToBoolean(this.itemCadastro.coffee, this.originalItemCadastro.coffee);
+    this.itemCadastro.wifi = this.convertToBoolean(this.itemCadastro.wifi, this.originalItemCadastro.wifi);
+    this.itemCadastro.fridge = this.convertToBoolean(this.itemCadastro.fridge, this.originalItemCadastro.fridge);
+    this.itemCadastro.cleaning = this.convertToBoolean(this.itemCadastro.cleaning, this.originalItemCadastro.cleaning);
+    this.itemCadastro.varanda = this.convertToBoolean(this.itemCadastro.varanda, this.originalItemCadastro.varanda);
+    this.itemCadastro.bathroom = this.convertToBoolean(this.itemCadastro.bathroom, this.originalItemCadastro.bathroom);
+    this.itemCadastro.tv = this.convertToBoolean(this.itemCadastro.tv, this.originalItemCadastro.tv);
+    
+    // Debug: log dos valores após a conversão
+    console.log('Valores APÓS da conversão:', {
+      refund: this.itemCadastro.refund,
+      freeze: this.itemCadastro.freeze,
+      vault: this.itemCadastro.vault,
+      telephone: this.itemCadastro.telephone,
+      coffee: this.itemCadastro.coffee,
+      wifi: this.itemCadastro.wifi,
+      fridge: this.itemCadastro.fridge,
+      cleaning: this.itemCadastro.cleaning,
+      varanda: this.itemCadastro.varanda,
+      bathroom: this.itemCadastro.bathroom,
+      tv: this.itemCadastro.tv
+    });
     
   
     this.showLoading();
@@ -334,8 +404,9 @@ export class CadastroQuartoComponent extends ComponentBase implements OnInit {
         formData.append('files', file);
       });
       
-      this.showLoading();
+      
       if (hotelId && quartoId) {
+        this.showLoading();
         console.log('Enviando fotos para:', { hotelId, quartoId });
         this.photosService.postPhotos(formData, hotelId, quartoId).subscribe({
           next: (response) => {

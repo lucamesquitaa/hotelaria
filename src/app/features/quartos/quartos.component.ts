@@ -16,6 +16,8 @@ export class QuartosComponent extends ComponentBase implements OnInit {
   hotelId!: string | null;
 
   allQuartos: QuartosModel[] = [];
+  // Track collapsed state per quarto id
+  collapsedMap: { [quartoId: string]: boolean } = {};
 
   constructor(
     public override injector: Injector,
@@ -61,6 +63,29 @@ export class QuartosComponent extends ComponentBase implements OnInit {
         this.hideLoading();
       }
     });
+  }
+
+  // Collapse helpers
+  toggleCollapsed(quartoId: string) {
+    const key = String(quartoId);
+    this.collapsedMap[key] = !this.collapsedMap[key];
+  }
+
+  isCollapsed(quartoId: string) {
+    const key = String(quartoId);
+    // default to false (expanded)
+    return this.collapsedMap[key] ?? false;
+  }
+
+  // Alternation based on visible (not collapsed) items
+  private getVisibleQuartos(): QuartosModel[] {
+    return this.allQuartos.filter(q => !this.isCollapsed(q.id));
+  }
+
+  isVisibleIndexEven(quartoId: string): boolean {
+    const visible = this.getVisibleQuartos();
+    const idx = visible.findIndex(q => String(q.id) === String(quartoId));
+    return idx % 2 === 0;
   }
 
   onEditQuarto(quartoId: string) {

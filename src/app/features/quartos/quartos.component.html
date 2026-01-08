@@ -19,7 +19,7 @@
             </div>
             <div class="card-center">
                 <h4 class="quarto-title">{{ quarto.name }}</h4>
-                <p class="quarto-type" *ngFor="let item of quarto.category">{{ item.name }}</p>
+                <span class="quarto-type" *ngFor="let item of (quarto.category || [])">{{ item.name }}</span>
                 <div class="quarto-specs">
                     <span class="spec-item"><i class="bi bi-people"></i> {{ quarto.maxOcupation }} pessoas</span>
                     <span class="spec-item"><i class="bi bi-bounding-box-circles"></i> {{ quarto.areaSize }} m²</span>

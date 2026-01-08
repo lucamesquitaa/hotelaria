@@ -1,0 +1,65 @@
+<div class="motorComponent page-with-menubar" [class.menu-collapsed]="!(menubarService.isOpen$ | async)">
+  <app-reusable-grid>
+    <div grid-left>
+      <div class="left-rows" role="tree">
+        <ng-container *ngFor="let hotel of groupedByHotel | keyvalue">
+          <!-- Hotel header row (tree parent) -->
+          <div class="tDivFlexRow hotel-header-row" role="treeitem" [attr.aria-expanded]="!isHotelCollapsed(hotel.key)">
+            <div class="hotel-separator">
+              <div class="rowaa">
+                <h4>{{ hotel.key }}</h4>
+                <button (click)="toggleHotel(hotel.key)" class="btn btn-sm btn-outline-secondary" aria-label="Alternar hotel">
+                  <i [class]="'bi ' + (isHotelCollapsed(hotel.key) ? 'bi-chevron-right' : 'bi-chevron-down')"></i>
+                </button>
+                
+              </div>
+            </div>
+            <div class="room-name-left"></div>
+          </div>
+
+          <!-- Children rooms (tree children) -->
+          <ng-container *ngIf="!isHotelCollapsed(hotel.key)" role="group">
+            <ng-container *ngFor="let quarto of hotel.value">
+              <div class="tDivFlexRow" role="treeitem" [attr.aria-expanded]="!isCollapsed(quarto.id)">
+                <div class="hotel-separator tree-room">
+                  <div class="rowaa">
+                    <button (click)="toggle(quarto.id)" [class]="'btn ' + (isCollapsed(quarto.id) ?  'btn-sm btn-outline-secondary': 'btn-sm btn-primary')" aria-label="Alternar quarto">
+                      <i [class]="'bi ' + (isCollapsed(quarto.id) ? 'bi-chevron-right' : 'bi-chevron-down')"></i>
+                    </button>
+                    <h6>{{ quarto.name }}</h6>
+                  </div>
+                </div>
+              </div>
+            </ng-container>
+          </ng-container>
+        </ng-container>
+      </div>
+    </div>
+
+    <div grid-header-right>
+      <div class="legend-spacer"></div>
+      <div class="datesHeader">
+        <div *ngFor="let day of dates" class="calendarioBox headerCell">
+          {{ day.label }}
+        </div>
+      </div>
+    </div>
+
+    <div grid-rows class="rows">
+      <ng-container *ngFor="let hotel of groupedByHotel | keyvalue">
+        <!-- Right-side row matching hotel header on the left -->
+        <div class="hotel-row-right"></div>
+        <ng-container *ngIf="!isHotelCollapsed(hotel.key)">
+          <ng-container *ngFor="let quarto of hotel.value ; let i = index">
+            <div class="room-row-right">
+              <app-quartoreserva *ngIf="!isCollapsed(quarto.id)" [dados]="quarto" [dates]="dates" ></app-quartoreserva>
+            </div>
+          </ng-container>
+        </ng-container>
+      </ng-container>
+    </div>
+  </app-reusable-grid>
+  <div class="btn btn-success butao" title="Atualizar dados">
+    <i class="bi bi-plus-circle"> Disponibilidade</i>
+  </div>
+</div>

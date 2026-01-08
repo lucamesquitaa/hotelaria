@@ -3,6 +3,7 @@ import { CategoryQuartosModel } from "./categoryQuartos.model";
 export interface QuartosModel {
     id: string;
     detalhesModelId: string;
+    numero: number;
     name: string;
     category: CategoryQuartosModel[];
     tags: string[];

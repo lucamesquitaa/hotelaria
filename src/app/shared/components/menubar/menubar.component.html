@@ -9,7 +9,7 @@
     
     <!-- Brand/Logo -->
     <div class="d-flex justify-content-center align-items-center" [ngClass]="isOpen ? 'justify-content-between' : 'justify-content-center'">
-        <a href="/" class="menu-brand" [class.d-none]="!isOpen">
+        <a class="menu-brand" [class.d-none]="!isOpen" (click)="toggleMenu()">
             <img src="assets/logosfundo2.png" class="logoCasinha" alt="logo turify casinha"/>
         </a>
         <!-- Botão de collapse/expand -->
@@ -64,6 +64,12 @@
                 </div> -->
             </li>
             <li class="nav-item">
+                <a href="/motor" class="nav-link text-white" routerLinkActive="active" [class.active]="selected === 'motor'">
+                                <i class="bi bi-gear"></i>
+                                Motor Reservas
+                </a>
+            </li>
+            <li class="nav-item" >
                 <a href="/campos" class="nav-link text-white" routerLinkActive="active" [class.active]="selected === 'campos'">
                                 <i class="bi bi-pencil"></i>
                                 Campos

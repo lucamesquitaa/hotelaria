@@ -1,0 +1,71 @@
+.quarto-reserva{
+  display: flex;
+  align-items: stretch;
+  gap: 0;
+
+  .legend-column {
+    width: 84px;
+    flex: 0 0 84px;
+    border: 1px solid #e5e7eb;
+    background: #fafafa;
+    display: flex;
+    flex-direction: column;
+  }
+
+  .legend-item {
+    height: 40px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    border-bottom: 1px solid #e5e7eb;
+    font-weight: 600;
+    font-size: 0.85rem;
+    color: #374151;
+  }
+
+  .legend-item:last-child { border-bottom: none }
+
+  .date-row {
+    display: flex;
+    flex-wrap: nowrap;
+    gap: 0;
+    align-items: stretch;
+    height: auto;
+    border-top: 1px solid #e5e7eb;
+    border-bottom: 1px solid #e5e7eb;
+  }
+
+  .date-cell {
+    min-width: 120px;
+    display: flex;
+    flex-direction: column;
+    align-items: stretch;
+    justify-content: flex-start;
+    background: transparent;
+    box-sizing: border-box;
+    border-right: 1px solid #e5e7eb;
+  }
+
+  .date-cell:first-child { border-left: 1px solid #e5e7eb }
+
+  .date-cell > div { width: 100%; text-align: center }
+
+  .cell-info, .cell-min, .cell-max, .cell-price { font-size: 0.9rem }
+
+  .dat{
+    height: 40px;
+    border-bottom: 1px solid #e5e7eb;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    flex-shrink: 0;
+    box-sizing: border-box;
+    background: transparent;
+  }
+
+  .dat:last-child { border-bottom: none }
+
+  .date-cell:hover { background: #f9fafb }
+
+  .empty { color: rgba(0,0,0,0.35) }
+}
