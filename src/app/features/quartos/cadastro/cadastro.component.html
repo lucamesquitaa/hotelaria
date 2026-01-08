@@ -42,7 +42,10 @@
     
     <div *ngIf="currentStep === 1" class="formContainer 1">
         <h3>Informações Básicas do Quarto</h3>
-
+            <div class="col-lg-12 col-md-12">
+                          <label for="name" class="form-label">Número do quarto</label>
+                          <input type="text" class="form-control" [(ngModel)]="itemCadastro.numero" >
+            </div>
             <div class="col-lg-12 col-md-12">
               <label for="name" class="form-label">Nome do quarto</label>
               <input type="text" class="form-control" [(ngModel)]="itemCadastro.name" >

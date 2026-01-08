@@ -14,6 +14,7 @@ import { PhotosService } from 'src/app/shared/services/photos.service';
 })
 export class CadastroComponent extends ComponentBase implements OnInit {
   itemCadastro: DetalhesModelByManager = {} as DetalhesModelByManager;
+  originalItemCadastro: DetalhesModelByManager = {} as DetalhesModelByManager; // Backup dos valores originais
 
   acceptTerms1: boolean = false;
   acceptTerms2: boolean = false;
@@ -68,6 +69,8 @@ export class CadastroComponent extends ComponentBase implements OnInit {
           next: (item) => {
                 if (item.data) {
                   this.itemCadastro = item.data;
+                  // Fazer backup dos valores originais
+                  this.originalItemCadastro = JSON.parse(JSON.stringify(item.data));
                 }
                 console.log("item cadastro:");
                 console.log(item);
@@ -299,11 +302,45 @@ export class CadastroComponent extends ComponentBase implements OnInit {
 
   onFileSelected(event: any) {
     const files = Array.from(event.target.files) as File[];
-    if (files.length + this.imagens.length > 10) {
-      alert('Você pode selecionar no máximo 10 imagens (no total).');
+    if (files.length + this.imagens.length > 8) {
+      alert('Você pode selecionar no máximo 8 imagens (no total).');
     } else {
       this.imagensNew = files;
     }
+  }
+
+  private convertToBoolean(value: any, originalValue: any): boolean {
+    // Se o valor atual for undefined/null, usa o valor original
+    if (value === undefined || value === null) {
+      if (originalValue === undefined || originalValue === null) {
+        return false;
+      }
+      // Converte o valor original
+      if (typeof originalValue === 'boolean') {
+        return originalValue;
+      }
+      if (typeof originalValue === 'string') {
+        return originalValue.toLowerCase() === 'true' || originalValue === '1';
+      }
+      if (typeof originalValue === 'number') {
+        return originalValue === 1;
+      }
+      return false;
+    }
+    // Se já for boolean, retorna o valor
+    if (typeof value === 'boolean') {
+      return value;
+    }
+    // Se for string, converte
+    if (typeof value === 'string') {
+      return value.toLowerCase() === 'true' || value === '1';
+    }
+    // Se for número, converte (1 = true, 0 = false)
+    if (typeof value === 'number') {
+      return value === 1;
+    }
+    // Qualquer outro caso retorna false
+    return false;
   }
   concluirCadastro(){
     if (!this.itemCadastro) {
@@ -311,14 +348,14 @@ export class CadastroComponent extends ComponentBase implements OnInit {
       return;
     }
     
-    //os itens booleanos devem ser convertidos de string para boolean
-    this.itemCadastro.child = this.itemCadastro.child == "true";
-    this.itemCadastro.pets = this.itemCadastro.pets == "true";
-    this.itemCadastro.coffee = this.itemCadastro.coffee == "true" ;
-    this.itemCadastro.wifi = this.itemCadastro.wifi == "true" ;
-    this.itemCadastro.swimming = this.itemCadastro.swimming == "true" ;
-    this.itemCadastro.cleaning = this.itemCadastro.cleaning == "true" ;
-    this.itemCadastro.gym = this.itemCadastro.gym == "true" ;
+    //os itens booleanos devem ser convertidos de string para boolean, preservando valores originais
+    this.itemCadastro.child = this.convertToBoolean(this.itemCadastro.child, this.originalItemCadastro.child);
+    this.itemCadastro.pets = this.convertToBoolean(this.itemCadastro.pets, this.originalItemCadastro.pets);
+    this.itemCadastro.coffee = this.convertToBoolean(this.itemCadastro.coffee, this.originalItemCadastro.coffee);
+    this.itemCadastro.wifi = this.convertToBoolean(this.itemCadastro.wifi, this.originalItemCadastro.wifi);
+    this.itemCadastro.swimming = this.convertToBoolean(this.itemCadastro.swimming, this.originalItemCadastro.swimming);
+    this.itemCadastro.cleaning = this.convertToBoolean(this.itemCadastro.cleaning, this.originalItemCadastro.cleaning);
+    this.itemCadastro.gym = this.convertToBoolean(this.itemCadastro.gym, this.originalItemCadastro.gym);
 
     this.showLoading();
     this.hotelService.doPostHotel(this.itemCadastro, this.hotelId).subscribe({

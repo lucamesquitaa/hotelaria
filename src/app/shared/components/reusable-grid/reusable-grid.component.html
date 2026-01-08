@@ -1,0 +1,18 @@
+<div class="reusable-grid">
+  <div class="grid-left">
+    <ng-content select="[grid-left]"></ng-content>
+  </div>
+
+  <div class="grid-right">
+    <div class="right-scroll" #rightScroll>
+      <div class="header-right" #headerRight>
+        <div class="header-inner" #headerInner>
+          <ng-content select="[grid-header-right]"></ng-content>
+        </div>
+      </div>
+      <div class="rows-right">
+        <ng-content select="[grid-rows]"></ng-content>
+      </div>
+    </div>
+  </div>
+</div>

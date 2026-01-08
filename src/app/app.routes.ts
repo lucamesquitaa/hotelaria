@@ -58,4 +58,10 @@ export const ROUTES: Routes = [
       import('./features/campos/campos.module').then(m => m.CamposModule),
     canActivate: [AuthenticationGuard],
   },
+  {
+    path: 'motor',
+    loadChildren: () =>
+      import('./features/motor/motor.module').then(m => m.MotorModule),
+    canActivate: [AuthenticationGuard],
+  },
 ];

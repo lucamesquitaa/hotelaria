@@ -1,0 +1,125 @@
+/* Spreadsheet-like layout for motor grid */
+.motorComponent {
+	display: flex;
+	flex-direction: column;
+	gap: 0.5rem;
+}
+
+.motorComponent.page-with-menubar {
+  margin-left: 280px;
+  width: calc(100% - 280px);
+  transition: all 0.3s ease;
+}
+
+/* Ajuste quando o menu está colapsado */
+.motorComponent.page-with-menubar.menu-collapsed {
+  margin-left: 60px;
+  width: calc(100% - 60px);
+}
+
+@media (max-width: 768px) {
+  .motorComponent.page-with-menubar,
+  .motorComponent.page-with-menubar.menu-collapsed {
+    margin-left: 0;
+    width: 100%;
+  }
+  
+  .motorComponent {
+    padding: 15px 10px;
+  }
+}
+
+.left-rows {
+	display: flex;
+	flex-direction: column;
+}
+
+.tDivFlexRow {
+	border-bottom: 1px solid #e5e7eb;
+	min-height: 40px;
+}
+
+.hotel-header-row {
+	background: #f3f4f6;
+	border-top: 1px solid #e5e7eb;
+}
+
+.tree-room .rowaa {
+	display: flex;
+	align-items: center;
+	flex-direction: row;
+	gap: 0.5rem;
+}
+
+.room-name-left {
+	min-width: 84px;
+}
+
+.datesHeader {
+	position: sticky;
+	top: 0;
+		width: max-content;
+	z-index: 5;
+	display: flex;
+	align-items: stretch;
+	flex-wrap: nowrap;
+	background: #ffffff;
+	border-bottom: 1px solid #e5e7eb;
+	box-shadow: 0 2px 4px rgba(0,0,0,0.04);
+	overflow-x: visible;
+  
+	/* Visual spacer to align with left legend column without HTML changes */
+	&::before {
+		content: '';
+		flex: 0 0 84px;
+		min-width: 84px;
+		border-right: 1px solid #e5e7eb;
+	}
+}
+
+.legend-spacer {
+	min-width: 84px; /* matches quartoreserva legend-column */
+	border-right: 1px solid #e5e7eb;
+}
+
+.headerCell {
+	min-width: 120px;
+	padding: 6px 8px;
+	text-align: center;
+	font-weight: 600;
+	color: #111827;
+	border-right: 1px solid #e5e7eb;
+}
+
+.rows {
+		overflow-y: auto;
+		overflow-x: visible;
+		display: block;
+		width: max-content;
+}
+
+/* Make the parent scroll horizontally so header & rows move together */
+.motorComponent app-reusable-grid {
+	overflow-x: auto;
+}
+
+/* Optional: keep the left tree column fixed on horizontal scroll */
+.left-rows {
+	position: sticky;
+	left: 0;
+	background: #ffffff;
+	z-index: 6;
+}
+
+.room-row-right
+{
+	border: 1px solid rgb(75, 75, 75);
+}
+/* Classes explícitas usadas pelo ngClass para alternar cores */
+.quarto-card-compact.alt-white {
+    background-color: #ffffff;
+}
+
+.quarto-card-compact.alt-blue {
+    background-color: #e6f0ff;
+}

@@ -8,13 +8,17 @@ import { MenubarComponent } from './components/menubar/menubar.component';
 import { SelectRemoteComponent } from './components/select-remote/select-remote.component';
 import { CategoryCampoComponent } from './components/category-campo/category-campo.component';
 import { HeaderComponent } from './components/header/header.component';
+import { QuartoreservaComponent } from './components/quartoreserva/quartoreserva.component';
+import { ReusableGridComponent } from './components/reusable-grid/reusable-grid.component';
 
 
 @NgModule({
       declarations: [
             MenubarComponent,
             CategoryCampoComponent,
-            HeaderComponent
+            HeaderComponent,
+            QuartoreservaComponent,
+            ReusableGridComponent
       ],
   imports: [
         FormsModule,
@@ -34,6 +38,8 @@ import { HeaderComponent } from './components/header/header.component';
         MenubarComponent,
         SelectRemoteComponent,
         CategoryCampoComponent,
+      QuartoreservaComponent,
+      ReusableGridComponent,
         HeaderComponent
         ]
 })

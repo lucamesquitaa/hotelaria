@@ -121,6 +121,7 @@
     padding: 0;
     width: 100%;
     max-width: 900px;
+    background: transparent; /* deixar visível a alternância dos cards */
 }
 
 /* Novo layout compacto dos cards */
@@ -129,7 +130,7 @@
     align-items: center;
     width: 100%;
     max-width: 800px;
-    background: white;
+    background: transparent; /* alternância controlada pelas classes alt- */
     border-radius: 8px;
     padding: 15px;
     margin: 5px auto;
@@ -138,6 +139,9 @@
     border: 1px solid #e9ecef;
     box-sizing: border-box;
 }
+
+
+
 
 .quarto-card-compact:hover {
     transform: translateY(-1px);
@@ -170,10 +174,15 @@
     align-items: flex-end;
     gap: 8px;
 }
-
+.quarto-type{
+    padding: 5px;
+    margin: 5px;
+    background-color: #c5ffd3;
+    border-radius: 5px;
+}
 .quarto-number {
     position: absolute;
-    top: -5px;
+    margin-top: 15px;
     right: -8px;
     background: linear-gradient(135deg, #007bff, #0056b3);
     color: white;
@@ -414,4 +423,15 @@
     .detail-item{
         padding: 10px;
     }
+}
+
+/* Alternância visual das linhas */
+.alt-blue {
+    background-color: #f3f8ff;
+    border-color: #dbeafe;
+}
+
+.alt-white {
+    background-color: #ffffff;
+    border-color: #e9ecef;
 }
