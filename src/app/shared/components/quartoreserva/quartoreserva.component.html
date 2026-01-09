@@ -1,23 +1,26 @@
 <div class="quarto-reserva">
     <div class="legend-column">
-        <div class="legend-item">Status</div>
-        <div class="legend-item">Mínimo</div>
-        <div class="legend-item">Máx</div>
-        <div class="legend-item">Preço</div>
+        <div class="legend-item">Nº {{ dados.number }}</div>
+        <div class="legend-item" *ngIf="collapsed">Disponível</div>
+        <div class="legend-item" *ngIf="collapsed">Mínimo</div>
+        <div class="legend-item" *ngIf="collapsed">Máx</div>
+        <div class="legend-item" *ngIf="collapsed">Preço</div>
     </div>
     <div class="date-row">
         <div *ngFor="let day of dates; let i = index" class="date-cell" >
             <ng-container *ngIf="disponibilidadeForDate(day.iso) as disp">
-                <div class="dat cell-info">{{ disp.statusString }}</div>
-                <div class="dat cell-min">{{ disp.minDays }}</div>
-                <div class="dat cell-max">{{ disp.maxDays }}</div>
-                <div class="dat cell-price">{{ disp.dayPrice | currency:'BRL':'symbol':'1.2-2' }}</div>
+                <div class="dat cell-name" [style.color]="disp.status == 1 ? 'green' : 'red'">{{disp.statusString}}</div>
+                <div class="dat cell-info" *ngIf="collapsed">{{ disp.isAvailable ? 'Sim' : 'Não' }}</div>
+                <div class="dat cell-min" *ngIf="collapsed">{{ disp.minDays }}</div>
+                <div class="dat cell-max" *ngIf="collapsed">{{ disp.maxDays }}</div>
+                <div class="dat cell-price" *ngIf="collapsed">{{ disp.dayPrice | currency:'BRL':'symbol':'1.2-2' }}</div>
             </ng-container>
             <ng-container *ngIf="!disponibilidadeForDate(day.iso) as disp">
-                <div class="dat cell-info">-</div>
-                <div class="dat cell-min">-</div>
-                <div class="dat cell-max">-</div>
-                <div class="dat cell-price">-</div>
+                <div class="dat cell-name">-</div>
+                <div class="dat cell-info" *ngIf="collapsed">-</div>
+                <div class="dat cell-min" *ngIf="collapsed">-</div>
+                <div class="dat cell-max" *ngIf="collapsed">-</div>
+                <div class="dat cell-price" *ngIf="collapsed">-</div>
             </ng-container>
         </div>
     </div>

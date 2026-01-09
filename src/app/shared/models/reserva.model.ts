@@ -12,6 +12,7 @@ export interface DisponiModel {
   quartosModelId: string
   quartos: any
   name: string
+  isAvailable: boolean
   status: StatusReservaEnum
   startDate: string
   endDate: string
@@ -27,13 +28,24 @@ export interface QuartoDisponibilidade {
     hotelName: string
     hotelId: string
     name: string
+    number: number
     disponiQuarto?: DisponiModel[]
 }
 
 export enum StatusReservaEnum {
-   Pendente = 1,
+   Disponivel = 1,
    PreReserva = 2,
    AguardandoPagamento = 3,
    Bloqueado = 4,
    Confirmada = 5,
  }
+
+ export interface AddDisponibilidadeAdd {
+  status: number
+  startDate: string
+  endDate: string
+  dayPrice: number
+  minDays: number
+  maxDays: number
+  reembolsavel: boolean
+}

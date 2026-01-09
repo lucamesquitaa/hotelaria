@@ -11,6 +11,7 @@ import { ComponentBase } from '../component.base';
 })
 export class QuartoreservaComponent extends ComponentBase{
   @Input() dados!: QuartoDisponibilidade;
+  @Input() collapsed!: boolean;
   // dates passed from motor: array of { label, iso }
   @Input() dates: { label: string; iso: string }[] = [];
   // dynamic alternate classes for row/column coloring

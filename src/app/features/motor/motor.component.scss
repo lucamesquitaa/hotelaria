@@ -40,7 +40,7 @@
 }
 
 .hotel-header-row {
-	background: #f3f4f6;
+	padding: 5px;
 	border-top: 1px solid #e5e7eb;
 }
 
@@ -56,9 +56,8 @@
 }
 
 .datesHeader {
-	position: sticky;
-	top: 0;
-		width: max-content;
+	position: relative; /* header stickiness handled by reusable grid */
+	width: max-content;
 	z-index: 5;
 	display: flex;
 	align-items: stretch;
@@ -123,3 +122,46 @@
 .quarto-card-compact.alt-blue {
     background-color: #e6f0ff;
 }
+
+.butao{
+	position: fixed;
+	bottom: 20px;
+	right: 20px;
+	padding: 20px;
+}
+.row2{
+	margin-left: 20px;
+}
+
+.nome-room{
+	max-width: 84px;
+	margin: 0;
+	padding: 0;
+	max-height: 50px;
+}
+
+.custom-day {
+			text-align: center;
+			padding: 0.185rem 0.25rem;
+			display: inline-block;
+			height: 2rem;
+			width: 2rem;
+		}
+		.custom-day.focused {
+			background-color: #e6e6e6;
+		}
+		.custom-day.range,
+		.custom-day:hover {
+			background-color: rgb(2, 117, 216);
+			color: white;
+		}
+		.custom-day.faded {
+			background-color: rgba(2, 117, 216, 0.5);
+		}
+
+		.centerData{
+			display: flex;
+			justify-content: center;
+			flex-direction: column;
+			align-items: center;
+		}
