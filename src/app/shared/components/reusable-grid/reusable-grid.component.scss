@@ -12,41 +12,43 @@
   .grid-right {
     flex: 1;
     min-width: 0; /* allow inner content to overflow and scroll */
+    height: 100vh; /* enable vertical scrolling context */
   }
 
   .right-scroll {
     overflow-x: auto; /* single horizontal scrollbar for header + rows */
-    overflow-y: hidden; /* avoid introducing a second vertical scrollbar */
-    height: auto; /* revert to natural height */
+    overflow-y: auto; /* allow vertical scrolling */
+    height: 100vh; /* fill grid-right to scroll vertically */
+    /* Firefox scrollbar control (cannot set exact pixel width; only auto/thin/none) */
+    scrollbar-width: auto;
   }
 
   .header-right {
     display: block;
-    position: fixed; /* keep dates fixed at top */
-    top: var(--fixed-header-top, 0);
-    left: 0; /* will be adjusted by component TS */
-    width: auto; /* precise width set by TS */
+    position: sticky; /* stick within the grid area */
+    top: var(--fixed-header-top, 0); /* support optional offset */
+    width: 100%; /* clip to grid-right width */
     z-index: 100;
+    margin-left: 265px;
     background-color: var(--color-bg, white);
     border-bottom: 1px solid rgba(0,0,0,0.06);
     box-sizing: border-box;
-    padding: 6px 0; /* vertical padding only; horizontal aligns via inner */
-    visibility: hidden; /* prevent flash/overlap before geometry sync */
-    overflow: hidden; /* ensure dates never render beyond grid-right width */
+    padding: 6px 0; /* vertical padding only */
+    /* let the parent .right-scroll handle clipping */
   }
 
   .header-inner {
     display: flex;
     gap: 8px;
     align-items: center;
-    will-change: transform;
-    transform: translateX(0);
-    padding-left: 0; /* exact horizontal alignment handled via transform */
+    padding-left: 0;
+    width: max-content; /* allow horizontal scrolling with rows */
   }
 
   .rows-right {
     display: block;
-    padding-top: var(--header-height, 48px); /* space for fixed header */
+    max-height: 90vh;
+    width: max-content; /* match header content width for horizontal sync */
   }
 
   /* ensure left and right rows align in height */
@@ -94,5 +96,21 @@
   .cell-right {
     padding: 0.5rem;
     border-bottom: 1px solid rgba(0,0,0,0.06);
+  }
+
+  /* WebKit-based browsers (Chrome, Edge, Safari) scrollbar sizing */
+  .right-scroll::-webkit-scrollbar {
+    width: var(--scrollbar-size, 14px);  /* vertical scrollbar width */
+    height: var(--scrollbar-size, 24px); /* horizontal scrollbar height */
+  }
+
+  .right-scroll::-webkit-scrollbar-track {
+    background: rgba(0,0,0,0.06);
+  }
+
+  .right-scroll::-webkit-scrollbar-thumb {
+    background-color: rgba(0,0,0,0.3);
+    border-radius: 8px;
+    border: 3px solid rgba(255,255,255,0.6);
   }
 }

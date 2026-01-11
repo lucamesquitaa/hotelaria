@@ -1,65 +1,136 @@
 <div class="motorComponent page-with-menubar" [class.menu-collapsed]="!(menubarService.isOpen$ | async)">
   <app-reusable-grid>
-    <div grid-left>
-      <div class="left-rows" role="tree">
-        <ng-container *ngFor="let hotel of groupedByHotel | keyvalue">
-          <!-- Hotel header row (tree parent) -->
-          <div class="tDivFlexRow hotel-header-row" role="treeitem" [attr.aria-expanded]="!isHotelCollapsed(hotel.key)">
-            <div class="hotel-separator">
-              <div class="rowaa">
-                <h4>{{ hotel.key }}</h4>
-                <button (click)="toggleHotel(hotel.key)" class="btn btn-sm btn-outline-secondary" aria-label="Alternar hotel">
-                  <i [class]="'bi ' + (isHotelCollapsed(hotel.key) ? 'bi-chevron-right' : 'bi-chevron-down')"></i>
-                </button>
-                
-              </div>
-            </div>
-            <div class="room-name-left"></div>
-          </div>
-
-          <!-- Children rooms (tree children) -->
-          <ng-container *ngIf="!isHotelCollapsed(hotel.key)" role="group">
-            <ng-container *ngFor="let quarto of hotel.value">
-              <div class="tDivFlexRow" role="treeitem" [attr.aria-expanded]="!isCollapsed(quarto.id)">
-                <div class="hotel-separator tree-room">
-                  <div class="rowaa">
-                    <button (click)="toggle(quarto.id)" [class]="'btn ' + (isCollapsed(quarto.id) ?  'btn-sm btn-outline-secondary': 'btn-sm btn-primary')" aria-label="Alternar quarto">
-                      <i [class]="'bi ' + (isCollapsed(quarto.id) ? 'bi-chevron-right' : 'bi-chevron-down')"></i>
-                    </button>
-                    <h6>{{ quarto.name }}</h6>
-                  </div>
-                </div>
-              </div>
-            </ng-container>
-          </ng-container>
-        </ng-container>
-      </div>
-    </div>
-
+    
     <div grid-header-right>
-      <div class="legend-spacer"></div>
       <div class="datesHeader">
-        <div *ngFor="let day of dates" class="calendarioBox headerCell">
+        <div *ngFor="let day of allDates" class="calendarioBox headerCell">
           {{ day.label }}
         </div>
       </div>
     </div>
 
     <div grid-rows class="rows">
-      <ng-container *ngFor="let hotel of groupedByHotel | keyvalue">
-        <!-- Right-side row matching hotel header on the left -->
-        <div class="hotel-row-right"></div>
-        <ng-container *ngIf="!isHotelCollapsed(hotel.key)">
-          <ng-container *ngFor="let quarto of hotel.value ; let i = index">
-            <div class="room-row-right">
-              <app-quartoreserva *ngIf="!isCollapsed(quarto.id)" [dados]="quarto" [dates]="dates" ></app-quartoreserva>
+          <ng-container *ngFor="let quarto of groupedByQuarto ; let i = index">
+            <div class="room-row-right" >
+              
+              <app-quartoreserva [collapsed]="!isCollapsed(quarto.id)" [dados]="quarto" [dates]="allDates" (refresh)="handleRefresh()"></app-quartoreserva>
             </div>
           </ng-container>
-        </ng-container>
-      </ng-container>
     </div>
   </app-reusable-grid>
-  <div class="btn btn-success butao" title="Atualizar dados">
-    <i class="bi bi-plus-circle"> Disponibilidade</i>
+  <div class="butao">
+    <div class="btn btn-primary b1" title="Atualizar dados" (click)="handleRefresh()">
+      <i class="bi bi-arrow-repeat" > Atualizar</i>
+    </div>
+    <div class="btn btn-outline-secondary b2" title="Atualizar dados" (click)="openConfirmModal(content5, 1)">
+      <i class="bi bi-coin" > Taxas</i>
+    </div>
+    <div class="btn btn-success b3" title="Atualizar dados" (click)="openConfirmModal(content5, 2)">
+      <i class="bi bi-plus" > Criar Reserva</i>
+    </div>
   </div>
 </div>
+
+
+<!-- Modal Template -->
+
+  <ng-template #content5 let-modal>
+
+    <div class="modal-header">
+      <h4 class="modal-title pull-left">Criar Reserva</h4>
+      <button type="button" class="btn-close pull-right" aria-label="Close" (click)="modal.dismiss()"></button>
+    </div>
+    <div class="modal-body">
+      <form>
+        <div class="mb-3">
+          <label for="quartoId" class="form-label">Quarto</label>
+          <select class="form-select" [(ngModel)]="addReservaQuartoId" (ngModelChange)="mostraTudoBool()" name="quartoId">
+            <option value="undefined" selected>Selecione o Quarto:</option>
+            <option *ngFor="let quarto of addQuartoLista" [value]="quarto.id">{{ quarto.name }} | Nº {{ quarto.numero }}</option>
+          </select>
+        </div>
+        <div *ngIf="mostraTudo && idModal == 1">
+            <div class="centerData" >
+              <ngb-datepicker #dp (dateSelect)="onDateSelection($event)" [displayMonths]="2" [dayTemplate]="t" outsideDays="hidden"></ngb-datepicker>
+              <div class="row g-2 mt-2">
+                <div class="col">
+                  <label class="form-label">Data Início</label>
+                  <input class="form-control" placeholder="dd/mm/aaaa" ngbDatepicker #fromDp="ngbDatepicker" [(ngModel)]="fromDate" name="fromDate" />
+                </div>
+                <div class="col">
+                  <label class="form-label">Data Fim</label>
+                  <input class="form-control" placeholder="dd/mm/aaaa" ngbDatepicker #toDp="ngbDatepicker" [(ngModel)]="toDate" name="toDate" />
+                </div>
+              </div>
+            </div>
+            <div>
+              <label for="clienteNome" class="form-label">Diária (R$)</label>
+              <input type="currency" class="form-control" id="clienteNome" [(ngModel)]="addReservaData.dayPrice" name="clienteNome" >
+            </div>
+            <div>
+              <label for="clienteNome" class="form-label">Minímo (dias)</label>
+              <input type="number" class="form-control" id="clienteNome" [(ngModel)]="addReservaData.minDays" name="clienteNome" >
+            </div>
+            <div>
+              <label for="clienteNome" class="form-label">Máximo (dias)</label>
+              <input type="number" class="form-control" id="clienteNome" [(ngModel)]="addReservaData.maxDays" name="clienteNome" >
+            </div>
+          </div>
+          <div *ngIf="mostraTudo && idModal == 2">
+          <div class="mb-3">
+                <label for="status" class="form-label">Reserva</label>
+                <select class="form-select" [(ngModel)]="addReservaStatus" (ngModelChange)="trataStatus()" name="status">
+                  <option value="undefined" selected>Selecione o Status:</option>
+                  <option value="1">Disponível</option>
+                  <option value="2">Pré-Reserva</option>
+                  <option value="3">Aguardando Pagamento</option>
+                  <option value="4">Bloqueado</option>
+                  <option value="5">Confirmada</option>
+                </select>
+              </div>
+            <div class="centerData" >
+              
+              <ngb-datepicker #dp (dateSelect)="onDateSelection($event)" [displayMonths]="2" [dayTemplate]="t" outsideDays="hidden"></ngb-datepicker>
+              <div class="row g-2 mt-2">
+                <div class="col">
+                  <label class="form-label">Data Início</label>
+                  <input class="form-control" placeholder="dd/mm/aaaa" ngbDatepicker #fromDp="ngbDatepicker" [(ngModel)]="fromDate" name="fromDate" />
+                </div>
+                <div class="col">
+                  <label class="form-label">Data Fim</label>
+                  <input class="form-control" placeholder="dd/mm/aaaa" ngbDatepicker #toDp="ngbDatepicker" [(ngModel)]="toDate" name="toDate" />
+                </div>
+              </div>
+            </div>
+
+            <div>
+              <label for="clienteNome" class="form-label">Total (R$)</label>
+              <input type="currency" class="form-control" id="clienteNome" [(ngModel)]="this.totalAdd" name="clienteNome" >
+            </div>
+
+          </div>
+            
+      </form>
+    </div>
+    <div class="modal-footer">
+      
+        <button type="button" class="btn btn-secondary" (click)="reset() ; modal.dismiss('Cross click')">Cancelar</button>
+        <button class="btn btn-primary" (click)="addReserva()">Confirmar</button>
+
+      </div>
+  </ng-template>
+
+
+
+  <ng-template #t let-date let-focused="focused">
+	<span
+		class="custom-day"
+		[class.focused]="focused"
+		[class.range]="isRange(date)"
+		[class.faded]="isHovered(date) || isInside(date)"
+		(mouseenter)="hoveredDate = date"
+		(mouseleave)="hoveredDate = null"
+	>
+		{{ date.day }}
+	</span>
+</ng-template>
