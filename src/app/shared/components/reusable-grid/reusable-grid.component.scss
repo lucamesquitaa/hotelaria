@@ -29,6 +29,7 @@
     top: var(--fixed-header-top, 0); /* support optional offset */
     width: 100%; /* clip to grid-right width */
     z-index: 100;
+    margin-left: 265px;
     background-color: var(--color-bg, white);
     border-bottom: 1px solid rgba(0,0,0,0.06);
     box-sizing: border-box;

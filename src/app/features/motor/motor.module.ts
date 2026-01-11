@@ -7,10 +7,13 @@ import { SharedModule } from 'src/app/shared/shared.module';
 import { NgbDatepicker, NgbDateParserFormatter } from '@ng-bootstrap/ng-bootstrap';
 import { FormsModule } from '@angular/forms';
 import { BrNgbDateParserFormatter } from './br-ngb-date-parser-formatter';
+import { ContextoComponent } from './contexto/contexto.component';
 
 
 @NgModule({
-  declarations: [MotorComponent],
+  declarations: [MotorComponent, 
+    ContextoComponent
+    ],
   imports: [
     CommonModule,
     SharedModule,

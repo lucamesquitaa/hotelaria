@@ -23,12 +23,26 @@
     color: #374151;
   }
 
+  .legend-header{
+    min-width: 180px;
+    max-width: 180px;
+    height: 40px;
+    display: flex;
+    padding: 5px;
+    align-items: center;
+    justify-content: space-between;
+    border-bottom: 1px solid #e5e7eb;
+    font-weight: 700;
+    font-size: 1rem;
+    color: #111827;
+  }
+
   .legend-item:last-child { border-bottom: none }
 
   .date-row {
     display: flex;
     flex-wrap: nowrap;
-    gap: 0;
+    
     align-items: stretch;
     height: auto;
     border-top: 1px solid #e5e7eb;
@@ -60,9 +74,24 @@
     align-items: center;
     justify-content: center;
     max-width: 136px;
+  
+
     flex-shrink: 0;
     box-sizing: border-box;
     background: transparent;
+  }
+  .cell-bar { padding: 6px 0; }
+  .cell-bar .bar {
+    width: 100%;
+    height: 8px;
+    background: transparent;
+    box-shadow: inset 0 0 0 1px rgba(0,0,0,0.03);
+  }
+  .cell-bar .bar.available {
+    background-color: #10b981; /* verde */
+  }
+  .cell-bar .bar.unavailable {
+    background-color: #f59e0b; /* laranja */
   }
   .greenCor{
     background-color: #e4fff1;

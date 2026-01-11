@@ -25,8 +25,6 @@ export interface DisponiModel {
 
 export interface QuartoDisponibilidade {
     id: string
-    hotelName: string
-    hotelId: string
     name: string
     number: number
     disponiQuarto?: DisponiModel[]

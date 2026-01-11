@@ -21,6 +21,18 @@ export class DisponibilidadeService extends ServiceGeneric<ResponseApi<any>> {
     return this.http.get<ResponseApi<DisponiModel>>(this.urlServiceREST+ quartoId + "/Disponibilidade");
   }
 
+  doGetDisponibilidadePorPeriodo(
+    quartoId: string,
+    startDateIso: string,
+    endDateIso: string
+  ): Observable<ResponseApi<DisponiModel[]>> {
+    const params = { startDate: startDateIso, endDate: endDateIso };
+    return this.http.get<ResponseApi<DisponiModel[]>>(
+      this.urlServiceREST + quartoId + "/Disponibilidade",
+      { params }
+    );
+  }
+
   addDisponibilidade(addDados: AddDisponibilidadeAdd, quartoId: string): Observable<any>{
     const headers = new HttpHeaders().set('Authorization', 'Bearer ' + this.cookieService.get('access_token'));
     return this.http.post<any>(this.urlServiceREST + quartoId + "/Disponibilidade" , addDados, { headers });
