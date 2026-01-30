@@ -63,8 +63,8 @@
                     </ul>
                 </div> -->
             </li>
-            <li class="nav-item">
-                <a href="/motor" class="nav-link text-white" routerLinkActive="active" [class.active]="selected === 'motor'">
+            <li class="nav-item" (click)="motor()">
+                <a  class="nav-link text-white" routerLinkActive="active" [class.active]="selected === 'motor'">
                                 <i class="bi bi-gear"></i>
                                 Motor Reservas
                 </a>

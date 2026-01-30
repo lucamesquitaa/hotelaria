@@ -59,4 +59,10 @@ export class MenubarComponent extends ComponentBase implements OnInit {
     return window.innerWidth < 768;
   }
 
+  motor(){
+    if (this.router.url !== 'motor') {
+          this.router.navigate(['/motor']);
+        }
+  }
+
 }

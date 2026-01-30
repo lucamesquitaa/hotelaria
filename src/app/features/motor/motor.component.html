@@ -22,8 +22,8 @@
     <div class="btn btn-primary b1" title="Atualizar dados" (click)="handleRefresh()">
       <i class="bi bi-arrow-repeat" > Atualizar</i>
     </div>
-    <div class="btn btn-outline-secondary b2" title="Atualizar dados" (click)="openConfirmModal(content5, 1)">
-      <i class="bi bi-coin" > Taxas</i>
+    <div class="btn btn-outline-primary b2" title="Atualizar dados" (click)="openConfirmModal(content5, 1)">
+      <i class="bi bi-coin" > Add Tarifa</i>
     </div>
     <div class="btn btn-success b3" title="Atualizar dados" (click)="openConfirmModal(content5, 2)">
       <i class="bi bi-plus" > Criar Reserva</i>
@@ -38,7 +38,7 @@
 
     <div class="modal-header">
       <h4 class="modal-title pull-left">Criar Reserva</h4>
-      <button type="button" class="btn-close pull-right" aria-label="Close" (click)="modal.dismiss()"></button>
+      <button type="button" class="btn-close pull-right" aria-label="Close" (click)="reset();modal.dismiss()"></button>
     </div>
     <div class="modal-body">
       <form>
@@ -49,8 +49,7 @@
             <option *ngFor="let quarto of addQuartoLista" [value]="quarto.id">{{ quarto.name }} | Nº {{ quarto.numero }}</option>
           </select>
         </div>
-        <div *ngIf="mostraTudo && idModal == 1">
-            <div class="centerData" >
+         <div class="centerData" *ngIf="mostraTudo">
               <ngb-datepicker #dp (dateSelect)="onDateSelection($event)" [displayMonths]="2" [dayTemplate]="t" outsideDays="hidden"></ngb-datepicker>
               <div class="row g-2 mt-2">
                 <div class="col">
@@ -63,6 +62,8 @@
                 </div>
               </div>
             </div>
+        <div *ngIf="mostraTudo && idModal == 1">
+           
             <div>
               <label for="clienteNome" class="form-label">Diária (R$)</label>
               <input type="currency" class="form-control" id="clienteNome" [(ngModel)]="addReservaData.dayPrice" name="clienteNome" >
@@ -77,37 +78,44 @@
             </div>
           </div>
           <div *ngIf="mostraTudo && idModal == 2">
-          <div class="mb-3">
+          
+            
+            <div class="mb-3">
                 <label for="status" class="form-label">Reserva</label>
                 <select class="form-select" [(ngModel)]="addReservaStatus" (ngModelChange)="trataStatus()" name="status">
                   <option value="undefined" selected>Selecione o Status:</option>
-                  <option value="1">Disponível</option>
                   <option value="2">Pré-Reserva</option>
                   <option value="3">Aguardando Pagamento</option>
                   <option value="4">Bloqueado</option>
                   <option value="5">Confirmada</option>
                 </select>
               </div>
-            <div class="centerData" >
-              
-              <ngb-datepicker #dp (dateSelect)="onDateSelection($event)" [displayMonths]="2" [dayTemplate]="t" outsideDays="hidden"></ngb-datepicker>
-              <div class="row g-2 mt-2">
-                <div class="col">
-                  <label class="form-label">Data Início</label>
-                  <input class="form-control" placeholder="dd/mm/aaaa" ngbDatepicker #fromDp="ngbDatepicker" [(ngModel)]="fromDate" name="fromDate" />
-                </div>
-                <div class="col">
-                  <label class="form-label">Data Fim</label>
-                  <input class="form-control" placeholder="dd/mm/aaaa" ngbDatepicker #toDp="ngbDatepicker" [(ngModel)]="toDate" name="toDate" />
-                </div>
-              </div>
+            <div class="mb-3">
+              <label for="Adultos" class="form-label">Adultos</label>
+              <input type="text" class="form-control" id="Adultos" [(ngModel)]="addReservaAdd.adults" name="Adultos" >
             </div>
-
+            <div>
+              <label for="kids" class="form-label">Crianças</label>
+              <input type="currency" class="form-control" id="kids" [(ngModel)]="addReservaAdd.kids" name="kids" >
+            </div>
             <div>
               <label for="clienteNome" class="form-label">Total (R$)</label>
-              <input type="currency" class="form-control" id="clienteNome" [(ngModel)]="this.totalAdd" name="clienteNome" >
+              <input type="currency" class="form-control" id="clienteNome" [(ngModel)]="totalAdd" name="totalAdd" >
+            </div>
+            <div class="form-check">
+              <input class="form-check-input" type="checkbox" id="addReservaEarly" [(ngModel)]="earlyCheckin" name="earlyCheckin">
+              <label class="form-check-label" for="addReservaEarly">
+                Early Checkin
+              </label>
+            </div>
+            <div class="form-check">
+              <input class="form-check-input" type="checkbox" id="addReservaLate" [(ngModel)]="lateCheckout" name="lateCheckout">
+              <label class="form-check-label" for="addReservaLate">
+                Late Checkout
+              </label>
             </div>
 
+            
           </div>
             
       </form>

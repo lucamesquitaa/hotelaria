@@ -4,7 +4,7 @@ import { Observable } from 'rxjs';
 import { CategoryQuartosModel } from '../models/categoryQuartos.model';
 import { ResponseApi } from '../models/response.api';
 import { ServiceGeneric } from './generic.service';
-import { AddDisponibilidadeAdd, DisponiModel } from '../models/reserva.model';
+import { AddDisponibilidadeAdd, DisponiModel, UopdateDisponibilidadeDay } from '../models/reserva.model';
 import { HttpHeaders } from '@angular/common/http';
 
 @Injectable({
@@ -38,5 +38,9 @@ export class DisponibilidadeService extends ServiceGeneric<ResponseApi<any>> {
     return this.http.post<any>(this.urlServiceREST + quartoId + "/Disponibilidade" , addDados, { headers });
   }
  
+  updateDisponibilidadeDay(updateDados: UopdateDisponibilidadeDay, quartoId: string): Observable<any>{
+    const headers = new HttpHeaders().set('Authorization', 'Bearer ' + this.cookieService.get('access_token'));
+    return this.http.put<any>(this.urlServiceREST + quartoId + "/DisponibilidadeDay" , updateDados, { headers });
+  }
   
 }

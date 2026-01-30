@@ -21,13 +21,16 @@ export interface DisponiModel {
   maxDays: number
   reembolsavel: boolean
   statusString: string
+  edgeStart?: boolean;
+  edgeEnd?: boolean;
 }
 
 export interface QuartoDisponibilidade {
     id: string
     name: string
     number: number
-    disponiQuarto?: DisponiModel[]
+  disponiQuarto?: (DisponiModel[] & { target?: number })
+  reservas?: GetReservas[]
 }
 
 export enum StatusReservaEnum {
@@ -46,4 +49,39 @@ export enum StatusReservaEnum {
   minDays: number
   maxDays: number
   reembolsavel: boolean
+}
+
+export interface AddReservaAdd {
+  reservaStatus: number
+  checkin: string
+  checkout: string
+  earlyCheckin: boolean
+  lateCheckout: boolean
+  adults: number
+  kids: number
+  cupom: string
+  priceTotal: number
+}
+export interface GetReservas {
+    id: string
+  quartosModelId: string
+  quartos: any
+  reservaStatus: number
+  checkin: string
+  checkout: string
+  earlyCheckin: boolean
+  lateCheckout: boolean
+  adults: number
+  kids: number
+  cupom: string
+  priceTotal: number
+  createdAt: string
+  hospede?: any[]
+}
+
+export interface UopdateDisponibilidadeDay {
+  Day: string
+  dayPrice: number
+  minDays: number
+  maxDays: number
 }
