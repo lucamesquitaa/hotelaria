@@ -13,22 +13,76 @@
     </div>
     <div class="date-row">
         <div *ngFor="let day of dates; let i = index" class="date-cell" >
-            <ng-container *ngIf="disponibilidadeForDate(day.iso) as disp">
-                <div class="dat cell-bar">
-                    <div class="bar" [ngClass]="disp.isAvailable ? 'available' : 'unavailable'"></div>
-                </div>
-                <div class="dat cell-info" *ngIf="collapsed">{{ disp.statusString }}</div>
-                <div class="dat cell-min" *ngIf="collapsed">{{ disp.minDays }}</div>
-                <div class="dat cell-max" *ngIf="collapsed">{{ disp.maxDays }}</div>
-                <div class="dat cell-price" *ngIf="collapsed">{{ disp.dayPrice | currency:'BRL':'symbol':'1.2-2' }}</div>
-            </ng-container>
-            <ng-container *ngIf="!disponibilidadeForDate(day.iso)">
-                <div class="dat cell-bar">-</div>
-                <div class="dat cell-info" *ngIf="collapsed">-</div>
-                <div class="dat cell-min" *ngIf="collapsed">-</div>
-                <div class="dat cell-max" *ngIf="collapsed">-</div>
-                <div class="dat cell-price" *ngIf="collapsed">-</div>
-            </ng-container>
+            <!-- Célula de disponibilidade/reserva -->
+        <ng-container *ngIf="disponibilidadeForDate(day.iso) as disp" >
+          <div (click)="editarDisponibilidade(content6, disp, day.iso)">
+              <!-- Barra dividida para dias de check-in ou check-out -->
+              <div class="dat split-bar" *ngIf="shouldShowSplitBar(day.iso)">
+                  <div class="half-bar" 
+                      [ngClass]="getFirstHalfClass(day.iso)"
+                      [title]="hasEarlyCheckIn(day.iso) ? 'Early Check-in' : (isCheckInDay(day.iso) ? 'Check-in' : '')">
+                  </div>
+                  <div class="half-bar" 
+                      [ngClass]="getSecondHalfClass(day.iso)"
+                      [title]="hasLateCheckOut(day.iso) ? 'Late Check-out' : (isCheckOutDay(day.iso) ? 'Check-out' : '')">
+                  </div>
+              </div>
+              
+              <!-- Barra normal com status combinado (dias sem check-in/check-out) -->
+              <div class="dat cell-bar" 
+                  *ngIf="!shouldShowSplitBar(day.iso)"
+                  [ngClass]="getCombinedStatusClass(day.iso)">
+              </div>
+              
+              <!-- Informações únicas -->
+              <div class="dat cell-info" *ngIf="collapsed">{{ disp.statusString }}</div>
+              <div class="dat cell-min" *ngIf="collapsed">{{ disp.minDays }}</div>
+              <div class="dat cell-max" *ngIf="collapsed">{{ disp.maxDays }}</div>
+              <div class="dat cell-price" *ngIf="collapsed">{{ disp.dayPrice | currency:'BRL':'symbol':'1.2-2' }}</div>
+          </div>
+      </ng-container>
+              
         </div>
     </div>
 </div>
+
+
+
+<!-- Modal Template -->
+
+  <ng-template #content6 let-modal>
+
+    <div class="modal-header">
+      <h4 class="modal-title pull-left">Editar Disponibilidade</h4>
+      <button type="button" class="btn-close pull-right" aria-label="Close" (click)="modal.dismiss()"></button>
+    </div>
+    <div class="modal-body">
+      <form>
+       
+        <div>
+          <div class="mb-3">
+              <label for="clienteNome1" class="form-label">Data</label>
+              <input type="text" disabled="true" class="form-control" id="clienteNome1" [value]="editDayStr" name="clienteNome1" >
+            </div>
+            <div class="mb-3">
+              <label for="clienteNome2" class="form-label">Minímo (dias)</label>
+              <input type="number" class="form-control" id="clienteNome2" [(ngModel)]="editminDays" name="clienteNome2" >
+            </div>
+           <div class="mb-3">
+              <label for="clienteNome3" class="form-label">Máximo (dias)</label>
+              <input type="number" class="form-control" id="clienteNome3" [(ngModel)]="editmaxDays" name="clienteNome3" >
+            </div>
+            <div class="mb-3">
+              <label for="clienteNome4" class="form-label">Diária (R$)</label>
+              <input type="currency" class="form-control" id="clienteNome4" [(ngModel)]="editdayPrice" name="clienteNome4" >
+            </div>
+        </div>
+      </form>
+    </div>
+    <div class="modal-footer">
+      
+        <button type="button" class="btn btn-secondary" (click)="reset(); modal.dismiss('Cross click')">Cancelar</button>
+        <button class="btn btn-primary" (click)="editReserva()">Confirmar</button>
+
+      </div>
+  </ng-template>
