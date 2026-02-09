@@ -74,7 +74,7 @@ export class MotorComponent extends ComponentBase{
     priceTotal: 0
   };
 reservas: any[] = [];
-  allDates: { label: string; iso: string }[] = [];
+  allDates: { label: string; iso: string, dayOfWeek: string }[] = [];
   /**
    *
    */
@@ -117,7 +117,8 @@ reservas: any[] = [];
 
      this.activatedRoute.paramMap.subscribe(params => {
       this.hotelId = params.get('hotelId');
-      this.getAllQuartos(this.hotelId!);
+      if(this.hotelId)
+        this.getAllQuartos(this.hotelId);
     });
   }
 
@@ -201,7 +202,7 @@ toggleCollapse(hotelKey: string) {
         }
       },
       error: (error) => {
-        const errorMessage = error.message || 'Erro ao carregar quartos do hotel';
+        const errorMessage = error.error.mensagem || "Erro ao processar solicitação.";
         console.error('Erro na resposta:', errorMessage);
         this.toastr.error(errorMessage);
         this.hideLoading();
@@ -258,7 +259,7 @@ toggleCollapse(hotelKey: string) {
                   });
                 },
                 error: (error) => {
-                  const errorMessage = error.message || 'Erro ao carregar reservas do quarto';
+                  const errorMessage = error.error.mensagem || "Erro ao processar solicitação.";
                   console.error('Erro na resposta:', errorMessage);
                   this.toastr.error(errorMessage);
                   
@@ -280,7 +281,7 @@ toggleCollapse(hotelKey: string) {
               });
             },
             error: (error) => {
-              const errorMessage = error.message || 'Erro ao carregar disponibilidade do quarto';
+              const errorMessage = error.error.mensagem || "Erro ao processar solicitação.";
               console.error('Erro na resposta:', errorMessage);
               this.toastr.error(errorMessage);
               
@@ -437,10 +438,8 @@ reloadPeriodoDisponibilidade() {
           }
         },
         error: (error: any) => {
-          const errorMessage = error.message || 'Erro ao adicionar reserva';
-          console.error('Erro na resposta:', errorMessage);
+          const errorMessage = error.error.mensagem || "Erro ao processar solicitação.";
           this.toastr.error(errorMessage);
-          this.reset();
           this.hideLoading();
         },
         complete: () => {
@@ -466,13 +465,13 @@ reloadPeriodoDisponibilidade() {
         next: (response: ResponseApi<any>) => {
           if ((response.sucesso || response.success)) {
             this.toastr.success('Reserva adicionada com sucesso!');
+          }else{
+            console.log(response);
           }
         },
         error: (error: any) => {
-          const errorMessage = error.message || 'Erro ao adicionar reserva';
-          console.error('Erro na resposta:', errorMessage);
+          const errorMessage = error.error.mensagem || "Erro ao processar solicitação.";
           this.toastr.error(errorMessage);
-          this.reset();
           this.hideLoading();
         },
         complete: () => {
@@ -579,6 +578,8 @@ reloadPeriodoDisponibilidade() {
         priceTotal: 0
       };
     this.totalAdd = 0;
+    this.earlyCheckin = false;
+    this.lateCheckout = false;
     this.fromDate = Date.now().toString() as unknown as NgbDate;
     this.toDate = Date.now().toString() as unknown as NgbDate;
   }
@@ -613,14 +614,16 @@ reloadPeriodoDisponibilidade() {
 
       // iterate with for..of so we can early-return when encountering an error
       const msPerDay = 24 * 60 * 60 * 1000;
-      const selDays = Math.floor((selEndDateInclusive.getTime() - selStartDate.getTime()) / msPerDay) + 1;
+      // Calculate nights (pernoites) instead of total days
+      const selNights = Math.floor((selEndDate.getTime() - selStartDate.getTime()) / msPerDay);
 
       for (const q of this.groupedByQuarto || []) {
         if (q.id == this.addReservaQuartoId) {
           if (!q.disponiQuarto) continue;
 
+          // Remove the tracking variables since we're no longer iterating day by day
           // Track which specific ISO dates we've already counted to avoid double-counting
-          const countedDates = new Set<string>();
+          // const countedDates = new Set<string>();
 
           for (const disp of q.disponiQuarto) {
             if (!disp.startDate || !disp.endDate) continue;
@@ -645,31 +648,22 @@ reloadPeriodoDisponibilidade() {
             });
 
             if (overlapStartTime <= overlapEndTime) {
-              // iterate each day in the overlap and add price per-day, avoiding duplicates
-              const overlapStartDay = new Date(overlapStartTime);
-              overlapStartDay.setUTCHours(0, 0, 0, 0);
-              const overlapEndDay = new Date(overlapEndTime);
-              overlapEndDay.setUTCHours(0, 0, 0, 0);
-
-              for (let cur = new Date(overlapStartDay); cur.getTime() <= overlapEndDay.getTime(); cur.setUTCDate(cur.getUTCDate() + 1)) {
-                const isoDay = cur.toISOString().slice(0, 10);
-                if (countedDates.has(isoDay)) continue;
-
-                if (disp.dayPrice > 0) {
-                  this.totalAdd += disp.dayPrice;
-                } else {
-                  this.toastr.error('Existem dias sem preço definido. Faça o cadastro das Taxas.');
-                }
-
-                countedDates.add(isoDay);
+              // Calculate nights in the overlap period
+              // For hotel reservations, we charge per night, not per day
+              // So if check-in is Friday and check-out is Monday, that's 3 nights
+              const overlapNights = Math.floor((overlapEndTime - overlapStartTime) / msPerDay);
+              
+              if (overlapNights > 0 && disp.dayPrice > 0) {
+                this.totalAdd += disp.dayPrice * overlapNights;
+              } else if (overlapNights > 0) {
+                this.toastr.error('Existem dias sem preço definido. Faça o cadastro das Taxas.');
               }
             }
           }
 
-          const coveredDays = countedDates.size;
-          // If the total covered days is less than the selected days, some days have no price defined
-          if (coveredDays < selDays) {
-            console.debug('motor coverage check', { selDays, coveredDays });
+          // Validate that we have pricing for all nights in the selected period
+          // This is a simplified validation since we're now calculating by overlap periods
+          if (this.totalAdd === 0 && selNights > 0) {
             this.toastr.error('Existem dias sem preço definido. Faça o cadastro das Taxas.');
           }
         }

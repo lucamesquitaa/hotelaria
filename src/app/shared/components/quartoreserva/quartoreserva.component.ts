@@ -1,10 +1,11 @@
 import { Component, Input, Output, EventEmitter, OnChanges, OnInit, OnDestroy, SimpleChanges, Injector, ChangeDetectorRef, TemplateRef, inject } from '@angular/core';
 import { QuartosModel } from '../../models/quartos.model';
-import { AddDisponibilidadeAdd, DisponiModel, QuartoDisponibilidade, UopdateDisponibilidadeDay } from '../../models/reserva.model';
+import { AddDisponibilidadeAdd, DisponiModel, GetReservas, HospedeModel, QuartoDisponibilidade, UopdateDisponibilidadeDay, UpdateReserva } from '../../models/reserva.model';
 import { ComponentBase } from '../component.base';
 import { DisponibilidadeService } from '../../services/disponibilidade.service';
 import { ResponseApi } from '../../models/response.api';
 import { NgbModal } from '@ng-bootstrap/ng-bootstrap';
+import { ReservasService } from '../../services/reservas.service';
 
 @Component({
   selector: 'app-quartoreserva',
@@ -15,6 +16,7 @@ import { NgbModal } from '@ng-bootstrap/ng-bootstrap';
 export class QuartoreservaComponent extends ComponentBase implements OnInit, OnDestroy {
   constructor(public override injector: Injector, 
               private disponibilidadeService: DisponibilidadeService,
+              private reservaService: ReservasService,
               private cdr: ChangeDetectorRef) {
     super(injector);
   }
@@ -40,7 +42,12 @@ export class QuartoreservaComponent extends ComponentBase implements OnInit, OnD
   editdayPrice: number | undefined;
   status: number | undefined;
   disp: DisponiModel | null = null;
-  statusString2: string | undefined;
+
+  updateReserva!: UpdateReserva;
+  hospedesEditando: HospedeModel[] = [];  // array LOCAL separado do banco
+  isDisponivel: boolean = false;  
+  activeTab: string = 'home';
+  
   override ngOnInit(): void {
     super.ngOnInit();
    
@@ -105,7 +112,13 @@ export class QuartoreservaComponent extends ComponentBase implements OnInit, OnD
       const start = toUtcDay(d.startDate ?? null);
       const end = toUtcDay(d.endDate ?? null);
       if (start !== null && end !== null && target >= start && target <= end){
-        d["statusString"] = this.disponiModelStatusString(d.status);
+        // Verifica se existe reserva para esta data e prioriza seu status
+        const reserva = this.getReservaForDate(iso);
+        if (reserva) {
+          d["statusString"] = this.reservaStatusString(reserva.reservaStatus);
+        } else {
+          d["statusString"] = this.disponiModelStatusString(d.status);
+        }
         return d; 
       } 
     }
@@ -115,36 +128,94 @@ export class QuartoreservaComponent extends ComponentBase implements OnInit, OnD
     this.collapsed = !this.collapsed;
   }
 
-  editarDisponibilidade(content: TemplateRef<any>, disp: DisponiModel | null, dayIso: string) {
+  editarDisponibilidade(content: TemplateRef<any>, contentReserva: TemplateRef<any>, disp: DisponiModel | null, dayIso: string) {
     this.disp = disp;
-    let date = new Date(dayIso);
-    date.setDate(date.getDate() + 1);
-    this.editDayStr = date.toLocaleDateString('pt-BR');  
-    this.editdayPrice = this.disp?.dayPrice;
-    this.editmaxDays = this.disp?.maxDays;
-    this.editminDays = this.disp?.minDays;
+   
+    this.isDisponivel = (this.disp?.status === 1);
+    if(this.isDisponivel){
+       let date = new Date(dayIso);
+      date.setDate(date.getDate() + 1);
+      this.editDayStr = date.toLocaleDateString('pt-BR');  
+      this.editdayPrice = this.disp?.dayPrice;
+      this.editmaxDays = this.disp?.maxDays;
+      this.editminDays = this.disp?.minDays;
 
-    if(this.disp?.status != 1){
-      this.toastr.error('Só é possível editar disponibilidades "Disponível".');
-      return;
+      this.modalService.open(content, { size: 'sm' });
+    }else{
+      let reserva = this.getReservaForDate(dayIso);
+      console.log(reserva);
+      if(reserva){
+        this.updateReserva = {
+          reservaId: reserva.id,
+          quartoId: reserva.quartosModelId,
+          reservaStatus: reserva.reservaStatus,
+          adults: reserva.adults,
+          kids: reserva.kids,
+          priceTotal: reserva.priceTotal,
+          hospede: [] // hospedes ficam em hospedesEditando
+        };
+        // Deep clone dos hóspedes do banco para array LOCAL independente
+        const hospedesOriginais = reserva.hospede || [];
+        this.hospedesEditando = hospedesOriginais.map(h => ({
+          id: h.id || (h as any).id,
+          Name: (h as any).name || h.Name || '',
+          FamilyName: (h as any).familyName || h.FamilyName || '',
+          Email: (h as any).email || h.Email || '',
+          CPF: (h as any).cpf || h.CPF || '',
+          Phone: (h as any).phone || h.Phone || '',
+          DateBirth: (h as any).dateBirth || h.DateBirth || '',
+          CEP: (h as any).cep || h.CEP || '',
+          State: (h as any).state || h.State || '',
+          City: (h as any).city || h.City || '',
+          Address: (h as any).address || h.Address || '',
+          Complement: (h as any).complement || h.Complement || '',
+          BloodType: (h as any).bloodType || h.BloodType || '',
+          principal: (h as any).principal || h.principal || false,
+          textArea: (h as any).textArea || h.textArea || ''
+        }));
+        
+        // Se não há hóspedes, cria um hóspede inicial vazio
+        if (this.hospedesEditando.length === 0) {
+          this.hospedesEditando = [{
+            id: null as any,
+            Name: '',
+            FamilyName: '',
+            Email: '',
+            CPF: '',
+            Phone: '',
+            DateBirth: '',
+            CEP: '',
+            State: '',
+            City: '',
+            Address: '',
+            Complement: '',
+            BloodType: '',
+            principal: true, // primeiro hóspede sempre principal
+            textArea: ''
+          }];
+        }
+        
+        // Garante que pelo menos um hóspede seja principal
+        this.ensureMainGuest();
+        
+      }
+      this.modalService.open(contentReserva, { size: 'lg' });
     }
-
-
-    this.modalService.open(content, { size: 'sm' });
+    
   }
 
   getStatusClass(status: number): string {
   switch(status) {
     case 1:
-      return 'verde';
+      return 'cinza';
     case 2:
       return 'amarelo';
     case 3:
       return 'laranja';
     case 4:
-      return 'cinza';
-    case 5:
       return 'vermelho';
+    case 5:
+      return 'verde';
     default:
       return 'white';
   }
@@ -155,27 +226,38 @@ export class QuartoreservaComponent extends ComponentBase implements OnInit, OnD
     this.editdayPrice = undefined;
     this.editmaxDays = undefined;
     this.editminDays = undefined;
+    this.activeTab = 'home';
+    // Não limpa o array hospedesEditando aqui para manter as alterações
   }
 
    disponiModelStatusString(status: number) {
         switch (status) {
-        case 1: return 'Disponível';break;
-        case 2:  return 'Pré-Reserva';break;
-        case 3:  return 'Aguardando Pagamento';break;
-        case 4:  return 'Bloqueado';break;
-        case 5:  return 'Confirmada';break;
-        default:  return '';break;
+        case 1: return 'Disponível';
+        case 2:  return 'Pré-Reserva';
+        case 3:  return 'Aguardando Pagamento';
+        case 4:  return 'Bloqueado';
+        case 5:  return 'Confirmada';
+        default:  return '';
+      }
+    }
+    reservaStatusString(status: number) {
+        switch (status) {
+        case 1: return 'Disponível';
+        case 2:  return 'Pré-Reserva';
+        case 3:  return 'Aguardando Pagamento';
+        case 4:  return 'Bloqueado';
+        case 5:  return 'Confirmada';
+        default:  return '';
       }
     }
 
-    editReserva(){
+    UpdateDisponibilidade(){
      
       if(this.disp == null || this.editdayPrice === undefined || this.editmaxDays === undefined || this.editminDays === undefined){
         this.toastr.error('Preencha todos os campos antes de confirmar a edição da reserva.');
         return;
         
       }
-
          let addReservaData : UopdateDisponibilidadeDay = {
             Day: this.editDayStr!, 
             dayPrice: this.editdayPrice,
@@ -195,7 +277,7 @@ export class QuartoreservaComponent extends ComponentBase implements OnInit, OnD
                 }
               },
               error: (error: any) => {
-                const errorMessage = error.message || 'Erro ao adicionar reserva';
+                const errorMessage = error.error.mensagem || "Erro ao processar solicitação.";
                 console.error('Erro na resposta:', error);
                 this.toastr.error(errorMessage);
                 this.reset();
@@ -208,6 +290,106 @@ export class QuartoreservaComponent extends ComponentBase implements OnInit, OnD
               }
             });
     }
+
+    UpdateReserva(){
+      // Garante que pelo menos um hóspede seja principal antes do processamento
+      this.ensureMainGuest();
+      
+      // Coletando dados da reserva (aba Home)
+      const reservaData = {
+        reservaId: this.updateReserva.reservaId,
+        quartoId: this.updateReserva.quartoId,
+        reservaStatus: this.updateReserva.reservaStatus,
+        adults: this.updateReserva.adults,
+        kids: this.updateReserva.kids,
+        priceTotal: this.updateReserva.priceTotal
+      };
+      
+      // Coletando dados de todos os hóspedes (do array LOCAL editando)
+      const hospedesData = this.hospedesEditando.map((hospede, index) => {
+        const principalConverted = this.convertToBoolean(hospede.principal);
+        console.log(`Hóspede ${index}: principal original = ${hospede.principal}, convertido = ${principalConverted}`);
+        
+        return {
+          id: hospede.id || null, // null para hóspedes novos, id real para existentes
+          Name: hospede.Name || '',
+          FamilyName: hospede.FamilyName || '',
+          Email: hospede.Email || '',
+          CPF: hospede.CPF || '',
+          Phone: hospede.Phone || '',
+          DateBirth: hospede.DateBirth || '',
+          CEP: hospede.CEP || '',
+          State: hospede.State || '',
+          City: hospede.City || '',
+          Address: hospede.Address || '',
+          Complement: hospede.Complement || '',
+          BloodType: hospede.BloodType || '',
+          Principal: principalConverted, // Usando o valor já convertido
+          TextArea: hospede.textArea || ''
+        };
+      });
+      
+      
+      // Construindo os dados no formato esperado pelo DTO C#
+      const updateData = {
+        reservaId: reservaData.reservaId,
+        reservaStatus: reservaData.reservaStatus,
+        adults: Number(reservaData.adults) || 0,
+        kids: Number(reservaData.kids) || 0,
+        priceTotal: Number(reservaData.priceTotal) || 0,
+        hospede: hospedesData
+      };
+      
+      console.log('Dados para atualizar:', updateData);
+      console.log('Detalhes dos hóspedes:', updateData.hospede.map((h: any, i: number) => 
+        `${i}: ${h.Name} ${h.FamilyName} - Principal: ${h.Principal}`
+      ));
+      
+      // Aqui você pode chamar o serviço para salvar os dados
+      this.reservaService.doUpdateReservas(this.updateReserva!.quartoId!, updateData).subscribe({
+        next: (response) => {
+          if (response.sucesso || response.success) {
+            this.toastr.success('Reserva atualizada com sucesso!');
+            this.refresh.emit();
+            this.modalService.dismissAll();
+          }
+        },
+        error: (error) => {
+          const errorMessage = error.error.mensagem || "Erro ao processar solicitação.";
+          console.error('Erro na resposta:', error);
+          this.toastr.error(errorMessage);
+        }
+      });
+      
+      
+    }
+
+    // Método para obter o nome do hóspede principal para uma data específica
+    getGuestNameForDate(date: string): string | null {
+      // Procura por uma reserva que inclua esta data
+      const reserva = this.dados?.reservas?.find(r => 
+        this.isDateInRange(date, r.checkin, r.checkout)
+      );
+      
+      if (reserva && reserva.hospede && reserva.hospede.length > 0) {
+        // Procura pelo hóspede principal
+        if(reserva.hospede.length === 1){
+          const singleHospede: any = reserva.hospede[0];
+          return singleHospede.name + ' ' + singleHospede.familyName || 'Hóspede';
+        }else{
+          const hospedeMain: any = reserva.hospede.find(h => h.principal);
+          if (hospedeMain) {
+            return hospedeMain.name + ' ' + hospedeMain.familyName || 'Hóspede';
+         } 
+        }
+        
+        // Se não há hóspede principal definido, pega o primeiro
+        return  'Hóspede';
+      }
+      
+      return null;
+    }
+
       // Helper para extrair apenas a data (YYYY-MM-DD) de uma string ISO
       private toDateString(dateStr: string): string {
         if (!dateStr) return '';
@@ -227,7 +409,7 @@ export class QuartoreservaComponent extends ComponentBase implements OnInit, OnD
         return target >= start && target <= end;
       }
 
-      getReservaForDate(iso: string) {
+      getReservaForDate(iso: string) : GetReservas | null {
         if (!this.dados?.reservas) return null;
         
         const targetDateStr = this.toDateString(iso);
@@ -236,6 +418,7 @@ export class QuartoreservaComponent extends ComponentBase implements OnInit, OnD
           const checkInStr = this.toDateString(reserva.checkin);
           const checkOutStr = this.toDateString(reserva.checkout);
           
+          // Inclui checkin e checkout - a lógica de overlap será tratada nos métodos de visualização
           if (targetDateStr >= checkInStr && targetDateStr <= checkOutStr) {
             return reserva;
           }
@@ -288,8 +471,54 @@ export class QuartoreservaComponent extends ComponentBase implements OnInit, OnD
         return targetDateStr === checkOutDateStr;
       }
 
+      // Verifica se há alguma reserva com checkout nesta data
+      hasCheckoutOnDate(iso: string): boolean {
+        if (!this.dados?.reservas) return false;
+        
+        const targetDateStr = this.toDateString(iso);
+        
+        return this.dados.reservas.some(reserva => {
+          const checkOutStr = this.toDateString(reserva.checkout);
+          return targetDateStr === checkOutStr;
+        });
+      }
+
+      // Verifica se há alguma reserva com checkin nesta data
+      hasCheckinOnDate(iso: string): boolean {
+        if (!this.dados?.reservas) return false;
+        
+        const targetDateStr = this.toDateString(iso);
+        
+        return this.dados.reservas.some(reserva => {
+          const checkInStr = this.toDateString(reserva.checkin);
+          return targetDateStr === checkInStr;
+        });
+      }
+
+      // Verifica se há reservas diferentes com checkout e checkin na mesma data
+      hasDifferentReservasOnDate(iso: string): boolean {
+        if (!this.dados?.reservas) return false;
+        
+        const targetDateStr = this.toDateString(iso);
+        
+        const checkoutReserva = this.dados.reservas.find(r => 
+          this.toDateString(r.checkout) === targetDateStr
+        );
+        
+        const checkinReserva = this.dados.reservas.find(r => 
+          this.toDateString(r.checkin) === targetDateStr
+        );
+        
+        return !!(checkoutReserva && checkinReserva && checkoutReserva.id !== checkinReserva.id);
+      }
+
       // Retorna a classe CSS para a primeira metade da barra
       getFirstHalfClass(iso: string): string {
+        // Verifica se há reservas diferentes se encontrando nesta data
+        if (this.hasDifferentReservasOnDate(iso)) {
+          return this.getCheckoutReservaStatusClass(iso);
+        }
+        
         const reserva = this.getReservaForDate(iso);
         if (!reserva) return '';
         
@@ -308,6 +537,11 @@ export class QuartoreservaComponent extends ComponentBase implements OnInit, OnD
 
       // Retorna a classe CSS para a segunda metade da barra
       getSecondHalfClass(iso: string): string {
+        // Verifica se há reservas diferentes se encontrando nesta data
+        if (this.hasDifferentReservasOnDate(iso)) {
+          return this.getCheckinReservaStatusClass(iso);
+        }
+        
         const reserva = this.getReservaForDate(iso);
         if (!reserva) return '';
         
@@ -325,8 +559,16 @@ export class QuartoreservaComponent extends ComponentBase implements OnInit, OnD
       }
 
       // Verifica se deve mostrar barra dividida
-      // SÓ mostra split quando: check-in SEM early OU check-out SEM late
+      // Mostra split quando: check-in SEM early, checkout SEM late, OU quando duas reservas diferentes se encontram
       shouldShowSplitBar(iso: string): boolean {
+        const hasCheckoutThisDay = this.hasCheckoutOnDate(iso);
+        const hasCheckinThisDay = this.hasCheckinOnDate(iso);
+        
+        // Se há checkout E checkin na mesma data de reservas diferentes
+        if (hasCheckoutThisDay && hasCheckinThisDay) {
+          return this.hasDifferentReservasOnDate(iso);
+        }
+        
         const reserva = this.getReservaForDate(iso);
         if (!reserva) return false;
 
@@ -343,7 +585,7 @@ export class QuartoreservaComponent extends ComponentBase implements OnInit, OnD
           return true;
         }
 
-        // Caso contrário (early checkin = true ou late checkout = true ou dia normal), barra completa
+        // Caso contrário, barra completa
         return false;
       }
 
@@ -354,15 +596,15 @@ export class QuartoreservaComponent extends ComponentBase implements OnInit, OnD
         // Use o status da reserva para determinar a cor
         switch(reserva.reservaStatus) {
           case 1: // Disponível
-            return 'verde';
+            return 'cinza';
           case 2: // Pré-Reserva
             return 'amarelo';
           case 3: // Aguardando Pagamento
             return 'laranja';
           case 4: // Bloqueado
-            return 'cinza';
-          case 5: // Confirmada
             return 'vermelho';
+          case 5: // Confirmada
+            return 'verde';
           default:
             return '';
         }
@@ -370,7 +612,7 @@ export class QuartoreservaComponent extends ComponentBase implements OnInit, OnD
 
       getCombinedStatusClass(iso: string): string {
         let disp = this.disponibilidadeForDate(iso);
-        const reserva = this.getReservaForDate(iso);
+        let reserva: any | null = this.getReservaForDate(iso);
         
         // Prioridade: reserva sobrescreve disponibilidade
         if (reserva) {
@@ -379,7 +621,6 @@ export class QuartoreservaComponent extends ComponentBase implements OnInit, OnD
         }
         
         if (disp) {
-          
           return this.getStatusClass(disp.status);
         }
 
@@ -387,4 +628,252 @@ export class QuartoreservaComponent extends ComponentBase implements OnInit, OnD
         
         return '';
       }
+
+      // Retorna a classe da reserva que faz checkout nesta data
+      getCheckoutReservaStatusClass(iso: string): string {
+        if (!this.dados?.reservas) return '';
+        
+        const targetDateStr = this.toDateString(iso);
+        
+        const reserva = this.dados.reservas.find(r => {
+          const checkOutStr = this.toDateString(r.checkout);
+          return targetDateStr === checkOutStr;
+        });
+        
+        if (!reserva) return '';
+        
+        switch(reserva.reservaStatus) {
+          case 1: return 'cinza';
+          case 2: return 'amarelo';
+          case 3: return 'laranja';
+          case 4: return 'vermelho';
+          case 5: return 'verde';
+          default: return '';
+        }
+      }
+
+      // Retorna a classe da reserva que faz checkin nesta data
+      getCheckinReservaStatusClass(iso: string): string {
+        if (!this.dados?.reservas) return '';
+        
+        const targetDateStr = this.toDateString(iso);
+        
+        const reserva = this.dados.reservas.find(r => {
+          const checkInStr = this.toDateString(r.checkin);
+          return targetDateStr === checkInStr;
+        });
+        
+        if (!reserva) return '';
+        
+        switch(reserva.reservaStatus) {
+          case 1: return 'cinza';
+          case 2: return 'amarelo';
+          case 3: return 'laranja';
+          case 4: return 'vermelho';
+          case 5: return 'verde';
+          default: return '';
+        }
+      }
+
+      // Métodos para controle de tabs
+      setActiveTab(tab: string) {
+        this.activeTab = tab;
+        this.cdr.detectChanges();
+      }
+
+  // Método para garantir que apenas um hóspede seja principal
+  onPrincipalChange(index: number) {
+    console.log('onPrincipalChange chamado para index:', index);
+    console.log('Estado atual do principal:', this.hospedesEditando[index].principal);
+    
+    // Se este hóspede foi marcado como principal
+    if (this.hospedesEditando[index].principal) {
+      // Desmarca todos os outros como não principal
+      this.hospedesEditando.forEach((hospede, i) => {
+        if (i !== index) {
+          hospede.principal = false;
+        }
+      });
+      console.log('Desmarcou outros hóspedes como principal');
+    } else {
+      // Se tentou desmarcar um principal, verifica se há outros principais
+      const hasOtherMain = this.hospedesEditando.some((h, i) => i !== index && h.principal);
+      if (!hasOtherMain) {
+        // Se não há outros principais, força este a ser principal
+        this.hospedesEditando[index].principal = true;
+        this.toastr.warning('Pelo menos um hóspede deve ser marcado como principal.');
+        console.log('Forçou hóspede a continuar como principal');
+      }
+    }
+    
+    this.cdr.detectChanges();
+    console.log('Estados após mudança:', this.hospedesEditando.map((h, i) => `${i}: ${h.principal}`));
+  }
+
+      addHospede() {
+        console.log('addHospede chamado. Array atual:', this.hospedesEditando.length, 'elementos');
+        
+        const novoHospede: HospedeModel = {
+          id: null as any, // null indica hóspede novo para o backend
+          Name: '',
+          FamilyName: '',
+          Email: '',
+          CPF: '',
+          Phone: '',
+          DateBirth: '',
+          CEP: '',
+          State: '',
+          City: '',
+          Address: '',
+          Complement: '',
+          BloodType: '',
+          textArea: '',
+          principal: this.hospedesEditando.length === 0 // primeiro hóspede é sempre principal
+        };
+        
+
+        // Cria novo array com o hóspede adicionado
+        this.hospedesEditando = [...this.hospedesEditando, novoHospede];
+        
+        // Automaticamente muda para a aba do novo hóspede
+        this.activeTab = 'hospede-' + (this.hospedesEditando.length - 1);
+        
+        console.log('Após adicionar hóspede. Array:', this.hospedesEditando.length, 'elementos');
+        console.log('Primeiro hóspede principal:', this.hospedesEditando[0]?.principal);
+        
+        // Força detecção de mudanças
+        setTimeout(() => {
+          this.cdr.detectChanges();
+        }, 0);
+      }
+
+      removeHospede(index: number) {
+        console.log('removeHospede chamado com index:', index);
+        console.log('Array atual:', this.hospedesEditando.length, 'elementos');
+        
+        // Verificação básica se o array existe
+        if (!this.hospedesEditando || !Array.isArray(this.hospedesEditando)) {
+          console.warn('Array hospedesEditando não existe ou não é array');
+          return;
+        }
+
+        // Não permite remover se só tem 1 hóspede
+        if (this.hospedesEditando.length <= 1) {
+          this.toastr.warning('A reserva deve ter pelo menos um hóspede.');
+          return;
+        }
+
+        // Validação de índice mais robusta
+        if (index < 0 || index >= this.hospedesEditando.length) {
+          console.warn('Índice inválido:', index, 'Array length:', this.hospedesEditando.length);
+          return;
+        }
+
+        // Lembra se o hóspede removido era o principal
+        const removerPrincipal = this.hospedesEditando[index].principal;
+
+        // Cria cópia REAL do array sem o elemento removido
+        const arrayAtual = [...this.hospedesEditando];
+        arrayAtual.splice(index, 1);
+        
+        console.log('Array após remoção:', arrayAtual.length, 'elementos');
+
+        // Se removeu o principal e ainda há hóspedes, marca o primeiro como principal
+        if (removerPrincipal && arrayAtual.length > 0) {
+          arrayAtual[0].principal = true;
+          console.log('Marcou novo hóspede como principal após remoção');
+        }
+
+        // Ajusta a aba ativa ANTES de atualizar o array
+        if (this.activeTab === 'hospede-' + index) {
+          this.activeTab = index > 0 ? 'hospede-' + (index - 1) : 'home';
+        } else if (this.activeTab.startsWith('hospede-')) {
+          const currentIdx = parseInt(this.activeTab.split('-')[1], 10);
+          if (currentIdx > index) {
+            this.activeTab = 'hospede-' + (currentIdx - 1);
+          }
+        }
+
+        // Substitui o array completamente
+        this.hospedesEditando = arrayAtual;
+
+        // Força múltiplas atualizações para garantir
+        setTimeout(() => {
+          this.cdr.detectChanges();
+        }, 0);
+      }
+  private convertToBoolean(value: any): boolean {
+    console.log('convertToBoolean input:', value);
+    
+    // Se já for boolean, retorna o valor
+    if (typeof value === 'boolean') {
+      console.log('convertToBoolean output (boolean):', value);
+      return value;
+    }
+    // Se for string, converte
+    if (typeof value === 'string') {
+      const result = value.toLowerCase() === 'true' || value === '1';
+      console.log('convertToBoolean output (string):', result);
+      return result;
+    }
+    // Se for número, converte (1 = true, 0 = false)
+    if (typeof value === 'number') {
+      const result = value === 1;
+      console.log('convertToBoolean output (number):', result);
+      return result;
+    }
+    // Qualquer outro caso retorna false
+    console.log('convertToBoolean output (default):', false);
+    return false;
+  }
+
+  // Método de debug - pode remover depois
+  debugHospedes() {
+    console.log('=== DEBUG HOSPEDES ===');
+    console.log('Array length:', this.hospedesEditando.length);
+    console.log('Active tab:', this.activeTab);
+    console.log('Hóspedes:');
+    this.hospedesEditando.forEach((h, i) => {
+      console.log(`  ${i}: ${h.Name} ${h.FamilyName} - Principal: ${h.principal} (tipo: ${typeof h.principal})`);
+    });
+    console.log('Principal em dados finais:');
+    const principalCount = this.hospedesEditando.filter(h => h.principal).length;
+    console.log(`  Total de principais: ${principalCount}`);
+    console.log('======================');
+  }
+
+  // Método para limpar e resetar hóspedes (debug) 
+  limparTodosHospedes() {
+    this.hospedesEditando = [{
+      id: null as any,
+      Name: '',
+      FamilyName: '',
+      Email: '',
+      CPF: '',
+      Phone: '',
+      DateBirth: '',
+      CEP: '',
+      State: '',
+      City: '',
+      Address: '',
+      Complement: '',
+      BloodType: '',
+      principal: true, // primeiro hóspede sempre principal
+      textArea: ''
+    }];
+    this.activeTab = 'home';
+    this.cdr.detectChanges();
+  }
+
+  // Método para garantir que sempre tenha um hóspede principal
+  ensureMainGuest() {
+    if (this.hospedesEditando.length > 0) {
+      const hasMain = this.hospedesEditando.some(h => h.principal);
+      if (!hasMain) {
+        // Se nenhum é principal, marca o primeiro
+        this.hospedesEditando[0].principal = true;
+        console.log('Marcou primeiro hóspede como principal automaticamente');
+      }
+    }
+  }
 }

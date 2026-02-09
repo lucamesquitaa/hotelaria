@@ -12,7 +12,7 @@
 
         <p class="MILpxMostra subtitleHotel">{{category}} - {{hotel?.city}} </p>
 
-        @if (images?.length) {
+        @if (images.length) {
           <ngb-carousel>
             <ng-template ngbSlide *ngFor="let img of images; let i = index">
               <div class="picsum-img-wrapper">
@@ -97,7 +97,7 @@
       <button type="button" class="btn-close pull-right" aria-label="Close" (click)="modal.dismiss()"></button>
     </div>
   <div class="modal-body ZZZ">
-      @if (todasIMGS?.length) {
+      @if (todasIMGS.length) {
         <ngb-carousel>
           <ng-template ngbSlide *ngFor="let img of todasIMGS; let i = index">
             <div class="picsum-img-wrapper">
