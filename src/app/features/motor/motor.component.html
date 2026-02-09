@@ -4,7 +4,8 @@
     <div grid-header-right>
       <div class="datesHeader">
         <div *ngFor="let day of allDates" class="calendarioBox headerCell">
-          {{ day.label }}
+          <p>{{ day.label }}</p>
+          <p>{{day.dayOfWeek}}</p>
         </div>
       </div>
     </div>

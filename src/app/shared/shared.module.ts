@@ -27,7 +27,7 @@ import { ReusableGridComponent } from './components/reusable-grid/reusable-grid.
         NgbModule,
         NgbTypeaheadModule,
         HttpClientModule,
-        SelectRemoteComponent
+        SelectRemoteComponent,
         ],
   exports: [
         FormsModule,

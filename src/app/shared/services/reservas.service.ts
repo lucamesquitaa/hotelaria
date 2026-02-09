@@ -1,7 +1,7 @@
 import { HttpHeaders } from '@angular/common/http';
 import { Injectable, Injector } from '@angular/core';
 import { Observable } from 'rxjs';
-import { DisponiModel, AddReservaAdd } from '../models/reserva.model';
+import { DisponiModel, AddReservaAdd, UpdateReserva } from '../models/reserva.model';
 import { ResponseApi } from '../models/response.api';
 import { ServiceGeneric } from './generic.service';
 
@@ -29,6 +29,11 @@ export class ReservasService extends ServiceGeneric<ResponseApi<any>> {
       this.urlServiceREST + quartoId + "/Reserva",
       { params }
     );
+  }
+
+  doUpdateReservas(quartoId: string, objeto: UpdateReserva): Observable<any> {
+    const headers = new HttpHeaders().set('Authorization', 'Bearer ' + this.cookieService.get('access_token'));
+    return this.http.put<any>(this.urlServiceREST + quartoId + "/UpdateReserva" , objeto , { headers });
   }
 
   addReservas(addDados: AddReservaAdd, quartoId: string): Observable<any>{

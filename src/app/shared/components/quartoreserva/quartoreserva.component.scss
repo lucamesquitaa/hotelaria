@@ -112,7 +112,7 @@
 .amarelo-claro { background-color: #fff3cd; }
 .laranja { background-color: #fd7e14; }
 .vermelho { background-color: #dc3545; }
-.cinza { background-color: #6c757d; }
+.cinza { background-color: #cecece; }
 .azul { background-color: #007bff; }
 
 .split-bar {
@@ -129,7 +129,7 @@
 
 // Status das reservas nas metades
 .disponivel-half { 
-  background-color: #28a745; 
+  background-color: #cecece; 
 }
 
 // Early check-in ativo (primeira metade ocupada)
@@ -155,7 +155,7 @@
 .late-checkout-active.laranja { background-color: #fd7e14; }
 
 .early-checkin-active.cinza,
-.late-checkout-active.cinza { background-color: #6c757d; }
+.late-checkout-active.cinza { background-color: #cecece; }
 
 .early-checkin-active.verde,
 .late-checkout-active.verde { background-color: #28a745; }
@@ -186,5 +186,23 @@
 .bar-fill.edge-end   { float: right; transform-origin: right; }
 /* single-day booking centralizado opcional */
 .bar-fill.edge-start.edge-end { margin: 0 auto; float: none; }
-/* ...existing code... */
+.date-cell-container {
+  position: relative;
+}
+
+.guest-name {
+  position: absolute;
+  top: 20px;
+  left: 50%;
+  transform: translate(-50%, -50%);
+  font-size: 13px;
+  color: white;
+  text-shadow: 2px 2px 2px rgba(0, 0, 0, 0.8);
+  white-space: nowrap;
+  overflow: hidden;
+  text-overflow: ellipsis;
+  max-width: 90%;
+  pointer-events: none;
+}
+
 }

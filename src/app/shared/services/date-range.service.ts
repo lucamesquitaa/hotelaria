@@ -33,9 +33,8 @@ export class DateRangeService {
     this.dateRange.set({ startDate: '', endDate: '' });
   }
 
-  getAllDatesBetween(): Array<{ label: string; iso: string }> {
-    const dates: Array<{ label: string; iso: string }> = [];
-    const { startDate, endDate } = this.dateRange();
+  getAllDatesBetween(): Array<{ label: string; iso: string, dayOfWeek: string }> {
+    const dates: Array<{ label: string; iso: string; dayOfWeek: string }> = []; const { startDate, endDate } = this.dateRange();
 
     if (!startDate || !endDate) return dates;
 
@@ -79,7 +78,12 @@ export class DateRangeService {
       const year = dt.getFullYear();
       const month = String(dt.getMonth() + 1).padStart(2, '0');
       const day = String(dt.getDate()).padStart(2, '0');
-      dates.push({ label: `${day}/${month}`, iso: `${year}-${month}-${day}` });
+      const dayOfWeek = dt.toLocaleDateString('pt-BR', { weekday: 'short' });
+      dates.push({ 
+        label: `${day}/${month}`, 
+        iso: `${year}-${month}-${day}`,
+        dayOfWeek 
+      });
     }
 
     return dates;

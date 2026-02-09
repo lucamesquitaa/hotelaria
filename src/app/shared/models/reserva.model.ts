@@ -76,7 +76,7 @@ export interface GetReservas {
   cupom: string
   priceTotal: number
   createdAt: string
-  hospede?: any[]
+ hospede?: HospedeModel[]
 }
 
 export interface UopdateDisponibilidadeDay {
@@ -84,4 +84,32 @@ export interface UopdateDisponibilidadeDay {
   dayPrice: number
   minDays: number
   maxDays: number
+}
+
+export interface UpdateReserva {
+  reservaId: string
+  quartoId?: string
+  reservaStatus: number
+  adults: number
+  kids: number
+  priceTotal: number
+  hospede: HospedeModel[]
+}
+
+export interface HospedeModel {
+  id: string | null
+  Name: string
+  FamilyName: string
+  Email: string
+  CPF: string
+  Phone: string
+  DateBirth: string
+  CEP: string
+  State: string
+  City: string
+  Address: string
+  Complement?: string
+  BloodType?: string
+  textArea?: string
+  principal?: boolean
 }

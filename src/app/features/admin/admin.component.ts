@@ -51,7 +51,11 @@ doGetAllHoteis(){
       console.log(result);
       this.hoteis = result.data;
       this.filteredHoteis = this.hoteis;
+      console.log(this.hoteis);
     },
+    error: (err) => {
+      this.toastr.error(err.error.mensagem || err.error.excecaoMensagem || "Erro no servidor.");
+    }
   });
 }
 

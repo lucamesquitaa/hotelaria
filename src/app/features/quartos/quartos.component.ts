@@ -53,7 +53,7 @@ export class QuartosComponent extends ComponentBase implements OnInit {
         }
       },
       error: (error) => {
-        const errorMessage = error.message || 'Erro ao carregar quartos do hotel';
+        const errorMessage = error.error.mensagem || "Erro ao processar solicitação.";
           console.error('Erro na resposta:', errorMessage);
           this.toastr.error(errorMessage);
         this.allQuartos = [];
@@ -113,7 +113,7 @@ export class QuartosComponent extends ComponentBase implements OnInit {
         }
       },
       error: (error) => {
-        const errorMessage = error.message || 'Erro ao excluir o quarto';
+        const errorMessage = error.error.mensagem || "Erro ao processar solicitação.";
         console.error('Erro na exclusão:', errorMessage);
         this.toastr.error(errorMessage);
         this.hideLoading();
