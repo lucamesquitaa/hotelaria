@@ -28,41 +28,18 @@ isLoggedIn = false;
 
   override async ngOnInit() {
     console.log('=== LOGIN COMPONENT INIT ===');
-    
-    // Verifica se está retornando de um fluxo de login OAuth (callback)
-    const hasAuthCode = window.location.href.includes('code=') || window.location.href.includes('id_token=');
-    
-    if (!hasAuthCode) {
-      // Se não está retornando de callback, limpa qualquer sessão existente
-      console.log('No OAuth callback detected, clearing any existing sessions...');
-      this.oauthService.logOut(true); // true = não redireciona
-      sessionStorage.clear();
-      localStorage.removeItem('access_token');
-      localStorage.removeItem('id_token');
-      localStorage.removeItem('refresh_token');
-      localStorage.removeItem('nonce');
-      localStorage.removeItem('PKCE_verifier');
+
+    this.oauthService.configure(authConfig);
+
+    await this.oauthService.loadDiscoveryDocumentAndTryLogin();
+
+    if (this.oauthService.hasValidAccessToken()) {
+      console.log('Login sucesso!');
+      this.processOAuthResponse();
+    } else {
+      console.log('Aguardando usuário clicar em login...');
     }
-    const result = await this.oauthService.tryLoginCodeFlow();
-    // Carrega apenas o documento de descoberta
-    this.oauthService.loadDiscoveryDocument().then(() => {
-      console.log('Discovery document loaded');
-      
-      if (hasAuthCode) {
-        console.log('Detected OAuth callback, processing tokens...');
-        // Se está retornando do OAuth, processa os tokens
-        this.oauthService.tryLogin().then(() => {
-          if (this.oauthService.hasValidIdToken() && this.oauthService.hasValidAccessToken()) {
-            this.processOAuthResponse();
-          }
-        });
-      } else {
-        console.log('Waiting for user to click login button');
-      }
-    }).catch(error => {
-      console.error('Error loading discovery document:', error);
-    });
-  }
+  }  
 
   private processOAuthResponse() {
     console.log('=== PROCESSING OAUTH RESPONSE ===');
