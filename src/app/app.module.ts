@@ -32,7 +32,7 @@ import { AuthInterceptor } from './shared/services/interceptor';
     ToastrModule.forRoot(),
     OAuthModule.forRoot({
       resourceServer: {
-        allowedUrls: ['http://localhost:8080/api'], // sua API
+        allowedUrls: ['http://149.57.203.34:8080/api'], // sua API
         sendAccessToken: true
       }
     })

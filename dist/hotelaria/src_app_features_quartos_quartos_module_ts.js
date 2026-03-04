@@ -125,7 +125,7 @@ class QuartosService extends _generic_service__WEBPACK_IMPORTED_MODULE_0__.Servi
     super(injector);
     this.injector = injector;
     //override urlServiceREST: string = "https://hotelaria-vstudio2022-54700728866.us-central1.run.app/api/Hotel";
-    this.urlServiceREST = "http://localhost:8080/api/Quartos";
+    this.urlServiceREST = "http://149.57.203.34:8080/api/Quartos";
   }
   doGetQuartosByHotelId(hotelId) {
     return this.http.get(this.urlServiceREST + "/GetAllQuartos/" + hotelId);
