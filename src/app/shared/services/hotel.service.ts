@@ -12,7 +12,7 @@ import { ResponseApi } from '../models/response.api';
 })
 export class HotelService extends ServiceGeneric<ResponseApi<any>> {
   //override urlServiceREST: string = "https://hotelaria-vstudio2022-54700728866.us-central1.run.app/api/Hotel";
-  override urlServiceREST: string = "http://localhost:8080/api/Hotel";
+  override urlServiceREST: string = "http://149.57.203.34:8080/api/Hotel";
 
   constructor(public override injector: Injector) {
     super(injector);

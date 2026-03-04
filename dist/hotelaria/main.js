@@ -211,7 +211,7 @@ class AppModule {
       }],
       imports: [_angular_common__WEBPACK_IMPORTED_MODULE_7__.CommonModule, _angular_router__WEBPACK_IMPORTED_MODULE_8__.RouterModule.forRoot(_app_routes__WEBPACK_IMPORTED_MODULE_1__.ROUTES), _angular_forms__WEBPACK_IMPORTED_MODULE_9__.ReactiveFormsModule, _angular_common_http__WEBPACK_IMPORTED_MODULE_6__.HttpClientModule, _ng_bootstrap_ng_bootstrap__WEBPACK_IMPORTED_MODULE_4__.NgbModule, _ng_bootstrap_ng_bootstrap__WEBPACK_IMPORTED_MODULE_4__.NgbNavModule, _angular_forms__WEBPACK_IMPORTED_MODULE_9__.FormsModule, _ng_bootstrap_ng_bootstrap__WEBPACK_IMPORTED_MODULE_4__.NgbDropdownModule, _angular_platform_browser__WEBPACK_IMPORTED_MODULE_10__.BrowserModule, _angular_platform_browser_animations__WEBPACK_IMPORTED_MODULE_11__.BrowserAnimationsModule, ngx_toastr__WEBPACK_IMPORTED_MODULE_12__.ToastrModule.forRoot(), angular_oauth2_oidc__WEBPACK_IMPORTED_MODULE_13__.OAuthModule.forRoot({
         resourceServer: {
-          allowedUrls: ['http://localhost:8080/api'],
+          allowedUrls: ['http://149.57.203.34:8080/api'],
           // sua API
           sendAccessToken: true
         }

@@ -22,7 +22,7 @@ class LoginService extends _generic_service__WEBPACK_IMPORTED_MODULE_0__.Service
     super(injector);
     this.injector = injector;
     //override urlServiceREST: string = "https://hotelaria-vstudio2022-54700728866.us-central1.run.app/api/Login";
-    this.urlServiceREST = "http://localhost:8080/api/User";
+    this.urlServiceREST = "http://149.57.203.34:8080/api/User";
   }
   doLogin(user) {
     console.log("Fazendo login para o usuário:", user);
@@ -169,7 +169,7 @@ class HotelService extends _generic_service__WEBPACK_IMPORTED_MODULE_0__.Service
     super(injector);
     this.injector = injector;
     //override urlServiceREST: string = "https://hotelaria-vstudio2022-54700728866.us-central1.run.app/api/Hotel";
-    this.urlServiceREST = "http://localhost:8080/api/Hotel";
+    this.urlServiceREST = "http://149.57.203.34:8080/api/Hotel";
   }
   doGetAllHoteis() {
     return this.http.get(this.urlServiceREST);

@@ -72,7 +72,7 @@ export class CadastroQuartoComponent extends ComponentBase implements OnInit {
     // ou, para escutar mudanças:
     this.activatedRoute.paramMap.subscribe(params => {
       this.quartoId = params.get('quartoId');
-      this.apiUrlCategoryQuartos = "http://localhost:8080/api/CategoryQuarto/" + this.hotelId;
+      this.apiUrlCategoryQuartos = "http://149.57.203.34:8080/api/CategoryQuarto/" + this.hotelId;
       if (this.quartoId && this.hotelId) {
         this.showLoading();
         this.getAllPhotos(this.quartoId);
