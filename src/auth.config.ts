@@ -3,7 +3,7 @@ import { AuthConfig } from 'angular-oauth2-oidc';
 export const authConfig: AuthConfig = {
   issuer: 'https://accounts.google.com', // endpoint OIDC do Google
   strictDiscoveryDocumentValidation: false,
-  clientId: '167620261725-hpe1ram422hksd64t7fp5to7gbthf4cr.apps.googleusercontent.com',
+  clientId: '838656343224-8cr24hdeobtu00kevkhj27sudbuq8g97.apps.googleusercontent.com',
   redirectUri: 'https://turify.com.br',
   scope: 'openid profile email',
   responseType: 'code', // usa PKCE
