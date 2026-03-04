@@ -30,20 +30,35 @@ isLoggedIn = false;
   
 
   override ngOnInit() {
-  google.accounts.id.initialize({
-    client_id: '838656343224-8cr24hdeobtu00kevkhj27sudbuq8g97.apps.googleusercontent.com',
-    callback: (response: any) => {
-      this.handleGoogleLogin(response);
+    this.initializeGoogleSignIn();
+  }
+
+  private initializeGoogleSignIn(): void {
+    if (typeof google !== 'undefined' && google.accounts) {
+      this.setupGoogleSignIn();
+    } else {
+      // Wait for Google script to load
+      setTimeout(() => {
+        this.initializeGoogleSignIn();
+      }, 100);
     }
-  });
+  }
 
-  google.accounts.id.renderButton(
-    document.getElementById("googleBtn"),
-    { theme: "outline", size: "large" }
-  );
+  private setupGoogleSignIn(): void {
+    google.accounts.id.initialize({
+      client_id: '838656343224-8cr24hdeobtu00kevkhj27sudbuq8g97.apps.googleusercontent.com',
+      callback: (response: any) => {
+        this.handleGoogleLogin(response);
+      }
+    });
 
-  google.accounts.id.prompt();
-}
+    google.accounts.id.renderButton(
+      document.getElementById("googleBtn"),
+      { theme: "outline", size: "large" }
+    );
+
+    google.accounts.id.prompt();
+  }
 
 handleGoogleLogin(response: any) {
   const idToken = response.credential;
