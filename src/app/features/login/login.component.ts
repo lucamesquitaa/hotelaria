@@ -9,6 +9,8 @@ import { LoginService } from 'src/app/shared/services/login.service';
 import { SharedModule } from 'src/app/shared/shared.module';
 import { authConfig } from 'src/auth.config';
 
+declare const google: any;
+
 @Component({
   selector: 'app-login',
   standalone: false,
@@ -23,80 +25,40 @@ isLoggedIn = false;
               private loginService: LoginService,
                 private oauthService: OAuthService) {
     super(injector);
-    this.oauthService.configure(authConfig);
   }
 
-  override async ngOnInit() {
-    console.log('=== LOGIN COMPONENT INIT ===');
+  
 
-    this.oauthService.configure(authConfig);
-
-    await this.oauthService.loadDiscoveryDocumentAndTryLogin();
-
-    if (this.oauthService.hasValidAccessToken()) {
-      console.log('Login sucesso!');
-      this.processOAuthResponse();
-    } else {
-      console.log('Aguardando usuário clicar em login...');
+  override ngOnInit() {
+  google.accounts.id.initialize({
+    client_id: '838656343224-8cr24hdeobtu00kevkhj27sudbuq8g97.apps.googleusercontent.com',
+    callback: (response: any) => {
+      this.handleGoogleLogin(response);
     }
-  }  
+  });
 
-  private processOAuthResponse() {
-    console.log('=== PROCESSING OAUTH RESPONSE ===');
-    
-    if (this.oauthService.hasValidIdToken() && this.oauthService.hasValidAccessToken()) {
-      console.log('✓ Valid tokens found');
-      this.isLoggedIn = true;
-      this.profile = this.oauthService.getIdentityClaims();
-      console.log('Profile from OAuth:', this.profile);
-      
-      const user: ResultLoginModel = {
-        Id: this.profile.sub,
-        Email: this.profile.email,
-        FirstName: this.profile.given_name,
-        LastName: this.profile.family_name,
-        Photo: this.profile.picture
-      };
-      
-      console.log('User model created:', user);
-      
-      this.context.perfil = user;
-      console.log('Calling login service...');
-      
-      this.loginService.doLogin(user).subscribe({
-        next: (result) => {
-          console.log('✓ Login service response:', result);
-          this.cookieService.set("access_token", result.token);
-          this.cookieService.set("user_id", user.Id);
-          this.cookieService.set("user_email", user.Email);
-          this.cookieService.set("user_first_name", user.FirstName);
-          this.cookieService.set("user_last_name", user.LastName);
-          this.cookieService.set("user_photo", user.Photo);
-          console.log('✓ Cookies set successfully');
-        },
-        error: (error) => {
-          console.error('✗ Login service error:', error);
-          console.error('Error details:', error.error);
-          this.toastr.error(error.error?.mensagem || error.error?.excecaoMensagem || "Erro no servidor.");
-        },
-        complete: () => {
-          console.log('✓ Login complete, redirecting to admin...');
-          this.router.navigate(["/admin"]);
-        }
-      });
-    } else {
-      console.log('✗ No valid tokens found');
-      console.log('ID Token valid:', this.oauthService.hasValidIdToken());
-      console.log('Access Token valid:', this.oauthService.hasValidAccessToken());
-    }
-  }
+  google.accounts.id.renderButton(
+    document.getElementById("googleBtn"),
+    { theme: "outline", size: "large" }
+  );
 
-  login() {
-    console.log('=== LOGIN BUTTON CLICKED ===');
-    console.log('Initiating login flow...');
-    // Força a escolha de conta no Google (prompt=select_account)
-    this.oauthService.initLoginFlow('', { prompt: 'select_account' });
-  }
+  google.accounts.id.prompt();
+}
+
+handleGoogleLogin(response: any) {
+  const idToken = response.credential;
+
+  this.loginService.doLogin(idToken)
+    .subscribe({
+      next: (result) => {
+        this.cookieService.set("access_token", result.token);
+        this.router.navigate(["/admin"]);
+      },
+      error: (err) => {
+        this.toastr.error("Erro ao autenticar com Google.");
+      }
+    });
+}
 
   logout() {
     this.oauthService.logOut();
