@@ -26,7 +26,7 @@ isLoggedIn = false;
     this.oauthService.configure(authConfig);
   }
 
-  override ngOnInit() {
+  override async ngOnInit() {
     console.log('=== LOGIN COMPONENT INIT ===');
     
     // Verifica se está retornando de um fluxo de login OAuth (callback)
@@ -43,7 +43,7 @@ isLoggedIn = false;
       localStorage.removeItem('nonce');
       localStorage.removeItem('PKCE_verifier');
     }
-    
+    const result = await this.oauthService.tryLoginCodeFlow();
     // Carrega apenas o documento de descoberta
     this.oauthService.loadDiscoveryDocument().then(() => {
       console.log('Discovery document loaded');
