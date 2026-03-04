@@ -4,9 +4,8 @@ export const authConfig: AuthConfig = {
   issuer: 'https://accounts.google.com', // endpoint OIDC do Google
   strictDiscoveryDocumentValidation: false,
   clientId: '167620261725-hpe1ram422hksd64t7fp5to7gbthf4cr.apps.googleusercontent.com',
-  redirectUri: 'https://turify.com.br/',
+  redirectUri: 'https://turify.com.br',
   scope: 'openid profile email',
   responseType: 'code', // usa PKCE
-  showDebugInformation: true,
-  dummyClientSecret: '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'
+  showDebugInformation: true
 };
