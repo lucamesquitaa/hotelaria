@@ -35,6 +35,13 @@ export class LoginService extends ServiceGeneric<LoginResponseModel> {
     );
   }
 
+  loginWithGoogle(idToken: string) {
+  return this.http.post<any>(
+    `${this.urlServiceREST}/auth/google`,
+    { idToken }
+  );
+}
+
   updateManager(email: string, hotelId: string | null): Observable<ResponseApi> {
     if(hotelId === null) {
       throw new Error("hotelId não pode ser nulo");
