@@ -11,7 +11,7 @@ import { HttpHeaders } from '@angular/common/http';
   providedIn: 'root'
 })
 export class DisponibilidadeService extends ServiceGeneric<ResponseApi<any>> {
-  override urlServiceREST: string = "http://149.57.203.34:8080/api/MotorDeReservas/";
+  override urlServiceREST: string = "https://api.turify.com.br/api/MotorDeReservas/";
 
   constructor(public override injector: Injector) {
     super(injector);
