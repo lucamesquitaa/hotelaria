@@ -11,8 +11,22 @@ import { ROUTES } from './app.routes'
 import { CommonModule } from '@angular/common';
 import { CookieService } from 'ngx-cookie-service';
 import { ToastrModule } from 'ngx-toastr';
-import { OAuthModule } from 'angular-oauth2-oidc';
+import { OAuthModule, OAuthService } from 'angular-oauth2-oidc';
 import { AuthInterceptor } from './shared/services/interceptor';
+import { authConfig } from '../auth.config';
+
+// Função para inicializar OAuth2
+export function initializeOAuth(oauthService: OAuthService): () => Promise<void> {
+  return (): Promise<void> => {
+    return new Promise<void>((resolve) => {
+      oauthService.configure(authConfig);
+      oauthService.setupAutomaticSilentRefresh();
+      oauthService.loadDiscoveryDocumentAndTryLogin().then(() => {
+        resolve();
+      });
+    });
+  };
+}
 
 
 @NgModule({
@@ -45,6 +59,12 @@ import { AuthInterceptor } from './shared/services/interceptor';
       useClass: AuthInterceptor,
       multi: true
     },
+    {
+      provide: APP_INITIALIZER,
+      useFactory: initializeOAuth,
+      deps: [OAuthService],
+      multi: true
+    }
   ],
   schemas: [CUSTOM_ELEMENTS_SCHEMA],
   bootstrap: [AppComponent],

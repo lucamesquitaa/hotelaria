@@ -1,16 +1,7 @@
-import { CommonModule } from '@angular/common';
-import { AfterViewInit, Component, effect, Injector, OnInit, signal } from '@angular/core';
-import { FormControl, FormGroup, Validators } from '@angular/forms';
-import { OAuthService } from 'angular-oauth2-oidc';
-import { ToastrService } from 'ngx-toastr';
+import { Component, Injector, OnInit } from '@angular/core';
+import { ActivatedRoute } from '@angular/router';
 import { ComponentBase } from 'src/app/shared/components/component.base';
-import { LoginModel, ResultLoginModel } from 'src/app/shared/models/login.model';
-import { LoginService } from 'src/app/shared/services/login.service';
-import { GoogleSignInLoaderService } from 'src/app/shared/services/google-signin-loader.service';
-import { SharedModule } from 'src/app/shared/shared.module';
-import { authConfig } from 'src/auth.config';
-
-declare const google: any;
+import { AuthService } from 'src/app/shared/services/oauth.service';
 
 @Component({
   selector: 'app-login',
@@ -19,62 +10,42 @@ declare const google: any;
   styleUrls: ['./login.component.scss'],
 })
 export class LoginComponent extends ComponentBase implements OnInit {
+  returnUrl: string = '';
 
-isLoggedIn = false;
-  profile: any;
-  constructor(public override injector: Injector, 
-              private loginService: LoginService,
-              private oauthService: OAuthService,
-              private googleSignInLoader: GoogleSignInLoaderService) {
+  constructor(
+    public override injector: Injector, 
+    private authService: AuthService,
+    private route: ActivatedRoute
+  ) {
     super(injector);
   }
 
-  
-
   override ngOnInit() {
-    this.googleSignInLoader.load()
-      .then(() => {
-        this.setupGoogleSignIn();
-      })
-      .catch((error) => {
-        console.error('Failed to load Google Sign-In API:', error);
-        this.toastr.error('Erro ao carregar o Google Sign-In');
-      });
+    // Verifica se já está logado
+    if (this.authService.isAuthenticated()) {
+      this.router.navigate(['/dashboard']);
+      return;
+    }
+
+    // Obtém a URL de retorno dos parâmetros da query
+    this.returnUrl = this.route.snapshot.queryParams['returnUrl'] || '/dashboard';
   }
 
-  private setupGoogleSignIn(): void {
-    google.accounts.id.initialize({
-      client_id: '838656343224-8cr24hdeobtu00kevkhj27sudbuq8g97.apps.googleusercontent.com',
-      callback: (response: any) => {
-        this.handleGoogleLogin(response);
-      }
-    });
-
-    google.accounts.id.renderButton(
-      document.getElementById("googleBtn"),
-      { theme: "outline", size: "large" }
-    );
-
-    google.accounts.id.prompt();
+  /**
+   * Inicia o processo de login OAuth2 com Google
+   */
+  loginWithGoogle(): void {
+    this.authService.login();
   }
 
-handleGoogleLogin(response: any) {
-  const idToken = response.credential;
-
-  this.loginService.doLogin(idToken)
-    .subscribe({
-      next: (result) => {
-        this.cookieService.set("access_token", result.token);
-        this.router.navigate(["/admin"]);
-      },
-      error: (err) => {
-        this.toastr.error("Erro ao autenticar com Google.");
-      }
-    });
-}
+  /**
+   * Verifica se o usuário está autenticado
+   */
+  isAuthenticated(): boolean {
+    return this.authService.isAuthenticated();
+  }
 
   logout() {
-    this.oauthService.logOut();
     sessionStorage.clear();
       localStorage.removeItem('access_token');
       localStorage.removeItem('id_token');
@@ -82,5 +53,7 @@ handleGoogleLogin(response: any) {
       localStorage.removeItem('nonce');
       localStorage.removeItem('PKCE_verifier');
       this.cookieService.deleteAll();
-  }
+      this.router.navigate(['/dashboard']);
+      return;
+    }
 }

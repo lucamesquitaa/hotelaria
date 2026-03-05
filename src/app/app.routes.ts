@@ -1,11 +1,15 @@
 import { Routes } from '@angular/router';
-import { AuthenticationGuard } from './shared/services/guardinha.guard';
+import { AuthGuard } from './shared/guards/auth.guard';
 
 export const ROUTES: Routes = [
   {
     path: '',
     pathMatch: 'full',
     redirectTo: 'login',
+  },
+  {
+    path: 'oauth-callback',
+    loadComponent: () => import('./features/oauth-callback/oauth-callback.component').then(m => m.OAuthCallbackComponent)
   },
   {
     path: 'home',
@@ -26,42 +30,42 @@ export const ROUTES: Routes = [
     path: 'admin',
     loadChildren: () =>
       import('./features/admin/admin.module').then(m => m.AdminModule),
-    canActivate: [AuthenticationGuard],
+    canActivate: [AuthGuard],
   },
   {
     path: 'cadastro',
     loadChildren: () =>
       import('./features/cadastro/cadastro.module').then(m => m.CadastroModule),
-    canActivate: [AuthenticationGuard],
+    canActivate: [AuthGuard],
   },
   {
     path: 'managers',
     loadChildren: () =>
       import('./features/managers/managers.module').then(m => m.ManagersModule),
-    canActivate: [AuthenticationGuard],
+    canActivate: [AuthGuard],
   },
   {
     path: 'quartos',
     loadChildren: () =>
       import('./features/quartos/quartos.module').then(m => m.QuartosModule),
-    canActivate: [AuthenticationGuard],
+    canActivate: [AuthGuard],
   },
   {
     path: 'dashboard',
     loadChildren: () =>
       import('./features/dashboard/dashboard.module').then(m => m.DashboardModule),
-    canActivate: [AuthenticationGuard],
+    canActivate: [AuthGuard],
   },
   {
     path: 'campos',
     loadChildren: () =>
       import('./features/campos/campos.module').then(m => m.CamposModule),
-    canActivate: [AuthenticationGuard],
+    canActivate: [AuthGuard],
   },
   {
     path: 'motor',
     loadChildren: () =>
       import('./features/motor/motor.module').then(m => m.MotorModule),
-    canActivate: [AuthenticationGuard],
+    canActivate: [AuthGuard],
   },
 ];
