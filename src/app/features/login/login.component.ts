@@ -6,6 +6,7 @@ import { ToastrService } from 'ngx-toastr';
 import { ComponentBase } from 'src/app/shared/components/component.base';
 import { LoginModel, ResultLoginModel } from 'src/app/shared/models/login.model';
 import { LoginService } from 'src/app/shared/services/login.service';
+import { GoogleSignInLoaderService } from 'src/app/shared/services/google-signin-loader.service';
 import { SharedModule } from 'src/app/shared/shared.module';
 import { authConfig } from 'src/auth.config';
 
@@ -23,25 +24,22 @@ isLoggedIn = false;
   profile: any;
   constructor(public override injector: Injector, 
               private loginService: LoginService,
-                private oauthService: OAuthService) {
+              private oauthService: OAuthService,
+              private googleSignInLoader: GoogleSignInLoaderService) {
     super(injector);
   }
 
   
 
   override ngOnInit() {
-    this.initializeGoogleSignIn();
-  }
-
-  private initializeGoogleSignIn(): void {
-    if (typeof google !== 'undefined' && google.accounts) {
-      this.setupGoogleSignIn();
-    } else {
-      // Wait for Google script to load
-      setTimeout(() => {
-        this.initializeGoogleSignIn();
-      }, 100);
-    }
+    this.googleSignInLoader.load()
+      .then(() => {
+        this.setupGoogleSignIn();
+      })
+      .catch((error) => {
+        console.error('Failed to load Google Sign-In API:', error);
+        this.toastr.error('Erro ao carregar o Google Sign-In');
+      });
   }
 
   private setupGoogleSignIn(): void {

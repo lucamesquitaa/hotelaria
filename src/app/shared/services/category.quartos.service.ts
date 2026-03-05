@@ -10,7 +10,7 @@ import { CategoryQuartosModel } from '../models/categoryQuartos.model';
   providedIn: 'root'
 })
 export class CategoryQuartosService extends ServiceGeneric<ResponseApi<any>> {
-  override urlServiceREST: string = "http://149.57.203.34:8080/api/CategoryQuarto";
+  override urlServiceREST: string = "https://api.turify.com.br/api/CategoryQuarto";
 
   constructor(public override injector: Injector) {
     super(injector);
