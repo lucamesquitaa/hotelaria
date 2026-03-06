@@ -23,9 +23,13 @@ export class LoginComponent extends ComponentBase implements OnInit {
   override ngOnInit() {
     // Verifica se já está logado
     if (this.authService.isAuthenticated()) {
-      this.router.navigate(['/oauth-callback']);
+      console.log('User already authenticated, redirecting to dashboard');
+      this.router.navigate(['/dashboard']);
       return;
     }
+
+    // Obtém returnUrl dos query params
+    this.returnUrl = this.route.snapshot.queryParams['returnUrl'] || '/dashboard';
   }
 
   /**
@@ -43,14 +47,20 @@ export class LoginComponent extends ComponentBase implements OnInit {
   }
 
   logout() {
+    console.log('Logging out user');
+    // Limpa tokens do OAuth
+    this.authService.logout();
+    
+    // Limpa storage local
     sessionStorage.clear();
-      localStorage.removeItem('access_token');
-      localStorage.removeItem('id_token');
-      localStorage.removeItem('refresh_token');
-      localStorage.removeItem('nonce');
-      localStorage.removeItem('PKCE_verifier');
-      this.cookieService.deleteAll();
-      this.router.navigate(['/dashboard']);
-      return;
-    }
+    localStorage.removeItem('access_token');
+    localStorage.removeItem('id_token');
+    localStorage.removeItem('refresh_token');
+    localStorage.removeItem('nonce');
+    localStorage.removeItem('PKCE_verifier');
+    this.cookieService.deleteAll();
+    
+    // Redireciona para login
+    this.router.navigate(['/login']);
+  }
 }
