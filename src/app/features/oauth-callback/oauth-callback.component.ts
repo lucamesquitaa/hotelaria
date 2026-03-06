@@ -145,6 +145,7 @@ export class OAuthCallbackComponent implements OnInit {
           // Redireciona para a URL apropriada
           const returnUrl = this.route.snapshot.queryParams['returnUrl'] || '/dashboard';
           console.log(`✓ Redirecting to: ${returnUrl}`);
+          this.isProcessing = false;
           this.router.navigate([returnUrl]);
         },
         error: (error) => {
