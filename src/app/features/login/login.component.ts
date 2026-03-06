@@ -23,7 +23,7 @@ export class LoginComponent extends ComponentBase implements OnInit {
   override ngOnInit() {
     // Verifica se já está logado
     if (this.authService.isAuthenticated()) {
-      this.router.navigate(['/dashboard']);
+      this.router.navigate(['/oauth-callback']);
       return;
     }
 
