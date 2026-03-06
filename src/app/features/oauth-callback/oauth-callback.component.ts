@@ -58,21 +58,42 @@ export class OAuthCallbackComponent implements OnInit {
   ) {}
 
   ngOnInit(): void {
+    console.log('=== OAUTH CALLBACK COMPONENT LOADED ===');
+    console.log('Current URL:', window.location.href);
+    console.log('Search params:', window.location.search);
+    console.log('Hash:', window.location.hash);
+    
     this.processOAuthCallback();
   }
 
   private processOAuthCallback(): void {
     console.log('=== OAUTH CALLBACK ===');
     
-    // Verifica se o usuário foi autenticado após callback
-    if (this.authService.isAuthenticated()) {
-      console.log('✓ OAuth authentication successful');
-      this.callDoLogin();
-    } else {
-      console.log('✗ OAuth authentication failed');
-      this.errorMessage = 'Falha na autenticação com Google. Tente novamente.';
+    // Tenta processar os parâmetros de callback do OAuth
+    this.authService['oauthService'].loadDiscoveryDocumentAndTryLogin().then(() => {
+      console.log('Discovery document loaded and login attempted');
+      
+      // Aguarda um pouco para o processamento do token
+      setTimeout(() => {
+        // Verifica se o usuário foi autenticado após callback
+        if (this.authService.isAuthenticated()) {
+          console.log('✓ OAuth authentication successful');
+          this.callDoLogin();
+        } else {
+          console.log('✗ OAuth authentication failed');
+          console.log('Has valid access token:', this.authService['oauthService'].hasValidAccessToken());
+          console.log('Access token:', this.authService['oauthService'].getAccessToken());
+          console.log('Identity claims:', this.authService['oauthService'].getIdentityClaims());
+          
+          this.errorMessage = 'Falha na autenticação com Google. Tente novamente.';
+          this.isProcessing = false;
+        }
+      }, 1000);
+    }).catch(error => {
+      console.error('Error loading discovery document:', error);
+      this.errorMessage = 'Erro na configuração de autenticação. Tente novamente.';
       this.isProcessing = false;
-    }
+    });
   }
 
   private callDoLogin(): void {

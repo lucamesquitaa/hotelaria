@@ -26,9 +26,6 @@ export class LoginComponent extends ComponentBase implements OnInit {
       this.router.navigate(['/oauth-callback']);
       return;
     }
-
-    // Obtém a URL de retorno dos parâmetros da query
-    this.returnUrl = this.route.snapshot.queryParams['returnUrl'] || '/dashboard';
   }
 
   /**
